@@ -88,7 +88,7 @@ def main():
     try:
         logger.info(f'Starting {agent_name.upper()} training on {env_name}...')
 
-        agent.train(config_name)
+        agent.train(env_config)
         agent.evaluate()
         training_env.demo(agent)
     finally:

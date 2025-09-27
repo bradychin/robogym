@@ -39,10 +39,10 @@ class BaseAgent(ABC):
 
     def train(self, config):
         training_config = config['training']
-        self.model = self._create_model(config['training'])
+        self.model = self._create_model(training_config)
         self.logger.info(f'Training')
 
-        callbacks = self._create_training_callbacks(config)
+        callbacks = self._create_training_callbacks(training_config)
 
         try:
             self.logger.info('Starting training...')
