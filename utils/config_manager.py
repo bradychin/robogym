@@ -18,7 +18,7 @@ class ConfigManager:
 
     def load_all_configs(self):
         if not self.config_dir.exists():
-            self.logger.warnring(f'Config directory "{self.config_dir}" does not exist.')
+            self.logger.warning(f'Config directory "{self.config_dir}" does not exist.')
             return
 
         for yaml_file in self.config_dir.glob("*_config.yaml"):
@@ -50,5 +50,3 @@ class ConfigManager:
             raise ValueError (f'Configuration missing required keys: {missing_keys}')
         self.logger.info('Configuration validation passed')
         return True
-
-config_manager = ConfigManager()

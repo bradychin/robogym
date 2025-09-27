@@ -1,14 +1,13 @@
-# --------- Standard library imports ---------#
-
-# --------- Third-party imports ---------#
-
 # --------- Local imports ---------#
 from environments.environment_factory import EnvironmentFactory
 from agents.agent_factory import AgentFactory
-from utils.config_manager import config_manager
-paths_config = config_manager.get('paths')
 from utils.logger import get_logger
 logger = get_logger(__name__)
+
+# --------- Config import ---------#
+from utils.config_manager import ConfigManager
+config_manager = ConfigManager()
+paths_config = config_manager.get('paths_config')
 
 # --------- Choose environment ---------#
 def get_user_choice(item_type: str, available_items: list):

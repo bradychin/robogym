@@ -1,13 +1,11 @@
-# --------- Standard library imports ---------#
-
 # --------- Third-party imports ---------#
 import gymnasium as gym
-from pybullet_envs.deep_mimic.testrl import total_reward
 from stable_baselines3.common.env_util import make_vec_env as sb3_make_vec_env
 
 # --------- Local imports ---------#
 from utils.logger import get_logger
 
+# --------- Base environment class ---------#
 class BaseEnvironment:
     def __init__(self, environment_id, render_mode='rgb_array'):
         self.logger = get_logger(__name__)

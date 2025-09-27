@@ -1,1 +1,3 @@
+best_model_path: ./models/best_models
 tensorboard_log_path: ./models/tensorboards
+log_path: ./log/robogym.log

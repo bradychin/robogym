@@ -3,11 +3,14 @@ import logging
 from logging.handlers import TimedRotatingFileHandler
 from pathlib import Path
 
-# --------- Local imports ---------#
-
+# --------- Config imports ---------#
+from utils.config_manager import ConfigManager
+config_manager = ConfigManager()
+paths_config = config_manager.get('paths_config')
+utilities_config = config_manager.get('utilities.config')
 
 # --------- Logging function ---------#
-def get_logger(name, log_file=PATHS['log_path'], console=True):
+def get_logger(name, log_file=paths_config.log_path, console=True):
     # make sure folder exists
     Path(log_file).parent.mkdir(parents=True, exist_ok=True)
 
@@ -17,7 +20,7 @@ def get_logger(name, log_file=PATHS['log_path'], console=True):
         return logger
 
     formatter = logging.Formatter('%(asctime)s %(levelname)s: %(filename)s -> %(message)s',
-                                  datefmt=FORMAT['date_time'])
+                                  datefmt=utilities_config.date_time)
 
     # file handler (all logs)
     fh = TimedRotatingFileHandler(log_file, when="midnight", backupCount=7)
