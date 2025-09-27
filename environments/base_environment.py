@@ -16,6 +16,7 @@ class BaseEnvironment:
     def create_env(self):
         self.logger.info(f'Using {self.environment_id}')
         self.env = gym.make(self.environment_id, render_mode=self.render_mode)
+        return self.env
 
     def create_vec_env(self, n_envs=4):
         return sb3_make_vec_env(self.environment_id,

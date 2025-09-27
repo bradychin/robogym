@@ -40,3 +40,6 @@ class PPOAgent(BaseAgent):
 
     def _get_algorithm_name(self):
         return 'PPO'
+
+    def predict(self, obs, deterministric=True):
+        return self.model.predict(obs, deterministric=deterministric)

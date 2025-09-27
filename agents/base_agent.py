@@ -18,11 +18,11 @@ paths_config = config_manager.get('paths_config')
 class BaseAgent(ABC):
     """Base class for all RL agents"""
 
-    def __init(self, vec_env, eval_env, tensorboard_log=None):
+    def __init__(self, vec_env, eval_env, tensorboard_log=None):
         self.logger = get_logger(__name__)
         self.vec_env = vec_env
         self.eval_env = eval_env
-        self.tensorboard_log = tensorboard_log or paths_config.tensorboard_log_path
+        self.tensorboard_log = tensorboard_log or paths_config['tensorboard_log_path']
         self.model = None
 
     @abstractmethod
@@ -38,30 +38,31 @@ class BaseAgent(ABC):
         pass
 
     def train(self, config):
-        self.logger.info(f'Training ppo')
+            self.model = self._create_model(config['training'])
+            self.logger.info(f'Training')
 
-        callbacks = self._create_training_callbacks(config)
+            callbacks = self._create_training_callbacks(config)
 
-        try:
-            self.logger.info('Starting training...')
-            self.model.learn(total_timesteps=config['max_timesteps'],
-                             callback=callbacks)
-            self.logger.info('Training completed!')
-        except KeyboardInterrupt:
-            self.logger.warning('Training interrupted by user.')
-            self.logger.info('Saving interrupted model...')
-            self.model.save(self.tensorboard_log)
-        except Exception as e:
-            self.logger.error(f'Training failed: (str(e))')
-            return
+            try:
+                self.logger.info('Starting training...')
+                self.model.learn(total_timesteps=config['max_timesteps'],
+                                 callback=callbacks)
+                self.logger.info('Training completed!')
+            except KeyboardInterrupt:
+                self.logger.warning('Training interrupted by user.')
+                self.logger.info('Saving interrupted model...')
+                self.model.save(self.tensorboard_log)
+            except Exception as e:
+                self.logger.error(f'Training failed: {str(e)}')
+                return
 
-        self._load_best_model()
+            self._load_best_model()
 
     def _load_best_model(self):
-        best_model_path = os.path.join(paths_config.best_model_path, 'best_model.zip')
+        best_model_path = os.path.join(paths_config['best_model_path'], 'best_model.zip')
         if os.path.exists(best_model_path):
             self.logger.info('Loading best model...')
-            add_timestamp(paths_config.best_model_path, paths_config.tensorboard_log_path)
+            add_timestamp(paths_config['best_model_path'], paths_config['tensorboard_log_path'])
         else:
             self.logger.warning('Best model not found. Using final training model')
 

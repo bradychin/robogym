@@ -3,7 +3,7 @@ from pathlib import Path
 from utils.logger import get_logger
 
 class ConfigManager:
-    def __init__(self, config_dir='configs'):
+    def __init__(self, config_dir='config'):
         self.logger = get_logger(__name__)
         self.config_dir = Path(config_dir)
         self.configs = {}
@@ -12,7 +12,7 @@ class ConfigManager:
     def load_yaml(self, filename):
         with open(self.config_dir / filename, "r") as f:
             config = yaml.safe_load(f)
-            if config in None:
+            if config is None:
                 raise ValueError(f'Config file "{filename}" is empty.')
             return config
 

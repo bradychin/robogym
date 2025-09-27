@@ -8,12 +8,13 @@ from utils.logger import get_logger
 logger = get_logger(__name__)
 
 # --------- Config imports ---------#
-from utils.config_manager import config_manager
+from utils.config_manager import ConfigManager
+config_manager = ConfigManager()
 utilities_config = config_manager.get('utilities_config')
 
 # --------- Timestamp function ---------#
 def add_timestamp(best_model_path, tensorboard_path):
-    timestamp = datetime.now().strftime(utilities_config.date_time)
+    timestamp = datetime.now().strftime(utilities_config['date_time'])
     model_file = os.path.join(best_model_path, 'best_model.zip')
 
     if os.path.exists(model_file):

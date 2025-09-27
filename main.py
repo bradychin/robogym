@@ -18,7 +18,22 @@ def get_user_choice(item_type: str, available_items: list):
         print(f'{i}, {item}')
 
     choice = input(f"\nSelect {item_type} (1-{len(available_items)}) or enter name: ").strip()
-    return choice
+
+    # Handle numeric choice
+    if choice.isdigit():
+        choice_idx = int(choice) - 1
+        if 0 <= choice_idx < len(available_items):
+            return available_items[choice_idx]
+        else:
+            print(f"Invalid choice: {choice}")
+            return None
+
+    # Handle name choice
+    if choice.lower() in [item.lower() for item in available_items]:
+        return choice.lower()
+
+    print(f"Invalid choice: {choice}")
+    return None
 
 def main():
     logger.info('Starting RL pipeline.')
@@ -62,7 +77,7 @@ def main():
 
     # Setup agent
     try:
-        agent = AgentFactory.create(agent_name, vec_env, eval_env, tensorboard_log=paths_config.tensorboard_log_path)
+        agent = AgentFactory.create(agent_name, vec_env, eval_env, tensorboard_log=paths_config['tensorboard_log_path'])
         logger.info(f'Agent "{agent_name}" created.')
     except ValueError as e:
         logger.error(f'Agent creation failed: {e}')

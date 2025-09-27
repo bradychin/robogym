@@ -39,11 +39,11 @@ class AgentFactory:
         return list(cls.AGENTS.keys())
 
     @classmethod
-    def register_agents(cls, name: str, agenet_class):
+    def register_agents(cls, name: str, agent_class):
         """
         Register a new agent
 
         :param name: Name to register the agent
-        :param agenet_class: Agent class to register
+        :param agent_class: Agent class to register
         """
-        cls.AGENTS[name.lower()] = agenet_class
+        cls.AGENTS[name.lower()] = agent_class
