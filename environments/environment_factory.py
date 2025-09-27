@@ -1,0 +1,47 @@
+# --------- Environment imports ---------#
+from environments.gym_envs.bipedalwalker_env import BipedalWalkerEnv
+
+# --------- Local imports ---------#
+from utils.logger import get_logger
+logger = get_logger(__name__)
+
+# --------- Environemtn factory class ---------#
+class EnvironmentFactory:
+    """Factory class for creating environment instances"""
+
+    ENVIRONMENTS = {
+        'bipedalwalker': BipedalWalkerEnv
+    }
+
+    @classmethod
+    def create(cls, env_name: str, render_mode: str = 'rgb_array'):
+        """
+        Create environment instance
+
+        :param env_name: Name of environment to create
+        :param render_mode: Rendering mode for environment
+        :return: BaseEnvironment instance
+        """
+
+        env_name = env_name.lower()
+        if env_name not in cls.ENVIRONMENTS:
+            available = ', '.join(cls.ENVIRONMENTS.keys())
+            raise ValueError(f'Environment "{env_name}" not available. Available environments: {available}')
+
+        logger.info(f'Creating environment: {env_name}')
+        return cls.ENVIRONMENTS[env_name](render_mode=render_mode)
+
+    @classmethod
+    def get_available_environments(cls):
+        """Get list of available environments"""
+        return list(cls.ENVIRONMENTS.keys())
+
+    @classmethod
+    def register_environments(cls, name: str, env_class):
+        """
+        Register a new environment
+
+        :param name: Name to register the environment
+        :param env_class: Environment class to register
+        """
+        cls.ENVIRONMENTS[name.lower()] = env_class

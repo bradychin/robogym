@@ -1,0 +1,8 @@
+environment:
+  env_id: 'BipedalWalker-v3'
+
+training:
+  target_score: 300
+
+demo:
+  max_steps: 2000

@@ -4,7 +4,7 @@ from logging.handlers import TimedRotatingFileHandler
 from pathlib import Path
 
 # --------- Local imports ---------#
-from utils.config import PATHS, FORMAT
+from utils.config_manager import PATHS, FORMAT
 
 # --------- Logging function ---------#
 def get_logger(name, log_file=PATHS['log_path'], console=True):
