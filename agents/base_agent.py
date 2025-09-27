@@ -38,25 +38,26 @@ class BaseAgent(ABC):
         pass
 
     def train(self, config):
-            self.model = self._create_model(config['training'])
-            self.logger.info(f'Training')
+        training_config = config['training']
+        self.model = self._create_model(config['training'])
+        self.logger.info(f'Training')
 
-            callbacks = self._create_training_callbacks(config)
+        callbacks = self._create_training_callbacks(config)
 
-            try:
-                self.logger.info('Starting training...')
-                self.model.learn(total_timesteps=config['max_timesteps'],
-                                 callback=callbacks)
-                self.logger.info('Training completed!')
-            except KeyboardInterrupt:
-                self.logger.warning('Training interrupted by user.')
-                self.logger.info('Saving interrupted model...')
-                self.model.save(self.tensorboard_log)
-            except Exception as e:
-                self.logger.error(f'Training failed: {str(e)}')
-                return
+        try:
+            self.logger.info('Starting training...')
+            self.model.learn(total_timesteps=training_config['max_timesteps'],
+                             callback=callbacks)
+            self.logger.info('Training completed!')
+        except KeyboardInterrupt:
+            self.logger.warning('Training interrupted by user.')
+            self.logger.info('Saving interrupted model...')
+            self.model.save(self.tensorboard_log)
+        except Exception as e:
+            self.logger.error(f'Training failed: {str(e)}')
+            return
 
-            self._load_best_model()
+        self._load_best_model()
 
     def _load_best_model(self):
         best_model_path = os.path.join(paths_config['best_model_path'], 'best_model.zip')

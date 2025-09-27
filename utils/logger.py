@@ -9,7 +9,7 @@ def get_logger(name, log_file=None, console=True):
         try:
             from utils.config_manager import ConfigManager
             config_manager = ConfigManager()
-            paths_config = config_manager.get('paths_config')
+            paths_config = config_manager.get('paths_config', validate=False)
             log_file = paths_config['log_path']
         except:
             # Fallback if config loading fails

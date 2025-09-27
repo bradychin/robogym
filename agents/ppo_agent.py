@@ -1,18 +1,23 @@
 # --------- Third-party imports ---------#
 from stable_baselines3.common.callbacks import EvalCallback, StopTrainingOnRewardThreshold
 from stable_baselines3 import PPO
-from torch import th
+import torch
 
 # --------- Local imports ---------#
 from agents.base_agent import BaseAgent
 from utils.logger import get_logger
 logger = get_logger(__name__)
 
+# --------- Config imports ---------#
+from utils.config_manager import ConfigManager
+config_manager = ConfigManager()
+paths_config = config_manager.get('paths_config')
+
 # --------- PPO Agent class ---------#
 class PPOAgent(BaseAgent):
     def _create_model(self, config):
         # Neural network architecture for the policy
-        policy_kwargs = dict(activation_fn=th.nn.LeakyReLU,
+        policy_kwargs = dict(activation_fn=torch.nn.LeakyReLU,
                              net_arch=config['policy_net'])
 
         # Create the PPO agent
@@ -34,12 +39,12 @@ class PPOAgent(BaseAgent):
                                      deterministic=True,
                                      render=False,
                                      verbose=1,
-                                     best_model_save_path=config['best_model_path'])
+                                     best_model_save_path=paths_config['best_model_path'])
 
         return eval_callback
 
     def _get_algorithm_name(self):
         return 'PPO'
 
-    def predict(self, obs, deterministric=True):
-        return self.model.predict(obs, deterministric=deterministric)
+    def predict(self, obs, deterministic=True):
+        return self.model.predict(obs, deterministic=deterministic)

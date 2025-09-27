@@ -1,16 +1,21 @@
 import yaml
 from pathlib import Path
-from utils.logger import get_logger
+
 
 class ConfigManager:
     def __init__(self, config_dir='config'):
-        self.logger = get_logger(__name__)
+        # Remove logger to avoid circular imports
         self.config_dir = Path(config_dir)
         self.configs = {}
         self.load_all_configs()
 
     def load_yaml(self, filename):
-        with open(self.config_dir / filename, "r") as f:
+        filepath = self.config_dir / filename
+
+        if not filepath.exists():
+            raise FileNotFoundError(f"Config file {filepath} does not exist")
+
+        with open(filepath, "r") as f:
             config = yaml.safe_load(f)
             if config is None:
                 raise ValueError(f'Config file "{filename}" is empty.')
@@ -18,19 +23,25 @@ class ConfigManager:
 
     def load_all_configs(self):
         if not self.config_dir.exists():
-            self.logger.warning(f'Config directory "{self.config_dir}" does not exist.')
+            print(f'Config directory "{self.config_dir}" does not exist.')
             return
 
-        for yaml_file in self.config_dir.glob("*_config.yaml"):
-            env_name = yaml_file.stem.replace('_config', '')
-            self.configs[env_name] = self.load_yaml(yaml_file)
-            self.logger.info(f'Loaded configuration for {env_name}')
+        config_files = list(self.config_dir.glob("*_config.yaml"))
 
-    def get(self, env_name, validate=True):
-        config = self.configs.get(env_name)
+        for yaml_file in config_files:
+            try:
+                config_name = yaml_file.stem
+                self.configs[config_name] = self.load_yaml(yaml_file.name)
+            except Exception as e:
+                print(f"Error loading {yaml_file}: {e}")
+
+
+    def get(self, config_name, validate=True):
+        config = self.configs.get(config_name)
         if config is None:
             available = list(self.configs.keys())
-            raise KeyError(f'Config "{env_name}" not found. Available configs: {available}')
+            raise KeyError(f'Config "{config_name}" not found. Available configs: {available}')
+
         if validate:
             self.validate_config(config)
 
@@ -47,6 +58,6 @@ class ConfigManager:
         required_keys = ['target_score', 'max_timesteps', 'learning_rate', 'policy_net', 'eval_freq']
         missing_keys = [key for key in required_keys if key not in training_config]
         if missing_keys:
-            raise ValueError (f'Configuration missing required keys: {missing_keys}')
-        self.logger.info('Configuration validation passed')
+            raise ValueError(f'Configuration missing required keys: {missing_keys}')
+
         return True

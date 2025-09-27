@@ -7,7 +7,7 @@ logger = get_logger(__name__)
 # --------- Config import ---------#
 from utils.config_manager import ConfigManager
 config_manager = ConfigManager()
-paths_config = config_manager.get('paths_config')
+paths_config = config_manager.get('paths_config', validate=False)
 
 # --------- Choose environment ---------#
 def get_user_choice(item_type: str, available_items: list):
@@ -52,7 +52,8 @@ def main():
 
     # Load environment config
     try:
-        env_config = config_manager.get(env_name)
+        config_name = f'{env_name}_config'
+        env_config = config_manager.get(config_name)
         config_manager.validate_config(env_config)
         logger.info(f'Loaded configuration for {env_name}: {env_config}')
     except (FileNotFoundError, ImportError, ValueError) as e:
@@ -87,7 +88,7 @@ def main():
     try:
         logger.info(f'Starting {agent_name.upper()} training on {env_name}...')
 
-        agent.train(env_config)
+        agent.train(config_name)
         agent.evaluate()
         training_env.demo(agent)
     finally:
