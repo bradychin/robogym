@@ -78,7 +78,10 @@ def main():
 
     # Setup agent
     try:
-        agent = AgentFactory.create(agent_name, vec_env, eval_env, tensorboard_log=paths_config['tensorboard_log_path'])
+        agent = AgentFactory.create(agent_name,
+                                    vec_env,
+                                    eval_env,
+                                    tensorboard_log=paths_config['tensorboard_log_path'])
         logger.info(f'Agent "{agent_name}" created.')
     except ValueError as e:
         logger.error(f'Agent creation failed: {e}')

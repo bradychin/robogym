@@ -42,6 +42,8 @@ class BaseEnvironment:
                     self.logger.info(f'Episode finished after {step} steps with total reward: {total_reward:.2f}')
                     obs, _ = demo_env.reset()
                     total_reward = 0
+        except:
+            self.logger.error(f'Could not run demonstration...')
         finally:
             demo_env.close()
 
