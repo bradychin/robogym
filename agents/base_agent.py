@@ -1,6 +1,5 @@
 # --------- Standard library imports ---------#
 import os
-from datetime import datetime
 from abc import ABC, abstractmethod
 
 # --------- Third-party imports ---------#
@@ -51,7 +50,6 @@ class BaseAgent(ABC):
     def train(self, config):
         training_config = config['training']
         self.model = self._create_model(training_config)
-        self.logger.info(f'Training')
 
         callbacks = self._create_training_callbacks(training_config)
 
@@ -86,8 +84,6 @@ class BaseAgent(ABC):
 
         else:
             self.logger.warning('Best model not found. Using final training model')
-
-
 
     def evaluate(self, n_episodes=10):
         if self.model is None:

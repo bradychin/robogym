@@ -1,5 +1,6 @@
 # --------- Standard library imports ---------#
 import os
+import shutil
 
 # --------- Local imports ---------#
 from environments.environment_factory import EnvironmentFactory
@@ -10,7 +11,7 @@ logger = get_logger(__name__)
 
 # --------- Config import ---------#
 from utils.config_manager import ConfigManager
-from utils.functions import add_timestamp, rename_path
+from utils.functions import rename_path
 config_manager = ConfigManager()
 paths_config = config_manager.get('paths_config', validate=False)
 
@@ -41,14 +42,13 @@ def main():
         return
 
     # Setup environment
-    logger.info('Creating environment.')
     try:
         # Creating training environment
-        training_env = EnvironmentFactory.create(env_name)
+        training_env = EnvironmentFactory.create(env_name, 'training')
         vec_env = training_env.create_vec_env()
 
         # Creating evaluation environment
-        eval_env_wrapper = EnvironmentFactory.create(env_name)
+        eval_env_wrapper = EnvironmentFactory.create(env_name, 'evaluation')
         eval_env = eval_env_wrapper.create_env()
 
         logger.info(f'Environment "{env_name}" created.')
@@ -70,16 +70,16 @@ def main():
 
     # Run
     try:
-        logger.info(f'Starting {agent_name.upper()} training on {env_name}...')
-
         # Train
         agent.train(env_config)
-        model_path = rename_path(paths_config['best_model_path'],
-                                            env_name,
-                                            agent_name,
-                                            'model',
-                                            extension='zip')
-        agent.model.save(model_path)
+        best_model_path = os.path.join(paths_config['best_model_path'], 'best_model.zip')
+        if os.path.exists(best_model_path):
+            model_path = rename_path(paths_config['best_model_path'],
+                                                env_name,
+                                                agent_name,
+                                                'model',
+                                                extension='zip')
+            shutil.move(best_model_path, model_path)
 
         # Evaluate
         agent.evaluate()

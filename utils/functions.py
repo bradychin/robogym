@@ -44,6 +44,10 @@ def rename_path(base_path, env_name, agent_name, item_type, timestamp=None, exte
         timestamp = datetime.now().strftime(utilities_config['date_time'])
 
     file_name = f'{env_name}_{agent_name}_{item_type}_{timestamp}'
+
+    if extension:
+        file_name += f'.{extension}'
+
     full_path = os.path.join(base_path, file_name)
 
     if not extension:

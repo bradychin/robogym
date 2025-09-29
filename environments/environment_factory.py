@@ -5,7 +5,7 @@ from environments.gym_envs.bipedalwalker_env import BipedalWalkerEnv
 from utils.logger import get_logger
 logger = get_logger(__name__)
 
-# --------- Environemtn factory class ---------#
+# --------- Environment factory class ---------#
 class EnvironmentFactory:
     """Factory class for creating environment instances"""
 
@@ -14,11 +14,12 @@ class EnvironmentFactory:
     }
 
     @classmethod
-    def create(cls, env_name: str, render_mode: str = 'rgb_array'):
+    def create(cls, env_name: str, env_type: str, render_mode: str = 'rgb_array'):
         """
         Create environment instance
 
         :param env_name: Name of environment to create
+        :param env_type: Type of environment to create
         :param render_mode: Rendering mode for environment
         :return: BaseEnvironment instance
         """
@@ -28,7 +29,7 @@ class EnvironmentFactory:
             available = ', '.join(cls.ENVIRONMENTS.keys())
             raise ValueError(f'Environment "{env_name}" not available. Available environments: {available}')
 
-        logger.info(f'Creating environment: {env_name}')
+        logger.info(f'Creating {env_type} environment: {env_name}')
         return cls.ENVIRONMENTS[env_name](render_mode=render_mode)
 
     @classmethod

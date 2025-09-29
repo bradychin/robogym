@@ -23,7 +23,7 @@ def get_logger(name, log_file=None, console=True):
         date_format = utilities_config['date_time']
     except:
         # Fallback date format
-        date_format = '%Y.%m.%d %H-%M-%S'
+        date_format = '%Y%m%d_%H%M'
 
     # make sure folder exists
     Path(log_file).parent.mkdir(parents=True, exist_ok=True)
