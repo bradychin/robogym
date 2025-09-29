@@ -1,40 +1,20 @@
+# --------- Standard library imports ---------#
+import os
+
 # --------- Local imports ---------#
 from environments.environment_factory import EnvironmentFactory
 from agents.agent_factory import AgentFactory
+from utils.functions import get_user_choice
 from utils.logger import get_logger
 logger = get_logger(__name__)
 
 # --------- Config import ---------#
 from utils.config_manager import ConfigManager
+from utils.functions import add_timestamp, rename_path
 config_manager = ConfigManager()
 paths_config = config_manager.get('paths_config', validate=False)
 
-# --------- Choose environment ---------#
-def get_user_choice(item_type: str, available_items: list):
-    """Function to get user choice"""
-
-    print(f'Available {item_type}:')
-    for i, item in enumerate(available_items, 1):
-        print(f'{i}, {item}')
-
-    choice = input(f"\nSelect {item_type} (1-{len(available_items)}) or enter name: ").strip()
-
-    # Handle numeric choice
-    if choice.isdigit():
-        choice_idx = int(choice) - 1
-        if 0 <= choice_idx < len(available_items):
-            return available_items[choice_idx]
-        else:
-            print(f"Invalid choice: {choice}")
-            return None
-
-    # Handle name choice
-    if choice.lower() in [item.lower() for item in available_items]:
-        return choice.lower()
-
-    print(f"Invalid choice: {choice}")
-    return None
-
+# --------- Main function ---------#
 def main():
     logger.info('Starting RL pipeline.')
 
@@ -81,18 +61,29 @@ def main():
         agent = AgentFactory.create(agent_name,
                                     vec_env,
                                     eval_env,
-                                    tensorboard_log=paths_config['tensorboard_log_path'])
+                                    tensorboard_log=paths_config['tensorboard_log_path'],
+                                    env_name=env_name)
         logger.info(f'Agent "{agent_name}" created.')
     except ValueError as e:
         logger.error(f'Agent creation failed: {e}')
         return
 
-    # Run training pipeline
+    # Run
     try:
         logger.info(f'Starting {agent_name.upper()} training on {env_name}...')
 
+        # Train
         agent.train(env_config)
+        model_path = rename_path(paths_config['best_model_path'],
+                                            env_name,
+                                            agent_name,
+                                            'model',
+                                            extension='zip')
+        agent.model.save(model_path)
+
+        # Evaluate
         agent.evaluate()
+        # Demo
         training_env.demo(agent)
     finally:
         vec_env.close()

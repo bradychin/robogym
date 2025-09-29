@@ -14,7 +14,7 @@ class AgentFactory:
     }
 
     @classmethod
-    def create(cls, agent_name: str, vec_env, eval_env, tensorboard_log=None):
+    def create(cls, agent_name: str, vec_env, eval_env, tensorboard_log=None, env_name=None):
         """
         Create agent instance
 
@@ -31,7 +31,7 @@ class AgentFactory:
             raise ValueError (f'Agent "{agent_name}" not available. Available agents: {available}')
 
         logger.info(f'Creating agent {agent_name}')
-        return cls.AGENTS[agent_name](vec_env, eval_env, tensorboard_log)
+        return cls.AGENTS[agent_name](vec_env, eval_env, tensorboard_log, env_name, agent_name)
 
     @classmethod
     def get_available_agents(cls):
