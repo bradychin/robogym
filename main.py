@@ -75,10 +75,10 @@ def main():
         best_model_path = os.path.join(paths_config['best_model_path'], 'best_model.zip')
         if os.path.exists(best_model_path):
             model_path = rename_path(paths_config['best_model_path'],
-                                                env_name,
-                                                agent_name,
-                                                'model',
-                                                extension='zip')
+                                     env_name,
+                                     agent_name,
+                                     'model',
+                                     extension='zip')
             shutil.move(best_model_path, model_path)
 
         # Evaluate
