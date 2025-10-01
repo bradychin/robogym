@@ -8,7 +8,7 @@ from stable_baselines3 import PPO
 
 # --------- Local imports ---------#
 from utils.logger import get_logger
-from utils.functions import rename_path
+from utils.io import rename_path
 
 # --------- Config imports ---------#
 from utils.config_manager import ConfigManager
@@ -20,7 +20,7 @@ utilities_config = config_manager.get('utilities_config')
 class BaseAgent(ABC):
     """Base class for all RL agents"""
 
-    def __init__(self, vec_env, eval_env, tensorboard_log=None, env_name=None, agent_name=None):
+    def __init__(self, vec_env, eval_env, env_name=None, agent_name=None):
         self.logger = get_logger(__name__)
         self.vec_env = vec_env
         self.eval_env = eval_env
@@ -44,7 +44,7 @@ class BaseAgent(ABC):
         pass
 
     @abstractmethod
-    def _get_algorithm_name(self):
+    def get_algorithm_class(self):
         pass
 
     def train(self, config):
@@ -68,6 +68,21 @@ class BaseAgent(ABC):
 
         self._load_best_model()
 
+    def evaluate(self, n_episodes=10):
+        if self.model is None:
+            self.logger.error('No model to evaluate. Train first or load a model.')
+            return None, None
+
+        self.logger.info("Final evaluation...")
+        mean_reward, std_reward = evaluate_policy(self.model,
+                                                  self.eval_env,
+                                                  n_eval_episodes=n_episodes,
+                                                  deterministic=True)
+
+        self.logger.info(f"Final mean reward: {mean_reward:.2f} +/- {std_reward:.2f}")
+
+        return mean_reward, std_reward
+
     def _load_best_model(self):
         best_model_path = os.path.join(paths_config['best_model_path'], 'best_model.zip')
         if os.path.exists(best_model_path):
@@ -84,18 +99,3 @@ class BaseAgent(ABC):
 
         else:
             self.logger.warning('Best model not found. Using final training model')
-
-    def evaluate(self, n_episodes=10):
-        if self.model is None:
-            self.logger.error('No model to evaluate. Train first or load a model.')
-            return None, None
-
-        self.logger.info("Final evaluation...")
-        mean_reward, std_reward = evaluate_policy(self.model,
-                                                  self.eval_env,
-                                                  n_eval_episodes=n_episodes,
-                                                  deterministic=True)
-
-        self.logger.info(f"Final mean reward: {mean_reward:.2f} +/- {std_reward:.2f}")
-
-        return mean_reward, std_reward

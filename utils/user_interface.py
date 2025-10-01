@@ -1,18 +1,8 @@
-# --------- Standard library imports ---------#
-import os
-import shutil
-from datetime import datetime
-import glob
+"""Command-line interface functions for user interactions"""
 
 # --------- Local imports ---------#
 from utils.logger import get_logger
 logger = get_logger(__name__)
-
-# --------- Config imports ---------#
-from utils.config_manager import ConfigManager
-config_manager = ConfigManager()
-utilities_config = config_manager.get('utilities_config')
-paths_config = config_manager.get('paths_config')
 
 # --------- Get user input function ---------#
 def get_user_choice(item_type: str, available_items: list):
@@ -39,18 +29,6 @@ def get_user_choice(item_type: str, available_items: list):
 
     print(f"Invalid choice: {choice}")
     return None
-
-# --------- Find latest model function ---------#
-def find_latest_model(env_name, agent_name):
-    """Find the most recent model for a given environment and agent"""
-    pattern = os.path.join(paths_config['best_model_path'], f'{env_name}_{agent_name}_model_*.zip')
-    models = glob.glob(pattern)
-
-    if not models:
-        return None
-
-    latest_model = max(models, key=os.path.getmtime)
-    return latest_model
 
 # --------- Get action choice function ---------#
 def get_action_choice(has_model):
@@ -85,31 +63,17 @@ def get_action_choice(has_model):
             logger.info('Exiting without training.')
             return None
 
-# --------- Model filename function ---------#
-def rename_path(base_path, env_name, agent_name, item_type, timestamp=None, extension=None):
-    if timestamp is None:
-        timestamp = datetime.now().strftime(utilities_config['date_time'])
+# --------- Follow up function ---------#
+def get_follow_up_action():
+    prompt = '\nWould you like to (e)valuate or (d)emo the model? (e/d/n): '
+    choice = input(prompt).strip().lower()
 
-    file_name = f'{env_name}_{agent_name}_{item_type}_{timestamp}'
-
-    if extension:
-        file_name += f'.{extension}'
-
-    full_path = os.path.join(base_path, file_name)
-
-    if not extension:
-        os.makedirs(full_path, exist_ok=True)
-
-    return full_path
-
-# --------- Timestamp function ---------#
-def add_timestamp(best_model_path):
-    timestamp = datetime.now().strftime(utilities_config['date_time'])
-    model_file = os.path.join(best_model_path, 'best_model.zip')
-
-    if os.path.exists(model_file):
-        logger.info(f'Archiving previous model with timestamp: {timestamp}.')
-        timestamped_model = os.path.join(best_model_path, f'{timestamp}_best_model.zip')
-        shutil.move(model_file, timestamped_model)
-
-    return timestamp
+    if choice in ['e', 'evaluate']:
+        return 'evaluate'
+    elif choice in ['d', 'demo']:
+        return 'demo'
+    elif choice in ['n', 'no']:
+        return None
+    else:
+        logger.warning('Invalid choice, skipping follow up action')
+        return None

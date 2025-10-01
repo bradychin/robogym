@@ -43,8 +43,8 @@ class PPOAgent(BaseAgent):
 
         return eval_callback
 
-    def _get_algorithm_name(self):
-        return 'PPO'
+    def get_algorithm_class(self):
+        return PPO
 
     def predict(self, obs, deterministic=True):
         return self.model.predict(obs, deterministic=deterministic)

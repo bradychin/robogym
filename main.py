@@ -1,26 +1,19 @@
-# --------- Standard library imports ---------#
-import os
-import shutil
-
-from stable_baselines3 import PPO
-
 # --------- Local imports ---------#
 from environments.environment_factory import EnvironmentFactory
 from agents.agent_factory import AgentFactory
-from utils.functions import get_user_choice, find_latest_model, get_action_choice
-from utils.functions import get_user_choice, find_latest_model
+from utils.user_interface import get_user_choice, get_action_choice, get_follow_up_action
+from utils.model_manager import find_latest_model, load_model, save_model
 from utils.logger import get_logger
 logger = get_logger(__name__)
 
 # --------- Config import ---------#
 from utils.config_manager import ConfigManager
-from utils.functions import rename_path
 config_manager = ConfigManager()
 paths_config = config_manager.get('paths_config', validate=False)
 
 # --------- Setup environment ---------#
 def setup_environment(env_name):
-    """Setup environment"""
+    """Setup training and evaluation environment"""
     try:
         # Creating training environment
         training_env = EnvironmentFactory.create(env_name, 'training')
@@ -57,31 +50,8 @@ def setup_agent(agent_name, vec_env, eval_env, env_name):
 def train_model(agent, env_config, env_name, agent_name):
     """Train a new model"""
     agent.train(env_config)
-
-    # Move model to a timestamped filename
-    best_model_path = os.path.join(paths_config['best_model_path'], 'best_model.zip')
-    if os.path.exists(best_model_path):
-        model_path = rename_path(paths_config['best_model_path'],
-                                 env_name,
-                                 agent_name,
-                                 'model',
-                                 extension='zip')
-        shutil.move(best_model_path, model_path)
-        logger.info(f'Model saved to: {model_path}')
-        return model_path
-    return None
-
-# --------- Load existing model function ---------#
-def load_existing_model(agent, model_path):
-    """Load existing model"""
-    try:
-        logger.info(f'Loading model from: {model_path}')
-        agent.model = PPO.load(model_path)
-        logger.info('Model loaded successfully!')
-        return True
-    except Exception as e:
-        logger.error(f'Failed to load model: {e}')
-        return False
+    model_path = save_model(env_name, agent_name)
+    return model_path
 
 # --------- Main function ---------#
 def main():
@@ -136,21 +106,25 @@ def main():
     # Execute requested action
     try:
         if action == 'train':
+            logger.info('Train action requested...')
             train_model(agent, env_config, env_name, agent_name)
             # Ask if user wants to evaluate or demo after training
-            follow_up = input('\nWould you like to (e)valuate or (d)emo the model? (e/d/n): ').strip().lower()
-            if follow_up == 'e':
+            follow_up = get_follow_up_action()
+            if follow_up == 'evaluate':
                 agent.evaluate()
-            elif follow_up == 'd':
-                training_env.demo(agent, max_steps=env_config.get('demo', {}).get('max_steps', 2000))
+            elif follow_up == 'demo':
+                max_steps = env_config['demo']['max_steps']
+                training_env.demo(agent, max_steps=max_steps)
 
         elif action == 'evaluate':
-            if load_existing_model(agent, existing_model):
+            logger.info('Evaluate action requested...')
+            if load_model(agent, existing_model):
                 agent.evaluate()
 
         elif action == 'demo':
-            if load_existing_model(agent, existing_model):
-                max_steps = env_config.get('demo', {}).get('max_steps', 2000)
+            logger.info('Demo action requested...')
+            if load_model(agent, existing_model):
+                max_steps = env_config['demo']['max_steps']
                 training_env.demo(agent, max_steps=max_steps)
 
     except KeyboardInterrupt:

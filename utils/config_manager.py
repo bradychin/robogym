@@ -50,7 +50,8 @@ class ConfigManager:
     def get_available_configs(self):
         return list(self.configs.keys())
 
-    def validate_config(self, config: dict):
+    @staticmethod
+    def validate_config(config: dict):
         training_config = config.get('training')
         if not training_config:
             return True

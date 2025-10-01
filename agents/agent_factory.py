@@ -22,6 +22,7 @@ class AgentFactory:
         :param vec_env: Vectorized training environment
         :param eval_env: Evaluation environment
         :param tensorboard_log: Path for tensorboard logs
+        :param env_name: Environment name
         :return: BaseAgent instance
         """
 
@@ -43,7 +44,7 @@ class AgentFactory:
         """
         Register a new agent
 
-        :param name: Name to register the agent
+        :param name: Agent name to register
         :param agent_class: Agent class to register
         """
         cls.AGENTS[name.lower()] = agent_class

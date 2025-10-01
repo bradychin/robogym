@@ -3,25 +3,25 @@ import logging
 from logging.handlers import TimedRotatingFileHandler
 from pathlib import Path
 
+# --------- Config imports---------#
+from utils.config_manager import ConfigManager
+config_manager = ConfigManager()
+paths_config = config_manager.get('paths_config', validate=False)
+utilities_config = config_manager.get('utilities_config')
+
 # --------- Logging function ---------#
 def get_logger(name, log_file=None, console=True):
     if log_file is None:
         try:
-            from utils.config_manager import ConfigManager
-            config_manager = ConfigManager()
-            paths_config = config_manager.get('paths_config', validate=False)
             log_file = paths_config['log_path']
-        except:
+        except Exception as e:
             # Fallback if config loading fails
             log_file = './log/robogym.log'
 
     # Get date format
     try:
-        from utils.config_manager import ConfigManager
-        config_manager = ConfigManager()
-        utilities_config = config_manager.get('utilities_config')
         date_format = utilities_config['date_time']
-    except:
+    except Exception as e:
         # Fallback date format
         date_format = '%Y%m%d_%H%M'
 
