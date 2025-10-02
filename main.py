@@ -13,7 +13,13 @@ paths_config = config_manager.get('paths_config', validate=False)
 
 # --------- Setup environment ---------#
 def setup_environment(env_name):
-    """Setup training and evaluation environment"""
+    """
+    Setup training and evaluation environment
+
+    :param env_name: Name of the environment
+    :return: training environment, vectorized training environment, evaluation environment and wrapper
+    """
+
     try:
         # Creating training environment
         training_env = EnvironmentFactory.create(env_name, 'training')
@@ -32,7 +38,16 @@ def setup_environment(env_name):
 
 # --------- Setup agent ---------#
 def setup_agent(agent_name, vec_env, eval_env, env_name):
-    """Setup agent"""
+    """
+    Setup agent
+
+    :param agent_name: Name of the agent
+    :param vec_env: Vectorized training environment
+    :param eval_env: Evaluation environment
+    :param env_name: Name of the environment
+    :return: Agent or nothing if an error occurs
+    """
+
     try:
         agent = AgentFactory.create(agent_name,
                                     vec_env,
@@ -48,13 +63,34 @@ def setup_agent(agent_name, vec_env, eval_env, env_name):
 
 # --------- Train a new model ---------#
 def train_model(agent, env_config, env_name, agent_name):
-    """Train a new model"""
+    """
+    Train a new model
+
+    :param agent: Agent to train
+    :param env_config: Configurations for the selected environment
+    :param env_name: Name of the environment
+    :param agent_name: Name of the agent
+    :return: Model path of the trained agent
+    """
+
     agent.train(env_config)
     model_path = save_model(env_name, agent_name)
     return model_path
 
 # --------- Main function ---------#
 def main():
+    """
+    Main function.
+
+    The process is as follows:
+    1. The user will choose an environment from the given options
+    2. The user will choose an agent from the given options
+    3. Check if there is an existing model based on the previous options
+    4. The user will choose whether to train, evaluate, or demo the model
+    5. Load and setup environment and agent
+    6. Train, evaluate, or demo
+    """
+
     logger.info('Starting RL pipeline.')
 
     # Choose environment

@@ -22,7 +22,7 @@ class AgentFactory:
         :param vec_env: Vectorized training environment
         :param eval_env: Evaluation environment
         :param tensorboard_log: Path for tensorboard logs
-        :param env_name: Environment name
+        :param env_name: Name of the environment
         :return: BaseAgent instance
         """
 

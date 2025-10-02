@@ -48,6 +48,12 @@ class BaseAgent(ABC):
         pass
 
     def train(self, config):
+        """
+        Method to train agent
+
+        :param config: Configuration settings
+        """
+
         training_config = config['training']
         self.model = self._create_model(training_config)
 
