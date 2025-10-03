@@ -9,6 +9,7 @@ from stable_baselines3 import PPO
 # --------- Local imports ---------#
 from utils.logger import get_logger
 from utils.io import rename_path
+from utils.evaluation_manager import EvaluationManager
 
 # --------- Config imports ---------#
 from utils.config_manager import ConfigManager
@@ -25,7 +26,7 @@ class BaseAgent(ABC):
         self.vec_env = vec_env
         self.eval_env = eval_env
         self.env_name = env_name
-        self.agent_name =agent_name
+        self.agent_name = agent_name
 
         tb_path = rename_path(paths_config['tensorboard_log_path'],
                                  env_name,
@@ -34,6 +35,7 @@ class BaseAgent(ABC):
         self.tensorboard_log = tb_path
 
         self.model = None
+        self.eval_manager = EvaluationManager(env_name, agent_name)
 
     @abstractmethod
     def _create_model(self, config):
@@ -61,9 +63,19 @@ class BaseAgent(ABC):
 
         try:
             self.logger.info('Starting training...')
+            print("\n🚀 Training started...")
+            print(f"   Environment: {self.env_name}")
+            print(f"   Agent: {self.agent_name}")
+            print(f"   Max timesteps: {training_config['max_timesteps']}")
+            print(f"   Target score: {training_config['target_score']}")
+            print(f"   TensorBoard logs: {self.tensorboard_log}\n")
+
             self.model.learn(total_timesteps=training_config['max_timesteps'],
                              callback=callbacks)
+
+            print('Training completed!')
             self.logger.info('Training completed!')
+
         except KeyboardInterrupt:
             self.logger.warning('Training interrupted by user.')
             self.logger.info('Saving interrupted model...')
@@ -74,20 +86,27 @@ class BaseAgent(ABC):
 
         self._load_best_model()
 
-    def evaluate(self, n_episodes=10):
+    def evaluate(self, n_episodes=10, show_history=True):
+        """
+        Evaluate model with reporting
+
+        :param n_episodes: Number of episodes to evaluate
+        :param show_history: Show evaluation history
+        :return: Dictionary or results
+        """
+
         if self.model is None:
             self.logger.error('No model to evaluate. Train first or load a model.')
-            return None, None
+            return None
 
-        self.logger.info("Final evaluation...")
-        mean_reward, std_reward = evaluate_policy(self.model,
-                                                  self.eval_env,
-                                                  n_eval_episodes=n_episodes,
-                                                  deterministic=True)
+        results = self.eval_manager.evaluate_model(self.model,
+                                                   self.eval_env,
+                                                   n_episodes=n_episodes)
 
-        self.logger.info(f"Final mean reward: {mean_reward:.2f} +/- {std_reward:.2f}")
+        if show_history:
+            self.eval_manager.compare_evaluations(limit=5)
 
-        return mean_reward, std_reward
+        return results
 
     def _load_best_model(self):
         best_model_path = os.path.join(paths_config['best_model_path'], 'best_model.zip')

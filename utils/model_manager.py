@@ -32,15 +32,31 @@ def find_latest_model(env_name, agent_name):
 
 # --------- Load model function ---------#
 def load_model(agent, model_path):
+    """
+    Load a trained model into the agent
+
+    :param agent: Agent instance to load the model into
+    :param model_path: Path to the model file
+    :return: True if successful, False if unseccessful
+    """
+
     try:
         logger.info(f'Loading model from: {model_path}')
+        if not os.path.exists(model_path):
+            logger.error(f'Model file not found: {model_path}')
+            return False
+
         if hasattr(agent, 'get_algorithm_class'):
             model_class = agent.get_algorithm_class()
         else:
-            logger.warning("Agent doesn't have _get_algorithm_class(). Falling back to PPO")
+            logger.warning("Agent doesn't have get_algorithm_class(). Falling back to PPO")
             model_class = PPO
 
-        agent.model = model_class.load(model_path)
+        loaded_model = model_class.load(model_path)
+        if loaded_model is None:
+            logger.error('Model loaded but returned None')
+            return False
+        agent.model = loaded_model
         logger.info('Model loaded successfully!')
         return True
     except FileNotFoundError:
