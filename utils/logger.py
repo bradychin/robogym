@@ -11,11 +11,28 @@ utilities_config = config_manager.get('utilities_config')
 
 # --------- Set up logging paths --------- #
 _custom_log_path = None
+_loggers_cache = {}
 
 def set_log_path(log_path):
     """Set a custom log path for the current run"""
-    global _custom_log_path
+    global _custom_log_path, _loggers_cache
     _custom_log_path = log_path
+
+    # use new log path
+    for logger_name, logger in _loggers_cache.items():
+        for handler in logger.handlers[:]:
+            if isinstance(handler, (logging.FileHandler, TimedRotatingFileHandler)):
+                handler.close()
+                logger.removeHandler(handler)
+
+        formatter = logging.Formatter('%(asctime)s %(levelname)s: %(filename)s -> %(message)s',
+                                      datefmt=utilities_config['date_time'])
+        Path(log_path).parent.mkdir(parents=True, exist_ok=True)
+        fh = TimedRotatingFileHandler(log_path, when="midnight", backupCount=7)
+        fh.setLevel(logging.DEBUG)
+        fh.setFormatter(formatter)
+        logger.addHandler(fh)
+
 
 def get_log_path():
     """Get current log path"""
@@ -39,6 +56,8 @@ def get_logger(name, log_file=None, console=True):
     :param console: Whether to ouput to console
     :return: Logger instance
     """
+    global _loggers_cache
+
     if log_file is None:
         log_file = get_log_path()
 
@@ -54,8 +73,12 @@ def get_logger(name, log_file=None, console=True):
 
     logger = logging.getLogger(name)
     logger.setLevel(logging.DEBUG)
-    if logger.handlers:
+    if name in _loggers_cache:
         return logger
+
+    _loggers_cache[name] = logger
+
+    logger.handlers = []
 
     formatter = logging.Formatter('%(asctime)s %(levelname)s: %(filename)s -> %(message)s',
                                   datefmt=date_format)

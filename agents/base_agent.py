@@ -116,7 +116,7 @@ class BaseAgent(ABC):
 
     def _load_best_model(self):
         if not self.run_manager:
-            self.logger.warning('No run manager available, skipping best model leading')
+            self.logger.warning('No run manager available, skipping best model loading')
             return
         temp_best_path = os.path.join(self.run_manager.get_run_dir(), 'best_model.zip')
         if os.path.exists(temp_best_path):

@@ -38,7 +38,7 @@ def setup_environment(env_name):
         return None, None, None, None
 
 # --------- Setup agent ---------#
-def setup_agent(agent_name, vec_env, eval_env, env_name):
+def setup_agent(agent_name, vec_env, eval_env, env_name, run_manager=None):
     """
     Setup agent
 
@@ -46,6 +46,7 @@ def setup_agent(agent_name, vec_env, eval_env, env_name):
     :param vec_env: Vectorized training environment
     :param eval_env: Evaluation environment
     :param env_name: Name of the environment
+    :param run_manager: RunManager instance
     :return: Agent or nothing if an error occurs
     """
 
@@ -54,7 +55,8 @@ def setup_agent(agent_name, vec_env, eval_env, env_name):
                                     vec_env,
                                     eval_env,
                                     tensorboard_log=paths_config['tensorboard_log_path'],
-                                    env_name=env_name)
+                                    env_name=env_name,
+                                    run_manager=run_manager)
         logger.info(f'Agent "{agent_name}" created.')
         return agent
 
@@ -145,7 +147,7 @@ def main():
         return
 
     # Setup agent
-    agent = setup_agent(agent_name, vec_env, eval_env, env_name)
+    agent = setup_agent(agent_name, vec_env, eval_env, env_name, run_manager=run_manager)
     if agent is None:
         vec_env.close()
         eval_env.close()

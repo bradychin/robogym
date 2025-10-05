@@ -45,12 +45,12 @@ class RunManager:
         tb_dir = f"{self.env_name}_{self.agent_name}_tb_{self.timestamp}"
         return str(self.run_dir / tb_dir)
 
-    def get_models_path(self):
+    def get_model_path(self):
         """Get the models directory path"""
         model_filename = f"{self.env_name}_{self.agent_name}_model_{self.timestamp}.zip"
         return str(self.run_dir / model_filename)
 
-    def get_evaluations_path(self, eval_timestamp=None):
+    def get_evaluation_path(self, eval_timestamp=None):
         """Get the evaluations directory path"""
         if eval_timestamp is None:
             eval_timestamp = datetime.now().strftime(utilities_config['date_time'])
@@ -87,7 +87,7 @@ class RunManager:
             parts = run.name.split('_')
             if len(parts) >= 3:
                 timestamp = f'{parts[0]}_{parts[1]}'
-                env_agent = '-'.join(parts[2:])
+                env_agent = '_'.join(parts[2:])
                 print(f'{i}. {timestamp} - {env_agent}')
             else:
                 print(f'{i}. {run.name}')
@@ -100,6 +100,7 @@ class RunManager:
 
         eval_files = list(self.run_dir.glob('*_eval_*.json'))
         model_files = list(self.run_dir.glob('*.zip'))
+        log_file = self.run_dir / 'robogym.log'
 
         with open(summary_path, 'w') as f:
             f.write("=" * 60 + "\n")
@@ -107,14 +108,15 @@ class RunManager:
             f.write("=" * 60 + "\n")
             f.write(f"Environment: {self.env_name}\n")
             f.write(f"Agent: {self.agent_name}\n")
+            f.write(f"Timestamp: {self.timestamp}\n")
             f.write(f"Run Directory: {self.run_dir.name}\n")
             f.write(f"\n")
             f.write(f"Files:\n")
-            f.write(f"  - Log: {self.log_file.name}\n")
+            f.write(f"  - Log: {log_file.name if log_file.exists() else 'N/A'}\n")
             f.write(f"  - Config: config.yaml\n")
-            f.write(f"  - TensorBoard: tensorboard/\n")
+            f.write(f"  - TensorBoard: {self.env_name}_{self.agent_name}_tb_{self.timestamp}/\n")
             f.write(f"  - Evaluations: {len(eval_files)} file(s)\n")
-            f.write(f"  - Models: models/\n")
+            f.write(f"  - Models: {len(model_files)} file(s)\n")
             f.write("=" * 60 + "\n")
 
         print(f'Summary created: {summary_path}')
