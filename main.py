@@ -172,8 +172,7 @@ def main():
         eval_env.close()
         training_env.close()
         eval_env_wrapper.close()
-
-    logger.info('RL pipeline completed successfully!')
+        logger.info('RL pipeline completed successfully!')
 
 if __name__ == '__main__':
     main()
