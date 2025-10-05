@@ -1,13 +1,9 @@
 # --------- Standard library imports --------- #
 import json
-import os
 from datetime import datetime
 from pathlib import Path
 
-from stable_baselines3.common.evaluation import evaluate_policy
-
 # --------- Local imports --------- #
-from utils.io import rename_path
 from utils.logger import get_logger
 logger = get_logger(__name__)
 
@@ -21,15 +17,14 @@ utilities_config = config_manager.get('utilities_config')
 class EvaluationManager:
     """Manages evaluation of trained models"""
 
-    def __init__(self, env_name, agent_name):
+    def __init__(self, env_name, agent_name, run_manager=None):
         self.env_name = env_name
         self.agent_name = agent_name
-        self.eval_results_dir = Path(paths_config['evaluation_path'])
-        self.eval_results_dir.mkdir(parents=True, exist_ok=True)
+        self.run_manager = run_manager
 
     def evaluate_model(self, model, eval_env, n_episodes=10, deterministic=True):
         """
-        Evaluate model and generated detailed report
+        Evaluate model and generate detailed report
 
         :param model: Trained model to evaluate
         :param eval_env: Evaluation environment
@@ -56,16 +51,7 @@ class EvaluationManager:
             episode_length = 0
 
             while not done:
-                try:
-                    if episode == 0 and episode_length == 0:
-                        logger.info(f"Observation shape: {obs.shape if hasattr(obs, 'shape') else type(obs)}")
-                        logger.info(f"Policy type: {type(model.policy)}")
-                        logger.info(f"Policy has predict: {hasattr(model.policy, 'predict')}")
-                    action, _ = model.predict(obs, deterministic=deterministic)
-                except AttributeError as e:
-                    logger.error(f'Error calling predict: {e}')
-                    logger.error(f'Model attributes: {dir(model)}')
-                    raise
+                action, _ = model.predict(obs, deterministic=deterministic)
                 obs, reward, terminated, truncated, _ = eval_env.step(action)
                 episode_reward += reward
                 episode_length += 1
@@ -123,65 +109,15 @@ class EvaluationManager:
 
     def _save_results(self, results):
         """Save evaluation results to JSON file"""
-        timestamp = results['timestamp']
-        filename = f"{self.env_name}_{self.agent_name}_eval_{timestamp}.json"
-        filepath = self.eval_results_dir / filename
-
+        if self.run_manager:
+            filepath = self.run_manager.get_evaluation_path(results['timestamp'])
+        else:
+            eval_dir = Path('./evaluations')
+            eval_dir.mkdir(parents=True, exist_ok=True)
+            filename = f"{self.env_name}_{self.agent_name}_eval_{results['timestamp']}.json"
+            filepath = eval_dir / filename
         with open(filepath, 'w') as f:
             json.dump(results, f, indent=2)
 
-        print(f'Results saved to: {filepath}\n')
-        logger.info(f'Evaluation results saved to: {filepath}')
-
-    def compare_evaluations(self, limit=5):
-        """Compare evaluate results"""
-        eval_files = sorted(
-            self.eval_results_dir.glob(f'{self.env_name}_{self.agent_name}_eval_*.json'),
-            key=os.path.getmtime,
-            reverse=True
-        )[:limit]
-
-        if not eval_files:
-            print('No previous evaluations found')
-            return
-
-        print("\n" + "=" * 60)
-        print(f"📈 EVALUATION HISTORY (Last {len(eval_files)} runs)")
-        print("=" * 60)
-        print(f"{'Timestamp':<16} {'Mean Reward':>12} {'Std':>8} {'Max':>8}")
-        print("-" * 60)
-
-        for eval_file in eval_files:
-            with open(eval_file, 'r') as f:
-                data = json.load(f)
-            print(f"{data['timestamp']:<16} "
-                  f"{data['mean_reward']:>12.2f} "
-                  f"{data['std_reward']:>8.2f} "
-                  f"{data['max_reward']:>8.2f}")
-        print("=" * 60 + "\n")
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        print(f"💾 Results saved to: {filepath}\n")
+        logger.info(f"Evaluation results saved to: {filepath}")

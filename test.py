@@ -1,167 +1,203 @@
-# --------- Standard library imports ---------#
-import json
-import os
-from datetime import datetime
-from pathlib import Path
-
 # --------- Local imports ---------#
-from utils.logger import get_logger
-from utils.io import rename_path
+from environments.environment_factory import EnvironmentFactory
+from agents.agent_factory import AgentFactory
+from utils.user_interface import get_user_choice, get_action_choice, get_follow_up_action
+from utils.model_manager import find_latest_model, load_model
+from utils.run_manager import RunManager
+from utils.logger import get_logger, set_log_path
 
-# --------- Config imports ---------#
+# --------- Config import ---------#
 from utils.config_manager import ConfigManager
-config_manager = ConfigManager()
-paths_config = config_manager.get('paths_config', validate=False)
-utilities_config = config_manager.get('utilities_config')
 
+config_manager = ConfigManager()
+
+# Get initial logger (will be updated with run-specific path for training)
 logger = get_logger(__name__)
 
-# --------- Evaluation Manager ---------#
-class EvaluationManager:
-    """Manages evaluation of trained models with detailed reporting"""
-    
-    def __init__(self, env_name, agent_name):
-        self.env_name = env_name
-        self.agent_name = agent_name
-        self.eval_results_dir = Path('./evaluations')
-        self.eval_results_dir.mkdir(parents=True, exist_ok=True)
-        
-    def evaluate_model(self, model, eval_env, n_episodes=10, deterministic=True):
-        """
-        Evaluate model and generate detailed report
-        
-        :param model: Trained model to evaluate
-        :param eval_env: Evaluation environment
-        :param n_episodes: Number of episodes to evaluate
-        :param deterministic: Whether to use deterministic actions
-        :return: Dictionary containing evaluation results
-        """
-        
-        print("\n" + "="*60)
-        print(f"🎯 EVALUATING MODEL: {self.env_name} - {self.agent_name}")
-        print("="*60)
-        
-        logger.info(f"Starting evaluation with {n_episodes} episodes...")
-        
-        # Debug: Check model type
-        logger.info(f"Model type: {type(model)}")
-        logger.info(f"Model has predict: {hasattr(model, 'predict')}")
-        
-        # Episode-by-episode evaluation for detailed tracking
-        episode_rewards = []
-        episode_lengths = []
-        
-        for episode in range(n_episodes):
-            obs, _ = eval_env.reset()
-            done = False
-            episode_reward = 0
-            episode_length = 0
-            
-            while not done:
-                try:
-                    action, _ = model.predict(obs, deterministic=deterministic)
-                except AttributeError as e:
-                    logger.error(f"Error calling predict: {e}")
-                    logger.error(f"Model attributes: {dir(model)}")
-                    raise
-                obs, reward, terminated, truncated, _ = eval_env.step(action)
-                episode_reward += reward
-                episode_length += 1
-                done = terminated or truncated
-                
-            episode_rewards.append(episode_reward)
-            episode_lengths.append(episode_length)
-            
-            # Print progress
-            print(f"  Episode {episode + 1}/{n_episodes}: "
-                  f"Reward = {episode_reward:.2f}, "
-                  f"Length = {episode_length}")
-        
-        # Calculate statistics manually
-        mean_reward = sum(episode_rewards) / len(episode_rewards)
-        
-        # Calculate standard deviation
-        variance = sum((r - mean_reward) ** 2 for r in episode_rewards) / len(episode_rewards)
-        std_reward = variance ** 0.5
-        
-        max_reward = max(episode_rewards)
-        min_reward = min(episode_rewards)
-        avg_length = sum(episode_lengths) / len(episode_lengths)
-        
-        # Prepare results
-        results = {
-            'timestamp': datetime.now().strftime(utilities_config['date_time']),
-            'environment': self.env_name,
-            'agent': self.agent_name,
-            'n_episodes': n_episodes,
-            'mean_reward': float(mean_reward),
-            'std_reward': float(std_reward),
-            'max_reward': float(max_reward),
-            'min_reward': float(min_reward),
-            'avg_episode_length': float(avg_length),
-            'episode_rewards': [float(r) for r in episode_rewards],
-            'episode_lengths': episode_lengths
-        }
-        
-        # Display summary
-        self._print_summary(results)
-        
-        # Save results
-        self._save_results(results)
-        
-        # Log to main log file
-        logger.info(f"Evaluation completed: Mean={mean_reward:.2f} ± {std_reward:.2f}, "
-                   f"Max={max_reward:.2f}, Min={min_reward:.2f}")
-        
-        return results
-    
-    def _print_summary(self, results):
-        """Print evaluation summary to console"""
-        print("\n" + "-"*60)
-        print("📊 EVALUATION SUMMARY")
-        print("-"*60)
-        print(f"  Mean Reward:     {results['mean_reward']:>10.2f} ± {results['std_reward']:.2f}")
-        print(f"  Max Reward:      {results['max_reward']:>10.2f}")
-        print(f"  Min Reward:      {results['min_reward']:>10.2f}")
-        print(f"  Avg Length:      {results['avg_episode_length']:>10.1f} steps")
-        print(f"  Episodes:        {results['n_episodes']:>10d}")
-        print("-"*60 + "\n")
-    
-    def _save_results(self, results):
-        """Save evaluation results to JSON file"""
-        timestamp = results['timestamp']
-        filename = f"{self.env_name}_{self.agent_name}_eval_{timestamp}.json"
-        filepath = self.eval_results_dir / filename
-        
-        with open(filepath, 'w') as f:
-            json.dump(results, f, indent=2)
-        
-        print(f"💾 Results saved to: {filepath}\n")
-        logger.info(f"Evaluation results saved to: {filepath}")
-        
-    def compare_evaluations(self, limit=5):
-        """Compare recent evaluation results"""
-        eval_files = sorted(
-            self.eval_results_dir.glob(f"{self.env_name}_{self.agent_name}_eval_*.json"),
-            key=os.path.getmtime,
-            reverse=True
-        )[:limit]
-        
-        if not eval_files:
-            print("No previous evaluations found.")
-            return
-        
-        print("\n" + "="*60)
-        print(f"📈 EVALUATION HISTORY (Last {len(eval_files)} runs)")
-        print("="*60)
-        print(f"{'Timestamp':<16} {'Mean Reward':>12} {'Std':>8} {'Max':>8}")
-        print("-"*60)
-        
-        for eval_file in eval_files:
-            with open(eval_file, 'r') as f:
-                data = json.load(f)
-            print(f"{data['timestamp']:<16} "
-                  f"{data['mean_reward']:>12.2f} "
-                  f"{data['std_reward']:>8.2f} "
-                  f"{data['max_reward']:>8.2f}")
-        print("="*60 + "\n")
+
+# --------- Setup environment ---------#
+def setup_environment(env_name):
+    """
+    Setup training and evaluation environment
+
+    :param env_name: Name of the environment
+    :return: training environment, vectorized training environment, evaluation environment and wrapper
+    """
+    try:
+        # Creating training environment
+        training_env = EnvironmentFactory.create(env_name, 'training')
+        vec_env = training_env.create_vec_env()
+
+        # Creating evaluation environment
+        eval_env_wrapper = EnvironmentFactory.create(env_name, 'evaluation')
+        eval_env = eval_env_wrapper.create_env()
+
+        logger.info(f'Environment "{env_name}" created.')
+        return training_env, vec_env, eval_env_wrapper, eval_env
+
+    except ValueError as e:
+        logger.error(f'Environment creation failed: {e}')
+        return None, None, None, None
+
+
+# --------- Setup agent ---------#
+def setup_agent(agent_name, vec_env, eval_env, env_name, run_manager=None):
+    """
+    Setup agent
+
+    :param agent_name: Name of the agent
+    :param vec_env: Vectorized training environment
+    :param eval_env: Evaluation environment
+    :param env_name: Name of the environment
+    :param run_manager: RunManager instance (optional, for training)
+    :return: Agent or None if an error occurs
+    """
+    try:
+        agent = AgentFactory.create(agent_name,
+                                    vec_env,
+                                    eval_env,
+                                    env_name=env_name,
+                                    run_manager=run_manager)
+        logger.info(f'Agent "{agent_name}" created.')
+        return agent
+
+    except ValueError as e:
+        logger.error(f'Agent creation failed: {e}')
+        return None
+
+
+# --------- Train a new model ---------#
+def train_model(agent, env_config, run_manager):
+    """
+    Train a new model
+
+    :param agent: Agent to train
+    :param env_config: Configurations for the selected environment
+    :param run_manager: RunManager instance
+    """
+    # Save config to run directory
+    run_manager.save_config(env_config)
+
+    # Train (model is saved automatically in BaseAgent._load_best_model)
+    agent.train(env_config)
+
+    # Create summary
+    run_manager.create_summary()
+
+
+# --------- Main function ---------#
+def main():
+    """
+    Main function - orchestrates the RL training/evaluation/demo pipeline
+    """
+    logger.info('Starting RL pipeline.')
+    print("\n" + "=" * 60)
+    print("🤖 RoboGym - Reinforcement Learning Pipeline")
+    print("=" * 60)
+
+    # Choose environment
+    available_envs = EnvironmentFactory.get_available_environments()
+    env_name = get_user_choice('environment', available_envs)
+    if env_name is None:
+        return
+
+    # Choose agent
+    available_agents = AgentFactory.get_available_agents()
+    agent_name = get_user_choice('agent', available_agents)
+    if agent_name is None:
+        return
+
+    # Check for existing model (for eval/demo only)
+    existing_model = find_latest_model(env_name, agent_name)
+    has_model = existing_model is not None
+
+    if has_model:
+        logger.info(f'Found existing model: {existing_model}')
+
+    # Get user's action choice
+    action = get_action_choice(has_model)
+    if action is None:
+        return
+
+    # Load environment config
+    try:
+        config_name = f'{env_name}_config'
+        env_config = config_manager.get(config_name)
+        config_manager.validate_config(env_config)
+        logger.info(f'Loaded configuration for {env_name}')
+    except (FileNotFoundError, ImportError, ValueError) as e:
+        logger.error(f'Configuration loading failed: {e}')
+        return
+
+    # Create run manager for training only
+    run_manager = None
+    if action == 'train':
+        run_manager = RunManager(env_name, agent_name)
+        # Set custom log path for this run
+        set_log_path(run_manager.get_log_path())
+        # Re-get logger with new path
+        global logger
+        logger = get_logger(__name__)
+        logger.info('Created new run directory')
+
+    # Setup environment
+    training_env, vec_env, eval_env_wrapper, eval_env = setup_environment(env_name)
+    if vec_env is None:
+        return
+
+    # Setup agent (with or without run_manager)
+    agent = setup_agent(agent_name, vec_env, eval_env, env_name, run_manager)
+    if agent is None:
+        vec_env.close()
+        eval_env.close()
+        return
+
+    # Execute requested action
+    try:
+        if action == 'train':
+            logger.info('Train action requested...')
+            train_model(agent, env_config, run_manager)
+
+            # Ask if user wants to evaluate or demo after training
+            follow_up = get_follow_up_action()
+            if follow_up == 'evaluate':
+                agent.evaluate()
+            elif follow_up == 'demo':
+                max_steps = env_config['demo']['max_steps']
+                training_env.demo(agent, max_steps=max_steps)
+
+        elif action == 'evaluate':
+            logger.info('Evaluate action requested...')
+            if load_model(agent, existing_model):
+                agent.evaluate()
+
+        elif action == 'demo':
+            logger.info('Demo action requested...')
+            if load_model(agent, existing_model):
+                max_steps = env_config['demo']['max_steps']
+                training_env.demo(agent, max_steps=max_steps)
+
+    except KeyboardInterrupt:
+        logger.warning('Operation interrupted by user.')
+        print("\n⚠️  Operation interrupted by user.\n")
+    except Exception as e:
+        logger.error(f'Operation failed: {e}')
+        print(f"\n❌ Operation failed: {e}\n")
+        import traceback
+        logger.error(traceback.format_exc())
+    finally:
+        vec_env.close()
+        eval_env.close()
+        training_env.close()
+        eval_env_wrapper.close()
+
+        if run_manager:
+            print(f"\n📁 All files saved to: {run_manager.get_run_dir()}")
+            print(f"   View TensorBoard: tensorboard --logdir {run_manager.get_tensorboard_path()}")
+
+        logger.info('RL pipeline completed successfully!')
+        print("\n✅ Pipeline completed!\n")
+
+
+if __name__ == '__main__':
+    main()

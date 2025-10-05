@@ -21,21 +21,21 @@ utilities_config = config_manager.get('utilities_config')
 class BaseAgent(ABC):
     """Base class for all RL agents"""
 
-    def __init__(self, vec_env, eval_env, env_name=None, agent_name=None):
+    def __init__(self, vec_env, eval_env, env_name=None, agent_name=None, run_manager=None):
         self.logger = get_logger(__name__)
         self.vec_env = vec_env
         self.eval_env = eval_env
         self.env_name = env_name
         self.agent_name = agent_name
-
-        tb_path = rename_path(paths_config['tensorboard_log_path'],
-                                 env_name,
-                                 agent_name,
-                                 'tb')
-        self.tensorboard_log = tb_path
+        self.run_manager = run_manager
+        if run_manager:
+            self.tensorboard_log = run_manager.get_tensorboard_path()
+            self.eval_manager = EvaluationManager(env_name, agent_name, run_manager)
+        else:
+            self.tensorboard_log = None
+            self.eval_manager = EvaluationManager(env_name, agent_name)
 
         self.model = None
-        self.eval_manager = EvaluationManager(env_name, agent_name)
 
     @abstractmethod
     def _create_model(self, config):
@@ -68,19 +68,28 @@ class BaseAgent(ABC):
             print(f"   Agent: {self.agent_name}")
             print(f"   Max timesteps: {training_config['max_timesteps']}")
             print(f"   Target score: {training_config['target_score']}")
+            if self.run_manager:
+                print(f'   Run directory: {self.run_manager.get_run_dir()}')
             print(f"   TensorBoard logs: {self.tensorboard_log}\n")
 
             self.model.learn(total_timesteps=training_config['max_timesteps'],
                              callback=callbacks)
 
-            print('Training completed!')
+            print('Training completed!\n')
             self.logger.info('Training completed!')
 
         except KeyboardInterrupt:
+            print('Training interrupted by user.')
             self.logger.warning('Training interrupted by user.')
             self.logger.info('Saving interrupted model...')
-            self.model.save(self.tensorboard_log)
+            if self.run_manager:
+                model_path = self.run_manager.get_model_path().replace('.zip', '_interrupted.zip')
+                self.model.save(model_path)
+                print(f"💾 Interrupted model saved to: {model_path}")
+            else:
+                self.model.save('./interrupted_model.zip')
         except Exception as e:
+            print(f'\nTraining failed: {str(e)}')
             self.logger.error(f'Training failed: {str(e)}')
             return
 
@@ -103,17 +112,17 @@ class BaseAgent(ABC):
                                                    self.eval_env,
                                                    n_episodes=n_episodes)
 
-        if show_history:
-            self.eval_manager.compare_evaluations(limit=5)
-
         return results
 
     def _load_best_model(self):
-        best_model_path = os.path.join(paths_config['best_model_path'], 'best_model.zip')
-        if os.path.exists(best_model_path):
+        if not self.run_manager:
+            self.logger.warning('No run manager available, skipping best model leading')
+            return
+        temp_best_path = os.path.join(self.run_manager.get_run_dir(), 'best_model.zip')
+        if os.path.exists(temp_best_path):
             self.logger.info('Loading best model...')
             # Load the saved best model temporarily
-            loaded_best_model = PPO.load(best_model_path)
+            loaded_best_model = PPO.load(temp_best_path)
 
             # Evaluate both models
             best_mean_reward, _ = evaluate_policy(loaded_best_model, self.eval_env, n_eval_episodes=5)
@@ -121,6 +130,20 @@ class BaseAgent(ABC):
 
             if best_mean_reward >= final_mean_reward:
                 self.model = loaded_best_model
+                print("   Using best checkpoint\n")
+                self.logger.info(f'Using best checkpoint (reward: {best_mean_reward:.2f})')
+            else:
+                print("   Using final model\n")
+                self.logger.info(f'Using final model (reward: {final_mean_reward:.2f})')
+
+            final_model_path = self.run_manager.get_model_path()
+            self.model.save(final_model_path)
+            self.logger.info(f'Model saved to: {final_model_path}')
+            os.remove(temp_best_path)
 
         else:
             self.logger.warning('Best model not found. Using final training model')
+            if self.run_manager:
+                final_model_path = self.run_manager.get_model_path()
+                self.model.save(final_model_path)
+                print(f'Final model saved to: {final_model_path}')

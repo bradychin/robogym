@@ -2,8 +2,9 @@
 from environments.environment_factory import EnvironmentFactory
 from agents.agent_factory import AgentFactory
 from utils.user_interface import get_user_choice, get_action_choice, get_follow_up_action
-from utils.model_manager import find_latest_model, load_model, save_model
-from utils.logger import get_logger
+from utils.model_io import find_latest_model, load_model, save_model
+from utils.run_manager import RunManager
+from utils.logger import get_logger, set_log_path
 logger = get_logger(__name__)
 
 # --------- Config import ---------#
@@ -62,7 +63,7 @@ def setup_agent(agent_name, vec_env, eval_env, env_name):
         return
 
 # --------- Train a new model ---------#
-def train_model(agent, env_config, env_name, agent_name):
+def train_model(agent, env_config, env_name, agent_name, run_manager):
     """
     Train a new model
 
@@ -70,12 +71,17 @@ def train_model(agent, env_config, env_name, agent_name):
     :param env_config: Configurations for the selected environment
     :param env_name: Name of the environment
     :param agent_name: Name of the agent
+    :param run_manager: RunManager instance
     :return: Model path of the trained agent
     """
 
+    # save config to run directory
+    run_manager.save_config(env_config)
+
     agent.train(env_config)
-    model_path = save_model(env_name, agent_name)
-    return model_path
+
+    # Create summary
+    run_manager.create_summary()
 
 # --------- Main function ---------#
 def main():
@@ -127,6 +133,12 @@ def main():
         logger.error(f'Configuration loading failed: {e}')
         return
 
+    run_manager = None
+    if action == 'train':
+        run_manager = RunManager(env_name, agent_name)
+        set_log_path(run_manager.get_log_path())
+        logger.info('Created new run directory')
+
     # Setup environment
     training_env, vec_env, eval_env_wrapper, eval_env = setup_environment(env_name)
     if vec_env is None:
@@ -143,7 +155,7 @@ def main():
     try:
         if action == 'train':
             logger.info('Train action requested...')
-            train_model(agent, env_config, env_name, agent_name)
+            train_model(agent, env_config, env_name, agent_name, run_manager)
             # Ask if user wants to evaluate or demo after training
             follow_up = get_follow_up_action()
             if follow_up == 'evaluate':
@@ -172,6 +184,10 @@ def main():
         eval_env.close()
         training_env.close()
         eval_env_wrapper.close()
+        if run_manager:
+            print(f"\n📁 All files saved to: {run_manager.get_run_dir()}")
+            print(f"   View TensorBoard: tensorboard --logdir {run_manager.get_tensorboard_path()}")
+
         logger.info('RL pipeline completed successfully!')
 
 if __name__ == '__main__':

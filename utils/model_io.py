@@ -67,7 +67,19 @@ def load_model(agent, model_path):
         return False
 
 # --------- Save trained model function ---------#
-def save_model(env_name, agent_name, source_path=None):
+def save_model(env_name, agent_name, source_path=None, dest_dir=None):
+    """
+    Save a trained model
+
+    :param env_name: Name of the environment
+    :param agent_name: Name of the agent
+    :param source_path: Source path of model
+    :param dest_dir: Destination directory
+    :return: Path where model is saved or None if failed
+    """
+    if dest_dir is None:
+        dest_dir = paths_config['best_model_path']
+
     if source_path is None:
         source_path = os.path.join(paths_config['best_model_path'], 'best_model.zip')
 
