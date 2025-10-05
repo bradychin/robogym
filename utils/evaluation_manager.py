@@ -24,7 +24,7 @@ class EvaluationManager:
     def __init__(self, env_name, agent_name):
         self.env_name = env_name
         self.agent_name = agent_name
-        self.eval_results_dir = Path('./evaluations/')
+        self.eval_results_dir = Path(paths_config['evaluation_path'])
         self.eval_results_dir.mkdir(parents=True, exist_ok=True)
 
     def evaluate_model(self, model, eval_env, n_episodes=10, deterministic=True):
