@@ -8,7 +8,6 @@ from stable_baselines3 import PPO
 
 # --------- Local imports ---------#
 from utils.logger import get_logger
-from utils.io import rename_path
 from utils.evaluation_manager import EvaluationManager
 
 # --------- Config imports ---------#
@@ -29,7 +28,7 @@ class BaseAgent(ABC):
         self.agent_name = agent_name
         self.run_manager = run_manager
         if run_manager:
-            self.tensorboard_log = run_manager.get_tensorboard_path()
+            self.tensorboard_log = run_manager.get_directory('tensorboard')
             self.eval_manager = EvaluationManager(env_name, agent_name, run_manager)
         else:
             self.tensorboard_log = None
@@ -83,7 +82,7 @@ class BaseAgent(ABC):
             self.logger.warning('Training interrupted by user.')
             self.logger.info('Saving interrupted model...')
             if self.run_manager:
-                model_path = self.run_manager.get_model_path().replace('.zip', '_interrupted.zip')
+                model_path = self.run_manager.get_directory('model', extension='zip').replace('.zip', '_interrupted.zip')
                 self.model.save(model_path)
                 print(f"💾 Interrupted model saved to: {model_path}")
             else:
@@ -136,7 +135,7 @@ class BaseAgent(ABC):
                 print("   Using final model\n")
                 self.logger.info(f'Using final model (reward: {final_mean_reward:.2f})')
 
-            final_model_path = self.run_manager.get_model_path()
+            final_model_path = self.run_manager.get_directory('model', extension='zip')
             self.model.save(final_model_path)
             self.logger.info(f'Model saved to: {final_model_path}')
             os.remove(temp_best_path)
@@ -144,6 +143,6 @@ class BaseAgent(ABC):
         else:
             self.logger.warning('Best model not found. Using final training model')
             if self.run_manager:
-                final_model_path = self.run_manager.get_model_path()
+                final_model_path = self.run_manager.get_directory('model', extension='zip')
                 self.model.save(final_model_path)
                 print(f'Final model saved to: {final_model_path}')

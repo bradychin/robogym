@@ -1,7 +1,6 @@
 """Manages run directories and organization"""
 
 # --------- Standard library imports ---------#
-import os
 from pathlib import Path
 from datetime import datetime
 
@@ -40,23 +39,14 @@ class RunManager:
         """Get log path"""
         return str(self.run_dir / 'robogym.log')
 
-    def get_tensorboard_path(self):
-        """Get the tensorboard directory path"""
-        tb_dir = f"{self.env_name}_{self.agent_name}_tb_{self.timestamp}"
-        return str(self.run_dir / tb_dir)
+    def get_directory(self, item_type, extension=None):
+        """Get the directory for a given item"""
+        filename = f'{item_type}'
 
-    def get_model_path(self):
-        """Get the models directory path"""
-        model_filename = f"{self.env_name}_{self.agent_name}_model_{self.timestamp}.zip"
-        return str(self.run_dir / model_filename)
+        if extension:
+            filename += f'.{extension}'
 
-    def get_evaluation_path(self, eval_timestamp=None):
-        """Get the evaluations directory path"""
-        if eval_timestamp is None:
-            eval_timestamp = datetime.now().strftime(utilities_config['date_time'])
-
-        eval_filename = f"{self.env_name}_{self.agent_name}_eval_{eval_timestamp}.json"
-        return str(self.run_dir / eval_filename)
+        return str(self.run_dir / filename)
 
     def get_run_dir(self):
         """Get the run directory path"""

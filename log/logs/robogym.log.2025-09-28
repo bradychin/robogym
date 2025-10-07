@@ -1,2 +1,0 @@
-20250929_0003 INFO: main.py -> Starting RL pipeline.
-20250929_0003 INFO: main.py -> Loaded configuration for bipedalwalker: {'environment': {'env_id': 'BipedalWalker-v3'}, 'training': {'target_score': 300, 'max_timesteps': 1000000, 'learning_rate': 0.0003, 'policy_net': [256, 256], 'eval_freq': 5000}, 'demo': {'max_steps': 2000}}

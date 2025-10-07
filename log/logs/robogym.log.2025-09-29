@@ -1,3 +1,0 @@
-20250930_1958 INFO: environment_factory.py -> Creating training environment: bipedalwalker
-20250930_1958 INFO: environment_factory.py -> Creating evaluation environment: bipedalwalker
-20250930_1958 INFO: base_environment.py -> Using BipedalWalker-v3

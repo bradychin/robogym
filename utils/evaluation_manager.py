@@ -110,11 +110,11 @@ class EvaluationManager:
     def _save_results(self, results):
         """Save evaluation results to JSON file"""
         if self.run_manager:
-            filepath = self.run_manager.get_evaluation_path(results['timestamp'])
+            filepath = self.run_manager.get_directory('evaluation', extension='json')
         else:
             eval_dir = Path('./evaluations')
             eval_dir.mkdir(parents=True, exist_ok=True)
-            filename = f"{self.env_name}_{self.agent_name}_eval_{results['timestamp']}.json"
+            filename = f"evaluation.json"
             filepath = eval_dir / filename
         with open(filepath, 'w') as f:
             json.dump(results, f, indent=2)

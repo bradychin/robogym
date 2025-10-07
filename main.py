@@ -2,7 +2,7 @@
 from environments.environment_factory import EnvironmentFactory
 from agents.agent_factory import AgentFactory
 from utils.user_interface import get_user_choice, get_action_choice, get_follow_up_action
-from utils.model_io import find_latest_model, load_model, save_model
+from utils.model_io import find_latest_model, load_model
 from utils.run_manager import RunManager
 from utils.logger import get_logger, set_log_path
 logger = get_logger(__name__)
@@ -188,7 +188,7 @@ def main():
         eval_env_wrapper.close()
         if run_manager:
             print(f"\n📁 All files saved to: {run_manager.get_run_dir()}")
-            print(f"   View TensorBoard: tensorboard --logdir {run_manager.get_tensorboard_path()}")
+            print(f"   View TensorBoard: tensorboard --logdir {run_manager.get_directory('tensorboard')}")
 
         logger.info('RL pipeline completed successfully!')
 
