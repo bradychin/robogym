@@ -205,7 +205,6 @@ def main():
             else:
                 print(f'\nFound {len(all_models)} model(s):')
                 for i, model_path in enumerate(all_models, 1):
-                    run_dir = os.path.basename(os.path.dirname(model_path))
                     mtime = datetime.fromtimestamp(os.path.getmtime(model_path))
                     print(f'{i}. {os.path.basename(os.path.dirname(model_path))} - {mtime.strftime("%Y-%m-%d %H:%M")}')
                 choice = input(f'\nSelect model (1-{len(all_models)}) or press Enter for most recent: ').strip()
@@ -227,7 +226,6 @@ def main():
 
 
         elif action == 'demo':
-            global_logger.info('Starting demo...')
             all_models = find_all_models(env_name, agent_name, limit=10)
             if not all_models:
                 logger.error('No models found for evaluation.')
@@ -235,7 +233,6 @@ def main():
             else:
                 print(f'\nFound {len(all_models)} model(s):')
                 for i, model_path in enumerate(all_models, 1):
-                    run_dir = os.path.basename(os.path.dirname(model_path))
                     mtime = datetime.fromtimestamp(os.path.getmtime(model_path))
                     print(f'{i}. {os.path.basename(os.path.dirname(model_path))} - {mtime.strftime("%Y-%m-%d %H:%M")}')
                 choice = input(f'\nSelect model (1-{len(all_models)}) or press Enter for most recent: ').strip()
@@ -251,6 +248,7 @@ def main():
 
                 if selected_model and load_model(agent, selected_model):
                     max_steps = env_config['demo']['max_steps']
+                    global_logger.info('Starting demo...')
                     training_env.demo(agent, max_steps=max_steps)
                     global_logger.info('Demo completed!')
                 else:
