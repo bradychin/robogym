@@ -73,19 +73,17 @@ class EvaluationManager:
         avg_length = sum(episode_lengths) / len(episode_lengths)
 
         # Results
-        results = {
-            'timestamp': datetime.now().strftime(utilities_config['date_time']),
-            'environment': self.env_name,
-            'agent': self.agent_name,
-            'n_episodes': n_episodes,
-            'mean_reward': float(mean_reward),
-            'std_reward': float(std_reward),
-            'max_reward': float(max_reward),
-            'min_reward': float(min_reward),
-            'avg_episode_length': float(avg_length),
-            'episode_rewards': [float(r) for r in episode_rewards],
-            'episode_lengths': episode_lengths
-        }
+        results = {'timestamp': datetime.now().strftime(utilities_config['date_time']),
+                   'environment': self.env_name,
+                   'agent': self.agent_name,
+                   'n_episodes': n_episodes,
+                   'mean_reward': float(mean_reward),
+                   'std_reward': float(std_reward),
+                   'max_reward': float(max_reward),
+                   'min_reward': float(min_reward),
+                   'avg_episode_length': float(avg_length),
+                   'episode_rewards': [float(r) for r in episode_rewards],
+                   'episode_lengths': episode_lengths}
 
         logger.info(f'Evaluation completed: Mean={mean_reward:.2f} +/- {std_reward:.2f},'
                     f'Max={max_reward:.2f}, Min={min_reward:.2f}')

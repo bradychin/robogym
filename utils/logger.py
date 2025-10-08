@@ -1,6 +1,5 @@
 # --------- Standard library imports --------- #
 import logging
-from logging import exception
 from logging.handlers import TimedRotatingFileHandler
 from pathlib import Path
 

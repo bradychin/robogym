@@ -14,13 +14,14 @@ class EnvironmentFactory:
     }
 
     @classmethod
-    def create(cls, env_name: str, env_type: str, render_mode: str = 'rgb_array'):
+    def create(cls, env_name: str, env_type: str, render_mode: str = 'rgb_array', run_manager=None):
         """
         Create environment instance
 
         :param env_name: Name of environment to create
         :param env_type: Type of environment to create
         :param render_mode: Rendering mode for environment
+        :param run_manager: RunManager instance
         :return: BaseEnvironment instance
         """
 
@@ -30,7 +31,7 @@ class EnvironmentFactory:
             raise ValueError(f'Environment "{env_name}" not available. Available environments: {available}')
 
         logger.info(f'Creating {env_type} environment: {env_name}')
-        return cls.ENVIRONMENTS[env_name](render_mode=render_mode)
+        return cls.ENVIRONMENTS[env_name](render_mode=render_mode, run_manager=run_manager)
 
     @classmethod
     def get_available_environments(cls):

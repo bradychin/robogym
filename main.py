@@ -1,3 +1,4 @@
+# --------- Standard library imports ---------#
 import os
 from datetime import datetime
 
@@ -17,22 +18,23 @@ config_manager = ConfigManager()
 paths_config = config_manager.get('paths_config', validate=False)
 
 # --------- Setup environment ---------#
-def setup_environment(env_name):
+def setup_environment(env_name, run_manager=None):
     """
     Setup training and evaluation environment
 
     :param env_name: Name of the environment
+    :param run_manager: RunManager instance
     :return: training environment, vectorized training environment, evaluation environment and wrapper
     """
 
     try:
         # Creating training environment
-        training_env = EnvironmentFactory.create(env_name, 'training')
+        training_env = EnvironmentFactory.create(env_name, 'training', run_manager=run_manager)
         vec_env = training_env.create_vec_env()
         logger.info(f'Training environment "{env_name}" created.')
 
         # Creating evaluation environment
-        eval_env_wrapper = EnvironmentFactory.create(env_name, 'evaluation')
+        eval_env_wrapper = EnvironmentFactory.create(env_name, 'evaluation', run_manager=run_manager)
         eval_env = eval_env_wrapper.create_env()
         logger.info(f'Evaluation environment "{env_name}" created.')
 
@@ -162,7 +164,7 @@ def main():
         logger.info('=' * 60)
 
     # Setup environment
-    training_env, vec_env, eval_env_wrapper, eval_env = setup_environment(env_name)
+    training_env, vec_env, eval_env_wrapper, eval_env = setup_environment(env_name, run_manager=run_manager)
     if vec_env is None:
         logger.error('Environment setup failed. Exiting')
         global_logger.error('Environment setup failed. Exiting')
@@ -226,9 +228,7 @@ def main():
                     global_logger.error('Failed to load model for evaluation.')
                 logger.info('Evaluation complete!')
 
-
         elif action == 'demo':
-            global_logger.info('Starting demo...')
             all_models = find_all_models(env_name, agent_name, limit=10)
             if not all_models:
                 logger.error('No models found for evaluation.')
@@ -251,6 +251,7 @@ def main():
 
                 if selected_model and load_model(agent, selected_model):
                     max_steps = env_config['demo']['max_steps']
+                    global_logger.info('Starting demo...')
                     training_env.demo(agent, max_steps=max_steps)
                     global_logger.info('Demo completed!')
                 else:
