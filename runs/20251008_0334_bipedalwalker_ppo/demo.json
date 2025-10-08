@@ -1,0 +1,16 @@
+{
+  "timestamp": "20251008_0335",
+  "environment": "BipedalWalker-v3",
+  "total_episodes": 1,
+  "max_steps": 2000,
+  "mean_reward": 300.21221923828125,
+  "max_reward": 300.21221923828125,
+  "min_reward": 300.21221923828125,
+  "episodes": [
+    {
+      "episode": 1,
+      "steps": 1305,
+      "reward": 300.21221923828125
+    }
+  ]
+}

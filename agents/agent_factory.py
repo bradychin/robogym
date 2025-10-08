@@ -29,7 +29,7 @@ class AgentFactory:
 
         agent_name = agent_name.lower()
         if agent_name not in cls.AGENTS:
-            available = ', '.join(cls.AGENTS.keys())
+            available = ': '.join(cls.AGENTS.keys())
             raise ValueError (f'Agent "{agent_name}" not available. Available agents: {available}')
 
         logger.info(f'Creating agent: {agent_name}')
