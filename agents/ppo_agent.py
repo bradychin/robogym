@@ -5,8 +5,8 @@ import torch
 
 # --------- Local imports ---------#
 from agents.base_agent import BaseAgent
-from utils.logger import get_logger
-logger = get_logger(__name__)
+from utils.logger import logger
+logger = logger(__name__)
 
 # --------- PPO Agent class ---------#
 class PPOAgent(BaseAgent):

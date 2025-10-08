@@ -1,8 +1,8 @@
 """Command-line interface functions for user interactions"""
 
 # --------- Local imports ---------#
-from utils.logger import get_logger
-logger = get_logger(__name__)
+from utils.logger import logger
+logger = logger(__name__)
 
 # --------- Get user input function ---------#
 def get_user_choice(item_type: str, available_items: list):

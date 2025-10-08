@@ -4,19 +4,18 @@ from stable_baselines3.common.env_util import make_vec_env as sb3_make_vec_env
 from stable_baselines3.common.monitor import Monitor
 
 # --------- Local imports ---------#
-from utils.logger import get_logger
+from utils.logger import logger
 
 # --------- Base environment class ---------#
 class BaseEnvironment:
     def __init__(self, environment_id, render_mode='rgb_array'):
-        self.logger = get_logger(__name__)
+        self.logger = logger(__name__)
         self.environment_id = environment_id
         self.render_mode = render_mode
         self.env = None
 
     def create_env(self):
         """Create a single environment wrapped with Monitor"""
-        self.logger.info(f'Using {self.environment_id}')
         env = gym.make(self.environment_id, render_mode=self.render_mode)
         self.env = Monitor(env)
         return self.env

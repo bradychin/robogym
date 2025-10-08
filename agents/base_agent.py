@@ -7,7 +7,7 @@ from stable_baselines3.common.evaluation import evaluate_policy
 from stable_baselines3 import PPO
 
 # --------- Local imports ---------#
-from utils.logger import get_logger
+from utils.logger import logger
 from utils.evaluation_manager import EvaluationManager
 
 # --------- Config imports ---------#
@@ -21,7 +21,7 @@ class BaseAgent(ABC):
     """Base class for all RL agents"""
 
     def __init__(self, vec_env, eval_env, env_name=None, agent_name=None, run_manager=None):
-        self.logger = get_logger(__name__)
+        self.logger = logger(__name__)
         self.vec_env = vec_env
         self.eval_env = eval_env
         self.env_name = env_name

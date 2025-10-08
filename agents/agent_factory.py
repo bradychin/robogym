@@ -2,8 +2,8 @@
 from agents.ppo_agent import PPOAgent
 
 # --------- Local imports ---------#
-from utils.logger import get_logger
-logger = get_logger(__name__)
+from utils.logger import logger
+logger = logger(__name__)
 
 # --------- Agent factory class ---------#
 class AgentFactory:
@@ -32,7 +32,7 @@ class AgentFactory:
             available = ', '.join(cls.AGENTS.keys())
             raise ValueError (f'Agent "{agent_name}" not available. Available agents: {available}')
 
-        logger.info(f'Creating agent {agent_name}')
+        logger.info(f'Creating agent: {agent_name}')
         return cls.AGENTS[agent_name](vec_env=vec_env,
                                       eval_env=eval_env,
                                       env_name=env_name,
