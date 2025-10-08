@@ -27,7 +27,7 @@ class EnvironmentFactory:
 
         env_name = env_name.lower()
         if env_name not in cls.ENVIRONMENTS:
-            available = ', '.join(cls.ENVIRONMENTS.keys())
+            available = ': '.join(cls.ENVIRONMENTS.keys())
             raise ValueError(f'Environment "{env_name}" not available. Available environments: {available}')
 
         logger.info(f'Creating {env_type} environment: {env_name}')

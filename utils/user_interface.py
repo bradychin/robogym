@@ -8,9 +8,9 @@ logger = logger(__name__)
 def get_user_choice(item_type: str, available_items: list):
     """Function to get user choice"""
 
-    print(f'Available {item_type}:')
+    print(f'Available {item_type}(s):')
     for i, item in enumerate(available_items, 1):
-        print(f'{i}, {item}')
+        print(f'{i}: {item}')
 
     choice = input(f"\nSelect {item_type} (1-{len(available_items)}) or enter name: ").strip()
 

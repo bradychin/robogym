@@ -36,12 +36,21 @@ class ConfigManager:
             except Exception as e:
                 print(f"Error loading {yaml_file}: {e}")
 
-
-    def get(self, config_name, validate=True):
+    def get(self, config_name, algorithm_name=None, validate=True):
         config = self.configs.get(config_name)
         if config is None:
             available = list(self.configs.keys())
             raise KeyError(f'Config "{config_name}" not found. Available configs: {available}')
+
+        if algorithm_name and 'algorithms' in config:
+            if algorithm_name not in config['algorithms']:
+                available_algorithms = list(config['algorithms'].keys())
+                raise KeyError(f'Algorithms "{algorithm_name}" not found in config. Available: {available_algorithms}')
+
+            result = {'environment': config.get('environment'),
+                       'demo': config.get('demo'),
+                       'training': config['algorithms'][algorithm_name]}
+            config = result
 
         if validate:
             self.validate_config(config)

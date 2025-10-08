@@ -148,7 +148,7 @@ def main():
     # Load environment config
     try:
         config_name = f'{env_name}_config'
-        env_config = config_manager.get(config_name)
+        env_config = config_manager.get(config_name, algorithm_name=agent_name)
         config_manager.validate_config(env_config)
     except (FileNotFoundError, ImportError, ValueError) as e:
         logger.error(f'Configuration loading failed: {e}')
