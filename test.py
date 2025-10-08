@@ -162,8 +162,8 @@ def main():
         logger.info(f'Run directory: {run_manager.get_run_dir()}')
         logger.info('=' * 60)
 
-    # Setup environment
-    training_env, vec_env, eval_env_wrapper, eval_env = setup_environment(env_name, run_manager=run_manager)
+    # Setup environment (now passes run_manager)
+    training_env, vec_env, eval_env_wrapper, eval_env = setup_environment(env_name, run_manager)
     if vec_env is None:
         logger.error('Environment setup failed. Exiting')
         global_logger.error('Environment setup failed. Exiting')
@@ -225,11 +225,12 @@ def main():
                 else:
                     global_logger.error('Failed to load model for evaluation.')
 
+
         elif action == 'demo':
             all_models = find_all_models(env_name, agent_name, limit=10)
             if not all_models:
-                logger.error('No models found for evaluation.')
-                global_logger.error('No models found for evaluation.')
+                logger.error('No models found for demo.')
+                global_logger.error('No models found for demo.')
             else:
                 print(f'\nFound {len(all_models)} model(s):')
                 for i, model_path in enumerate(all_models, 1):

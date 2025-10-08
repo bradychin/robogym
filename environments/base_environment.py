@@ -37,28 +37,58 @@ class BaseEnvironment:
         """Demonstrate trained agent"""
         self.logger.info(f'Demonstrating trained agent on {self.environment_id}...')
         demo_env = gym.make(self.environment_id, render_mode='human')
-        demo_rewards = []
+        demo_episodes = []
+        episode_count = 0
+
         try:
             obs, _ = demo_env.reset()
             total_reward = 0
+            episode_steps = 0
 
             for step in range(max_steps):
                 action, _ = agent.predict(obs, deterministic=True)
                 obs, reward, terminated, truncated, info = demo_env.step(action)
                 total_reward += reward
+                episode_steps += 1
                 demo_env.render()
 
                 if terminated or truncated:
-                    self.logger.info(f'Episode finished after {step} steps with total reward: {total_reward:.2f}')
-                    demo_rewards.append(f'Steps: {step}. total_reward: {total_reward:.2f}')
+                    episode_count += 1
+                    self.logger.info(f'Episode {episode_count} finished after {step} steps with total reward: {total_reward:.2f}')
+
+                    demo_episodes.append({'episode': episode_count,
+                                          'steps': episode_steps,
+                                          'reward': float(total_reward)})
+
                     obs, _ = demo_env.reset()
                     total_reward = 0
+                    episode_steps = 0
 
-            demo_results = {
-                'timestamp': datetime.now().strftime(utilities_config['date_time']),
-                'environment': self.environment_id,
-                'demo_rewards': [str(r) for r in demo_rewards]
-            }
+            if demo_episodes:
+                rewards = [ep['reward'] for ep in demo_episodes]
+                mean_reward = sum(rewards) / len(rewards)
+                max_reward = max(rewards)
+                min_reward = min(rewards)
+            else:
+                mean_reward = max_reward = min_reward = 0.0
+
+            demo_results = {'timestamp': datetime.now().strftime(utilities_config['date_time']),
+                            'environment': self.environment_id,
+                            'total_episodes': episode_count,
+                            'max_steps': max_steps,
+                            'mean_reward': mean_reward,
+                            'max_reward': max_reward,
+                            'min_reward': min_reward,
+                            'episodes': demo_episodes}
+
+            print("\n" + "=" * 60)
+            print("🎮 DEMO SUMMARY")
+            print("=" * 60)
+            print(f"  Episodes Completed: {episode_count}")
+            print(f"  Mean Reward:        {mean_reward:>10.2f}")
+            print(f"  Max Reward:         {max_reward:>10.2f}")
+            print(f"  Min Reward:         {min_reward:>10.2f}")
+            print("=" * 60 + "\n")
 
             if self.run_manager:
                 filepath = self.run_manager.get_directory('demo', extension='json')
