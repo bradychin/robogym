@@ -5,8 +5,8 @@ import os
 from datetime import datetime
 
 # --------- Local imports ---------#
-from utils.logger import get_logger
-logger = get_logger(__name__)
+from utils.logger import logger
+logger = logger(__name__)
 
 # --------- Config imports ---------#
 from utils.config_manager import ConfigManager
