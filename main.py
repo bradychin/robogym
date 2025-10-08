@@ -198,6 +198,7 @@ def main():
 
         elif action == 'evaluate':
             global_logger.info('Starting evaluation...')
+            logger.info('Starting evaluation...')
             all_models = find_all_models(env_name, agent_name, limit=10)
             if not all_models:
                 logger.error('No models found for evaluation.')
@@ -205,7 +206,6 @@ def main():
             else:
                 print(f'\nFound {len(all_models)} model(s):')
                 for i, model_path in enumerate(all_models, 1):
-                    run_dir = os.path.basename(os.path.dirname(model_path))
                     mtime = datetime.fromtimestamp(os.path.getmtime(model_path))
                     print(f'{i}. {os.path.basename(os.path.dirname(model_path))} - {mtime.strftime("%Y-%m-%d %H:%M")}')
                 choice = input(f'\nSelect model (1-{len(all_models)}) or press Enter for most recent: ').strip()
@@ -224,6 +224,7 @@ def main():
                     global_logger.info('Evaluation completed!')
                 else:
                     global_logger.error('Failed to load model for evaluation.')
+                logger.info('Evaluation complete!')
 
 
         elif action == 'demo':
@@ -235,7 +236,6 @@ def main():
             else:
                 print(f'\nFound {len(all_models)} model(s):')
                 for i, model_path in enumerate(all_models, 1):
-                    run_dir = os.path.basename(os.path.dirname(model_path))
                     mtime = datetime.fromtimestamp(os.path.getmtime(model_path))
                     print(f'{i}. {os.path.basename(os.path.dirname(model_path))} - {mtime.strftime("%Y-%m-%d %H:%M")}')
                 choice = input(f'\nSelect model (1-{len(all_models)}) or press Enter for most recent: ').strip()
@@ -266,7 +266,7 @@ def main():
         training_env.close()
         eval_env_wrapper.close()
         if run_manager:
-            print(f"\n📁 All files saved to: {run_manager.get_run_dir()}")
+            print(f"\nAll files saved to: {run_manager.get_run_dir()}")
 
         global_logger.info('RL pipeline completed successfully!')
         global_logger.info('=' * 60)
