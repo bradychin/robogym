@@ -1,7 +1,8 @@
+# --------- Standard library imports ---------#
 import yaml
 from pathlib import Path
 
-
+# --------- Config Manager class ---------#
 class ConfigManager:
     def __init__(self, config_dir='config'):
         # Remove logger to avoid circular imports
