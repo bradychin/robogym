@@ -1,8 +1,11 @@
+import os
+from datetime import datetime
+
 # --------- Local imports ---------#
 from environments.environment_factory import EnvironmentFactory
 from agents.agent_factory import AgentFactory
 from utils.user_interface import get_user_choice, get_action_choice, get_follow_up_action
-from utils.model_io import find_latest_model, load_model
+from utils.model_io import find_latest_model, load_model, find_all_models
 from utils.run_manager import RunManager
 from utils.logger import logger, global_logger, set_log_path
 logger = logger(__name__)
@@ -195,20 +198,63 @@ def main():
 
         elif action == 'evaluate':
             global_logger.info('Starting evaluation...')
-            if load_model(agent, existing_model):
-                agent.evaluate()
-                global_logger.info('Evaluation completed!')
+            all_models = find_all_models(env_name, agent_name, limit=10)
+            if not all_models:
+                logger.error('No models found for evaluation.')
+                global_logger.error('No models found for evaluation.')
             else:
-                global_logger.error('Failed to load model for evaluation.')
+                print(f'\nFound {len(all_models)} model(s):')
+                for i, model_path in enumerate(all_models, 1):
+                    run_dir = os.path.basename(os.path.dirname(model_path))
+                    mtime = datetime.fromtimestamp(os.path.getmtime(model_path))
+                    print(f'{i}. {os.path.basename(os.path.dirname(model_path))} - {mtime.strftime("%Y-%m-%d %H:%M")}')
+                choice = input(f'\nSelect model (1-{len(all_models)}) or press Enter for most recent: ').strip()
+
+                if choice == '':
+                    selected_model = all_models[0]
+                elif choice.isdigit() and 1 <= int(choice) <= len(all_models):
+                    selected_model = all_models[int(choice) - 1]
+                else:
+                    logger.error('Invalid selection.')
+                    global_logger.error('Invalid selection.')
+                    selected_model = None
+
+                if selected_model and load_model(agent, selected_model):
+                    agent.evaluate()
+                    global_logger.info('Evaluation completed!')
+                else:
+                    global_logger.error('Failed to load model for evaluation.')
+
 
         elif action == 'demo':
             global_logger.info('Starting demo...')
-            if load_model(agent, existing_model):
-                max_steps = env_config['demo']['max_steps']
-                training_env.demo(agent, max_steps=max_steps)
-                global_logger.info('Demo completed!')
+            all_models = find_all_models(env_name, agent_name, limit=10)
+            if not all_models:
+                logger.error('No models found for evaluation.')
+                global_logger.error('No models found for evaluation.')
             else:
-                global_logger.error('Failed to load model for demo.')
+                print(f'\nFound {len(all_models)} model(s):')
+                for i, model_path in enumerate(all_models, 1):
+                    run_dir = os.path.basename(os.path.dirname(model_path))
+                    mtime = datetime.fromtimestamp(os.path.getmtime(model_path))
+                    print(f'{i}. {os.path.basename(os.path.dirname(model_path))} - {mtime.strftime("%Y-%m-%d %H:%M")}')
+                choice = input(f'\nSelect model (1-{len(all_models)}) or press Enter for most recent: ').strip()
+
+                if choice == '':
+                    selected_model = all_models[0]
+                elif choice.isdigit() and 1 <= int(choice) <= len(all_models):
+                    selected_model = all_models[int(choice) - 1]
+                else:
+                    logger.error('Invalid selection.')
+                    global_logger.error('Invalid selection.')
+                    selected_model = None
+
+                if selected_model and load_model(agent, selected_model):
+                    max_steps = env_config['demo']['max_steps']
+                    training_env.demo(agent, max_steps=max_steps)
+                    global_logger.info('Demo completed!')
+                else:
+                    global_logger.error('Failed to load model for demo.')
 
     except KeyboardInterrupt:
         global_logger.warning('Operation interrupted by user.')
@@ -221,7 +267,6 @@ def main():
         eval_env_wrapper.close()
         if run_manager:
             print(f"\n📁 All files saved to: {run_manager.get_run_dir()}")
-            print(f"   View TensorBoard: tensorboard --logdir {run_manager.get_directory('tensorboard')}")
 
         global_logger.info('RL pipeline completed successfully!')
         global_logger.info('=' * 60)

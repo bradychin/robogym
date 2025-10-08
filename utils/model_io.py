@@ -18,17 +18,26 @@ from utils.config_manager import ConfigManager
 config_manager = ConfigManager()
 paths_config = config_manager.get('paths_config', validate=False)
 
+# --------- Find all models function ---------#
+def find_all_models(env_name, agent_name, limit=10):
+    """Find all models for a given environment and agent"""
+
+    run_pattern = os.path.join(paths_config['run_path'], f'*_{env_name}_{agent_name}', 'model.zip')
+    run_models = glob.glob(run_pattern)
+
+    if not run_models:
+        logger.info(f'No models found with pattern: {run_pattern}')
+        return []
+
+    sorted_models = sorted(run_models, key=os.path.getmtime, reverse=True)[:limit]
+    logger.info(f'Found {len(sorted_models)} model(s) for {env_name}_{agent_name}')
+    return sorted_models
+
 # --------- Find latest model function ---------#
 def find_latest_model(env_name, agent_name):
     """Find the most recent model for a given environment and agent"""
-    pattern = os.path.join(paths_config['best_model_path'], f'{env_name}_{agent_name}_model_*.zip')
-    models = glob.glob(pattern)
-
-    if not models:
-        return None
-
-    latest_model = max(models, key=os.path.getmtime)
-    return latest_model
+    models = find_all_models(env_name, agent_name, limit=1)
+    return models[0] if models else None
 
 # --------- Load model function ---------#
 def load_model(agent, model_path):
