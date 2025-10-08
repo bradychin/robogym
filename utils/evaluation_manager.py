@@ -87,11 +87,11 @@ class EvaluationManager:
             'episode_lengths': episode_lengths
         }
 
-        self._print_summary(results)
-        self._save_results(results)
-
         logger.info(f'Evaluation completed: Mean={mean_reward:.2f} +/- {std_reward:.2f},'
                     f'Max={max_reward:.2f}, Min={min_reward:.2f}')
+
+        self._print_summary(results)
+        self._save_results(results)
 
         return results
 
@@ -119,5 +119,5 @@ class EvaluationManager:
         with open(filepath, 'w') as f:
             json.dump(results, f, indent=2)
 
-        print(f"💾 Results saved to: {filepath}\n")
+        print(f"Evaluation results saved to: {filepath}")
         logger.info(f"Evaluation results saved to: {filepath}")
