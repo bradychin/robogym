@@ -5,12 +5,18 @@ from pathlib import Path
 # --------- Config Manager class ---------#
 class ConfigManager:
     def __init__(self, config_dir='config'):
-        # Remove logger to avoid circular imports
         self.config_dir = Path(config_dir)
         self.configs = {}
         self.load_all_configs()
 
     def load_yaml(self, filename):
+        """
+        Loads YAML files
+
+        :param filename: Name of the  YAML file
+        :return: YAML config file
+        """
+
         filepath = self.config_dir / filename
 
         if not filepath.exists():
@@ -23,6 +29,7 @@ class ConfigManager:
             return config
 
     def load_all_configs(self):
+        """Loads all config files"""
         if not self.config_dir.exists():
             print(f'Config directory "{self.config_dir}" does not exist.')
             return
@@ -37,6 +44,15 @@ class ConfigManager:
                 print(f"Error loading {yaml_file}: {e}")
 
     def get(self, config_name, algorithm_name=None, validate=True):
+        """
+        Retrieves and extracts algorithm specific parameters from config file
+
+        :param config_name: Environment configuration file
+        :param algorithm_name: Name of the algorithm
+        :param validate: Determine whether to validate config file or not
+        :return: Config file with only algorithm specific parameters
+        """
+
         config = self.configs.get(config_name)
         if config is None:
             available = list(self.configs.keys())
@@ -48,8 +64,8 @@ class ConfigManager:
                 raise KeyError(f'Algorithms "{algorithm_name}" not found in config. Available: {available_algorithms}')
 
             result = {'environment': config.get('environment'),
-                       'demo': config.get('demo'),
-                       'training': config['algorithms'][algorithm_name]}
+                      'demo': config.get('demo'),
+                      'training': config['algorithms'][algorithm_name]}
             config = result
 
         if validate:
@@ -57,11 +73,10 @@ class ConfigManager:
 
         return config
 
-    def get_available_configs(self):
-        return list(self.configs.keys())
-
     @staticmethod
     def validate_config(config: dict):
+        """Checks if the training section has the required keys"""
+
         training_config = config.get('training')
         if not training_config:
             return True
