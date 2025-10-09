@@ -14,14 +14,13 @@ class AgentFactory:
     }
 
     @classmethod
-    def create(cls, agent_name: str, vec_env, eval_env, tensorboard_log=None, env_name=None, run_manager=None):
+    def create(cls, agent_name: str, vec_env, eval_env, env_name=None, run_manager=None):
         """
         Create agent instance
 
         :param agent_name: Name of the agent to create
         :param vec_env: Vectorized training environment
         :param eval_env: Evaluation environment
-        :param tensorboard_log: Path for tensorboard logs
         :param env_name: Name of the environment
         :param run_manager: RunManager instance
         :return: BaseAgent instance
@@ -43,13 +42,3 @@ class AgentFactory:
     def get_available_agents(cls):
         """Get list of available agents"""
         return list(cls.AGENTS.keys())
-
-    @classmethod
-    def register_agents(cls, name: str, agent_class):
-        """
-        Register a new agent
-
-        :param name: Agent name to register
-        :param agent_class: Agent class to register
-        """
-        cls.AGENTS[name.lower()] = agent_class

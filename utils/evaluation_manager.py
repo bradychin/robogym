@@ -88,25 +88,18 @@ class EvaluationManager:
         logger.info(f'Evaluation completed: Mean={mean_reward:.2f} +/- {std_reward:.2f},'
                     f'Max={max_reward:.2f}, Min={min_reward:.2f}')
 
-        self._print_summary(results)
         self._save_results(results)
+        self._print_summary(results)
 
         return results
 
-    def _print_summary(self, results):
-        """Print evaluation summary"""
-        print("\n" + "-" * 60)
-        print("📊 EVALUATION SUMMARY")
-        print("-" * 60)
-        print(f"  Mean Reward:     {results['mean_reward']:>10.2f} ± {results['std_reward']:.2f}")
-        print(f"  Max Reward:      {results['max_reward']:>10.2f}")
-        print(f"  Min Reward:      {results['min_reward']:>10.2f}")
-        print(f"  Avg Length:      {results['avg_episode_length']:>10.1f} steps")
-        print(f"  Episodes:        {results['n_episodes']:>10d}")
-        print("-" * 60 + "\n")
-
     def _save_results(self, results):
-        """Save evaluation results to JSON file"""
+        """
+        Save evaluation results to JSON file
+
+        :param results: Results generated from evaluation
+        :return: n/a (generates a json file with evaluation results)
+        """
         if self.run_manager:
             filepath = self.run_manager.get_directory('evaluation', extension='json')
         else:
@@ -119,3 +112,22 @@ class EvaluationManager:
 
         print(f"Evaluation results saved to: {filepath}")
         logger.info(f"Evaluation results saved to: {filepath}")
+
+    @staticmethod
+    def _print_summary(results):
+        """
+        Print evaluation summary
+
+        :param results: Results generated from evaluation
+        :return: n/a (prints summary to console)
+        """
+
+        print("\n" + "-" * 60)
+        print("📊 EVALUATION SUMMARY")
+        print("-" * 60)
+        print(f"  Mean Reward:     {results['mean_reward']:>10.2f} ± {results['std_reward']:.2f}")
+        print(f"  Max Reward:      {results['max_reward']:>10.2f}")
+        print(f"  Min Reward:      {results['min_reward']:>10.2f}")
+        print(f"  Avg Length:      {results['avg_episode_length']:>10.1f} steps")
+        print(f"  Episodes:        {results['n_episodes']:>10d}")
+        print("-" * 60 + "\n")

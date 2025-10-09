@@ -1,36 +1,36 @@
-# RoboGym
+# RoboGym - Reinforcement Learning Training Pipeline
 
-## Core Goals:
-1. Multiple Environments: BipedalWalker, Ant, CartPole, Humanoid, etc.
-2. Multiple Algorithms: PPO, SAC, A2C, DQN, TD3, etc.
-3. User Choice Interface: Pick any environment + algorithm combination
-4. Demo Existing Models: Check if trained model exists and demo without retraining
-5. Add custom environments
+A modular, extensible framework for training and evaluating reinforcement learning agents on OpenAI Gymnasium environments.
 
-## User Workflow:
+[![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
 
-1. Choose Environment: "BipedalWalker, Ant, CartPole...?"
-2. Choose Algorithm: "PPO, SAC, A2C, DQN...?"  
-3. Choose Action: "Train, Evaluate, Demo?"
-4. Execute with selected Agent class
+## Features
 
-## Development Approach:
-1. Start with PPOAgent (BipedalWalker)
-3. Add BaseAgent abstraction
-4. Gradually add new algorithms
-5. Build user interface for choices
-6. Create custom environments
+- **Modular Architecture**: Factory pattern for easy extension of environments and agents
+- **Comprehensive Logging**: Automatic logging of training runs, evaluations, and demos
+- **TensorBoard Integration**: Real-time training visualization
+- **Smart Model Management**: Automatic best model selection and checkpointing
+- **Interactive Demos**: Visual demonstrations of trained agents
+- **Evaluation Framework**: Detailed performance metrics and reporting
+- **Flexible Configuration**: YAML-based configuration system
 
-/robogym/
-│
-├── agents/           # BaseAgent and all algorithm classes
-│   ├── base_agent.py
-│   ├── ppo_agent.py
-│   └── sac_agent.py
-│
-├── environments/     # Environment wrappers
-│   ├── gym_envs/     # CartPole, BipedalWalker, etc.
-│   └── robots/       # Bravo, 3-link arm, etc.
-│
-├── scripts/          # train.py, evaluate.py, demo.py
-└── configs/          # JSON/YAML configs for experiments
+## Quick Start
+
+### Installation
+```bash
+# Clone the repository
+git clone https://github.com/bradychin/robogym.git
+cd robogym
+
+# Create virtual environment
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+
+# Install dependencies
+pip install -r requirements.txt
+
+# Interactive mode (recommended for beginners)
+python main.py
+
+# Command-line mode (coming soon)
+python main.py --env bipedalwalker --agent ppo --action train

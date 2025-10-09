@@ -37,13 +37,3 @@ class EnvironmentFactory:
     def get_available_environments(cls):
         """Get list of available environments"""
         return list(cls.ENVIRONMENTS.keys())
-
-    @classmethod
-    def register_environments(cls, name: str, env_class):
-        """
-        Register a new environment
-
-        :param name: Environment name to register
-        :param env_class: Environment class to register
-        """
-        cls.ENVIRONMENTS[name.lower()] = env_class

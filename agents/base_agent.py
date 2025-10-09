@@ -4,11 +4,11 @@ from abc import ABC, abstractmethod
 
 # --------- Third-party imports ---------#
 from stable_baselines3.common.evaluation import evaluate_policy
-from stable_baselines3 import PPO
 
 # --------- Local imports ---------#
-from utils.logger import logger
 from utils.evaluation_manager import EvaluationManager
+from utils.logger import logger
+logger = logger(__name__)
 
 # --------- Config imports ---------#
 from utils.config_manager import ConfigManager
@@ -21,7 +21,6 @@ class BaseAgent(ABC):
     """Base class for all RL agents"""
 
     def __init__(self, vec_env, eval_env, env_name=None, agent_name=None, run_manager=None):
-        self.logger = logger(__name__)
         self.vec_env = vec_env
         self.eval_env = eval_env
         self.env_name = env_name
@@ -57,11 +56,10 @@ class BaseAgent(ABC):
 
         training_config = config['training']
         self.model = self._create_model(training_config)
-
         callbacks = self._create_training_callbacks(training_config)
 
         try:
-            self.logger.info('Starting training...')
+            logger.info('Starting training...')
             print("\n🚀 Training started...")
             print(f"   Environment: {self.env_name}")
             print(f"   Agent: {self.agent_name}")
@@ -75,12 +73,12 @@ class BaseAgent(ABC):
                              callback=callbacks)
 
             print('Training completed!\n')
-            self.logger.info('Training completed!')
+            logger.info('Training completed!')
 
         except KeyboardInterrupt:
             print('Training interrupted by user.')
-            self.logger.warning('Training interrupted by user.')
-            self.logger.info('Saving interrupted model...')
+            logger.warning('Training interrupted by user.')
+            logger.info('Saving interrupted model...')
             if self.run_manager:
                 model_path = self.run_manager.get_directory('model', extension='zip').replace('.zip', '_interrupted.zip')
                 self.model.save(model_path)
@@ -89,7 +87,7 @@ class BaseAgent(ABC):
                 self.model.save('./interrupted_model.zip')
         except Exception as e:
             print(f'\nTraining failed: {str(e)}')
-            self.logger.error(f'Training failed: {str(e)}')
+            logger.error(f'Training failed: {str(e)}')
             return
 
         self._load_best_model()
@@ -104,7 +102,7 @@ class BaseAgent(ABC):
         """
 
         if self.model is None:
-            self.logger.error('No model to evaluate. Train first or load a model.')
+            logger.error('No model to evaluate. Train first or load a model.')
             return None
 
         results = self.eval_manager.evaluate_model(self.model,
@@ -114,14 +112,18 @@ class BaseAgent(ABC):
         return results
 
     def _load_best_model(self):
+        """Chooses the loads the best model between the final model or the best model throughout training"""
+
         if not self.run_manager:
-            self.logger.warning('No run manager available, skipping best model loading')
+            logger.warning('No run manager available, skipping best model loading')
             return
         temp_best_path = os.path.join(self.run_manager.get_run_dir(), 'best_model.zip')
+
         if os.path.exists(temp_best_path):
-            self.logger.info('Loading best model...')
+            logger.info('Loading best model...')
             # Load the saved best model temporarily
-            loaded_best_model = PPO.load(temp_best_path)
+            algorithm_class = self.get_algorithm_class()
+            loaded_best_model = algorithm_class.load(temp_best_path)
 
             # Evaluate both models
             best_mean_reward, _ = evaluate_policy(loaded_best_model, self.eval_env, n_eval_episodes=5)
@@ -130,18 +132,18 @@ class BaseAgent(ABC):
             if best_mean_reward >= final_mean_reward:
                 self.model = loaded_best_model
                 print("   Using best checkpoint\n")
-                self.logger.info(f'Using best checkpoint (reward: {best_mean_reward:.2f})')
+                logger.info(f'Using best checkpoint (reward: {best_mean_reward:.2f})')
             else:
                 print("   Using final model\n")
-                self.logger.info(f'Using final model (reward: {final_mean_reward:.2f})')
+                logger.info(f'Using final model (reward: {final_mean_reward:.2f})')
 
             final_model_path = self.run_manager.get_directory('model', extension='zip')
             self.model.save(final_model_path)
-            self.logger.info(f'Model saved to: {final_model_path}')
+            logger.info(f'Model saved to: {final_model_path}')
             os.remove(temp_best_path)
 
         else:
-            self.logger.warning('Best model not found. Using final training model')
+            logger.warning('Best model not found. Using final training model')
             if self.run_manager:
                 final_model_path = self.run_manager.get_directory('model', extension='zip')
                 self.model.save(final_model_path)

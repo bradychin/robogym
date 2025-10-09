@@ -3,15 +3,15 @@
 # --------- Standard library imports ---------#
 import os
 import glob
-import shutil
+from datetime import datetime
 
 # --------- Third-party imports ---------#
 from stable_baselines3 import PPO
 
 # --------- Local imports ---------#
-from utils.io import rename_path
-from utils.logger import logger
+from utils.logger import logger, global_logger
 logger = logger(__name__)
+global_logger = global_logger()
 
 # --------- Config imports ---------#
 from utils.config_manager import ConfigManager
@@ -20,7 +20,14 @@ paths_config = config_manager.get('paths_config', validate=False)
 
 # --------- Find all models function ---------#
 def find_all_models(env_name, agent_name, limit=10):
-    """Find all models for a given environment and agent"""
+    """
+    Find all models for a given environment and agent
+
+    :param env_name: Name of the environment
+    :param agent_name: Name of the agent
+    :param limit: Limit of models to search for
+    :return: Array of models
+    """
 
     run_pattern = os.path.join(paths_config['run_path'], f'*_{env_name}_{agent_name}', 'model.zip')
     run_models = glob.glob(run_pattern)
@@ -35,7 +42,14 @@ def find_all_models(env_name, agent_name, limit=10):
 
 # --------- Find latest model function ---------#
 def find_latest_model(env_name, agent_name):
-    """Find the most recent model for a given environment and agent"""
+    """
+    Find the most recent model for a given environment and agent
+
+    :param env_name: Name of the environment
+    :param agent_name: Name of the agent
+    :return: Most recent model
+    """
+
     models = find_all_models(env_name, agent_name, limit=1)
     return models[0] if models else None
 
@@ -46,7 +60,7 @@ def load_model(agent, model_path):
 
     :param agent: Agent instance to load the model into
     :param model_path: Path to the model file
-    :return: True if successful, False if unseccessful
+    :return: True if successful, False if unsuccessful
     """
 
     try:
@@ -75,36 +89,62 @@ def load_model(agent, model_path):
         logger.error(f'Failed to load model: {e}')
         return False
 
-# --------- Save trained model function ---------#
-def save_model(env_name, agent_name, source_path=None, dest_dir=None):
+# ---------Select model for action function ---------#
+def select_model_for_action(env_name, agent_name, action='action'):
     """
-    Save a trained model
+    Select an existing model for a user requested action
 
-    :param env_name: Name of the environment
-    :param agent_name: Name of the agent
-    :param source_path: Source path of model
-    :param dest_dir: Destination directory
-    :return: Path where model is saved or None if failed
+    :param env_name: Environment name
+    :param agent_name: Agent name
+    :param action: User requested action
+    :return: The existing selected model
     """
-    if dest_dir is None:
-        dest_dir = paths_config['best_model_path']
 
-    if source_path is None:
-        source_path = os.path.join(paths_config['best_model_path'], 'best_model.zip')
+    all_models = find_all_models(env_name, agent_name, limit=10)
+    if not all_models:
+        logger.error(f'No models found for {action}.')
+        global_logger.error(f'No models found for {action}.')
+    else:
+        print(f'\nFound {len(all_models)} model(s):')
+        for i, model_path in enumerate(all_models, 1):
+            mtime = datetime.fromtimestamp(os.path.getmtime(model_path))
+            print(f'{i}. {os.path.basename(os.path.dirname(model_path))} - {mtime.strftime("%Y-%m-%d %H:%M")}')
+        choice = input(f'\nSelect model (1-{len(all_models)}) or press Enter for most recent: ').strip()
 
-    if not os.path.exists(source_path):
-        logger.warning(f'Model file not found at: {source_path}')
-        return None
+        if choice == '':
+            selected_model = all_models[0]
+        elif choice.isdigit() and 1 <= int(choice) <= len(all_models):
+            selected_model = all_models[int(choice) - 1]
+        else:
+            logger.error('Invalid selection.')
+            global_logger.error('Invalid selection.')
+            selected_model = None
 
-    try:
-        model_path = rename_path(paths_config['best_model_path'],
-                                 env_name,
-                                 agent_name,
-                                 'model',
-                                 extension='zip')
-        shutil.move(source_path, model_path)
-        logger.info(f'Model saved to: {model_path}')
-        return model_path
-    except Exception as e:
-        logger.error(f'Failed to save model: {e}')
-        return None
+        return selected_model
+
+# ---------Select model for action function ---------#
+def load_model_for_action(agent, env_name, agent_name, action_name):
+    """
+    Select and load a model for a specific action
+
+    :param agent: Agent instance to load model into
+    :param env_name: Environment name
+    :param agent_name: Agent name
+    :param action_name: Action being performed (display only)
+    :return: True if successful, False otherwise
+    """
+
+    selected_model = select_model_for_action(env_name, agent_name, action_name)
+
+    if not selected_model:
+        logger.error(f'No model selected for {action_name}')
+        global_logger.error(f'No model selected for {action_name}')
+        return False
+
+    if load_model(agent, selected_model):
+        logger.info(f'Model loaded successfully for {action_name}')
+        return True
+    else:
+        logger.error(f'Failed to load model for {action_name}')
+        global_logger.error(f'Failed to load model for {action_name}')
+        return False

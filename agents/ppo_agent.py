@@ -5,12 +5,17 @@ import torch
 
 # --------- Local imports ---------#
 from agents.base_agent import BaseAgent
-from utils.logger import logger
-logger = logger(__name__)
 
 # --------- PPO Agent class ---------#
 class PPOAgent(BaseAgent):
     def _create_model(self, config):
+        """
+        Creates PPO agent
+
+        :param config: Agent specific configurations
+        :return: PPO agent
+        """
+
         # Neural network architecture for the policy
         policy_kwargs = dict(activation_fn=torch.nn.LeakyReLU,
                              net_arch=config['policy_net'])
@@ -24,6 +29,13 @@ class PPOAgent(BaseAgent):
                    tensorboard_log=self.tensorboard_log)
 
     def _create_training_callbacks(self, config):
+        """
+        Training callbacks
+
+        :param config: Agent specific configurations
+        :return: evaluation callback
+        """
+
         # Callback to stop training when target reward is reached
         stop_callback = StopTrainingOnRewardThreshold(reward_threshold=config['target_score'],
                                                       verbose=1)
@@ -45,6 +57,7 @@ class PPOAgent(BaseAgent):
         return eval_callback
 
     def get_algorithm_class(self):
+        """Return the algorithm class"""
         return PPO
 
     def predict(self, obs, deterministic=True):

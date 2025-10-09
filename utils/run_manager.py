@@ -29,20 +29,33 @@ class RunManager:
         print('\nRun directories created')
 
     def save_config(self, config):
-        """Save config file for this run"""
+        """
+        Save config file for this run
+
+        :param config: Configuration file to save
+        :return: n/a (generates a YAML config file)
+        """
+
         config_path = self.run_dir / 'config.yaml'
         with open(config_path, 'w') as f:
             yaml.dump(config, f, default_flow_style=False, sort_keys=False)
         print(f'Config saved to: {config_path}')
 
     def get_log_path(self):
-        """Get log path"""
+        """Get log path for log files"""
+
         return str(self.run_dir / 'robogym.log')
 
     def get_directory(self, item_type, extension=None):
-        """Get the directory for a given item"""
-        filename = f'{item_type}'
+        """
+        Get the directory for a given item
 
+        :param item_type: Type of item
+        :param extension: Extension of item
+        :return: Directory with file name
+        """
+
+        filename = f'{item_type}'
         if extension:
             filename += f'.{extension}'
 
@@ -50,42 +63,12 @@ class RunManager:
 
     def get_run_dir(self):
         """Get the run directory path"""
+
         return str(self.run_dir)
-
-    @staticmethod
-    def list_runs(base_runs_dir=paths_config['run_path'], limit=10):
-        """List recent runs"""
-        runs_dir = Path(base_runs_dir)
-        if not runs_dir.exists():
-            print('No runs directory found')
-            return []
-
-        runs = sorted(
-            [d for d in runs_dir.iterdir() if d.is_dir()],
-            key=lambda x: x.stat().st_mtime,
-            reverse=True
-        )[:limit]
-
-        if not runs:
-            print('No runs found')
-            return []
-
-        print(f'\nRecent runs (Last {len(runs)}')
-        print('-'*80)
-        for i, run in enumerate(runs, 1):
-            # Extract info from directory
-            parts = run.name.split('_')
-            if len(parts) >= 3:
-                timestamp = f'{parts[0]}_{parts[1]}'
-                env_agent = '_'.join(parts[2:])
-                print(f'{i}. {timestamp} - {env_agent}')
-            else:
-                print(f'{i}. {run.name}')
-        print('-'*80 + '\n')
-        return [str(r) for r in runs]
 
     def create_summary(self):
         """Create a summary file for this run"""
+
         summary_path = self.run_dir / 'summary.txt'
 
         eval_files = list(self.run_dir.glob('*_eval_*.json'))

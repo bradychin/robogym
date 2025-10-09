@@ -13,11 +13,11 @@ from utils.config_manager import ConfigManager
 config_manager = ConfigManager()
 utilities_config = config_manager.get('utilities_config')
 from utils.logger import logger
+logger = logger(__name__)
 
 # --------- Base environment class ---------#
 class BaseEnvironment:
     def __init__(self, environment_id, render_mode='rgb_array', run_manager=None):
-        self.logger = logger(__name__)
         self.environment_id = environment_id
         self.render_mode = render_mode
         self.run_manager = run_manager
@@ -25,18 +25,33 @@ class BaseEnvironment:
 
     def create_env(self):
         """Create a single environment wrapped with Monitor"""
+
         env = gym.make(self.environment_id, render_mode=self.render_mode)
         self.env = Monitor(env)
         return self.env
 
     def create_vec_env(self, n_envs=4):
+        """
+        Create vectorized environment
+
+        :param n_envs: Number of environments
+        :return: Vectorized environment
+        """
+
         return sb3_make_vec_env(self.environment_id,
                                 n_envs=n_envs,
                                 env_kwargs={'render_mode': self.render_mode})
 
     def demo(self, agent, max_steps=2000):
-        """Demonstrate trained agent"""
-        self.logger.info(f'Demonstrating trained agent on {self.environment_id}...')
+        """
+        Demonstrate trained agent
+
+        :param agent: Agent to demo
+        :param max_steps: maximum steps per episode
+        :return: n/a
+        """
+
+        logger.info(f'Demonstrating trained agent on {self.environment_id}...')
         demo_env = gym.make(self.environment_id, render_mode='human')
         demo_episodes = []
         episode_count = 0
@@ -55,7 +70,7 @@ class BaseEnvironment:
 
                 if terminated or truncated:
                     episode_count += 1
-                    self.logger.info(f'Episode {episode_count} finished after {step} steps with total reward: {total_reward:.2f}')
+                    logger.info(f'Episode {episode_count} finished after {step} steps with total reward: {total_reward:.2f}')
 
                     demo_episodes.append({'episode': episode_count,
                                           'steps': episode_steps,
@@ -101,12 +116,12 @@ class BaseEnvironment:
             with open(filepath, 'w') as f:
                 json.dump(demo_results, f, indent=2)
             print(f'Demo results saved to: {filepath}')
-            self.logger.info(f'Demo results saved to: {filepath}')
+            logger.info(f'Demo results saved to: {filepath}')
 
         except Exception as e:
-            self.logger.error(f'Could not run demonstration: {e}')
+            logger.error(f'Could not run demonstration: {e}')
         except KeyboardInterrupt:
-            self.logger.warning('Demo interrupted by user')
+            logger.warning('Demo interrupted by user')
         finally:
             demo_env.close()
 

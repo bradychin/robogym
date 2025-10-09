@@ -6,7 +6,13 @@ logger = logger(__name__)
 
 # --------- Get user input function ---------#
 def get_user_choice(item_type: str, available_items: list):
-    """Function to get user choice"""
+    """
+    Function to get user choice
+
+    :param item_type: Type of item
+    :param available_items: List of items available
+    :return: String of users choice
+    """
 
     print(f'Available {item_type}(s):')
     for i, item in enumerate(available_items, 1):
@@ -32,7 +38,13 @@ def get_user_choice(item_type: str, available_items: list):
 
 # --------- Get action choice function ---------#
 def get_action_choice(has_model):
-    """Get user's choice for action to perform"""
+    """
+    Get user's choice for action to perform
+
+    :param has_model: Boolean determining if model exists
+    :return: User's choice or None if invalid
+    """
+
     if has_model:
         print('\nModel found!')
         print('What would you like to do?')
@@ -65,13 +77,21 @@ def get_action_choice(has_model):
 
 # --------- Follow up function ---------#
 def get_follow_up_action():
-    prompt = '\nWould you like to (e)valuate or (d)emo the model? (e/d/n): '
+    """
+    Requests if user wants a followup action
+
+    :return: User choice or None if exiting or invalid
+    """
+
+    prompt = '\nWould you like to (e)valuate or (d)emo the model or (b)oth? (e/d/b/n): '
     choice = input(prompt).strip().lower()
 
     if choice in ['e', 'evaluate']:
         return 'evaluate'
     elif choice in ['d', 'demo']:
         return 'demo'
+    elif choice in['b', 'both']:
+        return 'both'
     elif choice in ['n', 'no']:
         return None
     else:
