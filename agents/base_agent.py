@@ -114,6 +114,7 @@ class BaseAgent(ABC):
 
     def _load_best_model(self):
         """Chooses the loads the best model between the final model or the best model throughout training"""
+
         if not self.run_manager:
             logger.warning('No run manager available, skipping best model loading')
             return
@@ -122,7 +123,8 @@ class BaseAgent(ABC):
         if os.path.exists(temp_best_path):
             logger.info('Loading best model...')
             # Load the saved best model temporarily
-            loaded_best_model = PPO.load(temp_best_path)
+            algorithm_class = self.get_algorithm_class()
+            loaded_best_model = algorithm_class.load(temp_best_path)
 
             # Evaluate both models
             best_mean_reward, _ = evaluate_policy(loaded_best_model, self.eval_env, n_eval_episodes=5)
