@@ -2,7 +2,7 @@
 from environments.environment_factory import EnvironmentFactory
 from agents.agent_factory import AgentFactory
 from utils.user_interface import get_user_choice, get_action_choice, get_follow_up_action
-from utils.model_io import find_latest_model, load_model, select_model_for_action
+from utils.model_io import find_latest_model, load_model, select_model_for_action, load_model_for_action
 from utils.run_manager import RunManager
 from utils.logger import logger, global_logger, set_log_path
 logger = logger(__name__)
@@ -200,29 +200,21 @@ def main():
                 global_logger.info('Post-training evaluation and demo completed!')
 
         elif action == 'evaluate':
-            selected_model = select_model_for_action(env_name, agent_name, 'evaluation')
-            if selected_model and load_model(agent, selected_model):
+            if load_model_for_action(agent, env_name, agent_name, 'evaluation'):
                 logger.info('Starting evaluation...')
                 global_logger.info('Starting evaluation...')
                 agent.evaluate()
                 logger.info('Evaluation complete!')
                 global_logger.info('Evaluation completed!')
-            else:
-                logger.error('Failed to load model for evaluation.')
-                global_logger.error('Failed to load model for evaluation.')
 
         elif action == 'demo':
-            selected_model = select_model_for_action(env_name, agent_name, 'demo')
-            if selected_model and load_model(agent, selected_model):
+            if load_model_for_action(agent, env_name, agent_name, 'demo'):
                 max_steps = env_config['demo']['max_steps']
                 logger.info('Starting demo...')
                 global_logger.info('Starting demo...')
                 training_env.demo(agent, max_steps=max_steps)
                 logger.info('Demo completed!')
                 global_logger.info('Demo completed!')
-            else:
-                logger.error('Failed to load model for demo.')
-                global_logger.error('Failed to load model for demo.')
 
     except KeyboardInterrupt:
         global_logger.warning('Operation interrupted by user.')

@@ -121,3 +121,30 @@ def select_model_for_action(env_name, agent_name, action='action'):
             selected_model = None
 
         return selected_model
+
+# ---------Select model for action function ---------#
+def load_model_for_action(agent, env_name, agent_name, action_name):
+    """
+    Select and load a model for a specific action
+
+    :param agent: Agent instance to load model into
+    :param env_name: Environment name
+    :param agent_name: Agent name
+    :param action_name: Action being performed (display only)
+    :return: True if successful, False otherwise
+    """
+
+    selected_model = select_model_for_action(env_name, agent_name, action_name)
+
+    if not selected_model:
+        logger.error(f'No model selected for {action_name}')
+        global_logger.error(f'No model selected for {action_name}')
+        return False
+
+    if load_model(agent, selected_model):
+        logger.info(f'Model loaded successfully for {action_name}')
+        return True
+    else:
+        logger.error(f'Failed to load model for {action_name}')
+        global_logger.error(f'Failed to load model for {action_name}')
+        return False
