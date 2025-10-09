@@ -4,7 +4,6 @@ from abc import ABC, abstractmethod
 
 # --------- Third-party imports ---------#
 from stable_baselines3.common.evaluation import evaluate_policy
-from stable_baselines3 import PPO
 
 # --------- Local imports ---------#
 from utils.evaluation_manager import EvaluationManager
