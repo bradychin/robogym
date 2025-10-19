@@ -1,5 +1,6 @@
 # --------- Environment imports ---------#
 from environments.gym_envs.bipedalwalker_env import BipedalWalkerEnv
+from environments.gym_envs.cartpole_env import CartPoleEnv
 
 # --------- Local imports ---------#
 from utils.logger import logger
@@ -10,7 +11,8 @@ class EnvironmentFactory:
     """Factory class for creating environment instances"""
 
     ENVIRONMENTS = {
-        'bipedalwalker': BipedalWalkerEnv
+        'bipedalwalker': BipedalWalkerEnv,
+        'cartpole': CartPoleEnv
     }
 
     @classmethod
