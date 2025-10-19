@@ -1,5 +1,6 @@
 environment:
-  env_id: 'LunarLanderContinuous-v2'
+  env_id: 'LunarLander-v2'
+  continuous: true
 
 demo:
   max_steps: 2000

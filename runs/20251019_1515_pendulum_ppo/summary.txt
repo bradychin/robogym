@@ -1,0 +1,15 @@
+============================================================
+RUN SUMMARY
+============================================================
+Environment: pendulum
+Agent: ppo
+Timestamp: 20251019_1515
+Run Directory: 20251019_1515_pendulum_ppo
+
+Files:
+  - Log: robogym.log
+  - Config: config.yaml
+  - TensorBoard: pendulum_ppo_tb_20251019_1515/
+  - Evaluations: 0 file(s)
+  - Models: 1 file(s)
+============================================================

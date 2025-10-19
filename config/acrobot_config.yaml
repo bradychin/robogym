@@ -6,10 +6,10 @@ demo:
 
 algorithms:
   ppo:
-    target_score: -100
+    target_score: -90
     max_timesteps: 2000000
     learning_rate: 0.0003
-    policy_net: [64,64]
+    policy_net: [128,128]
     eval_freq: 10000
 
   sac:

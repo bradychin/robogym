@@ -9,4 +9,5 @@ class LunarLanderContinuousEnv(BaseEnvironment):
     def __init__(self, render_mode='rgb_array', run_manager=None):
         super().__init__(lunarlandercontinuous_config['environment']['env_id'],
                          render_mode,
-                         run_manager=run_manager)
+                         run_manager=run_manager,
+                         env_kwargs={'continuous': True})
