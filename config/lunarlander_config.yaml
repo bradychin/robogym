@@ -1,5 +1,5 @@
 environment:
-  env_id: 'LunarLander-v2'
+  env_id: 'LunarLander-v3'
 
 demo:
   max_steps: 2000

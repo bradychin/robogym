@@ -2,7 +2,7 @@ environment:
   env_id: 'CartPole-v1'
 
 demo:
-  max_steps: 2000
+  max_steps: 1500
 
 algorithms:
   ppo:

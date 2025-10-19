@@ -2,7 +2,7 @@ environment:
   env_id: 'Pendulum-v1'
 
 demo:
-  max_steps: 2000
+  max_steps: 600
 
 algorithms:
   ppo:
