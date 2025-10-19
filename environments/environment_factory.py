@@ -1,6 +1,10 @@
 # --------- Environment imports ---------#
 from environments.gym_envs.bipedalwalker_env import BipedalWalkerEnv
 from environments.gym_envs.cartpole_env import CartPoleEnv
+from environments.gym_envs.pendulum_env import PendulumEnv
+from environments.gym_envs.lunarlander_env import LunarLanderEnv
+from environments.gym_envs.lunarlandercontinuous_env import LunarLanderContinuousEnv
+from environments.gym_envs.acrobot_env import AcrobotEnv
 
 # --------- Local imports ---------#
 from utils.logger import logger
@@ -12,7 +16,11 @@ class EnvironmentFactory:
 
     ENVIRONMENTS = {
         'bipedalwalker': BipedalWalkerEnv,
-        'cartpole': CartPoleEnv
+        'cartpole': CartPoleEnv,
+        'pendulum': PendulumEnv,
+        'lunarlander': LunarLanderEnv,
+        'lunarlandercontinuous': LunarLanderContinuousEnv,
+        'acrobot': AcrobotEnv
     }
 
     @classmethod

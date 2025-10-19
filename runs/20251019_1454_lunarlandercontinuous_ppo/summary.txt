@@ -1,0 +1,15 @@
+============================================================
+RUN SUMMARY
+============================================================
+Environment: lunarlandercontinuous
+Agent: ppo
+Timestamp: 20251019_1454
+Run Directory: 20251019_1454_lunarlandercontinuous_ppo
+
+Files:
+  - Log: robogym.log
+  - Config: config.yaml
+  - TensorBoard: lunarlandercontinuous_ppo_tb_20251019_1454/
+  - Evaluations: 0 file(s)
+  - Models: 0 file(s)
+============================================================

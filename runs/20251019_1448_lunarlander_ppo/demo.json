@@ -1,0 +1,31 @@
+{
+  "timestamp": "20251019_1454",
+  "environment": "LunarLander-v2",
+  "total_episodes": 4,
+  "max_steps": 2000,
+  "mean_reward": 248.6386526232418,
+  "max_reward": 268.90638995692575,
+  "min_reward": 227.19218435883903,
+  "episodes": [
+    {
+      "episode": 1,
+      "steps": 361,
+      "reward": 237.73326929945094
+    },
+    {
+      "episode": 2,
+      "steps": 367,
+      "reward": 268.90638995692575
+    },
+    {
+      "episode": 3,
+      "steps": 407,
+      "reward": 227.19218435883903
+    },
+    {
+      "episode": 4,
+      "steps": 419,
+      "reward": 260.7227668777514
+    }
+  ]
+}
