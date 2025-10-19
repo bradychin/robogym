@@ -1,12 +1,12 @@
 environment:
-  env_id: 'CartPole-v1'
+  env_id: 'Pendulum-v1'
 
 demo:
-  max_steps: 1500
+  max_steps: 600
 
 algorithms:
   ppo:
-    target_score: 475
+    target_score: -120
     max_timesteps: 2000000
     learning_rate: 0.0003
     policy_net: [128,128]
