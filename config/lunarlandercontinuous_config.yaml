@@ -14,4 +14,15 @@ algorithms:
     eval_freq: 10000
 
   sac:
-    target_score: 300
+    target_score: 200
+    max_timesteps: 500000
+    learning_rate: 0.0003
+    policy_net: [256,256]
+    eval_freq: 5000
+    batch_size: 256
+    learning_starts: 10000
+    buffer_size: 200000
+    gradient_steps: 1
+    tau: 0.005
+    gamma: 0.99
+    train_freq: 1
