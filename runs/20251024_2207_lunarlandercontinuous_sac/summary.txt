@@ -1,0 +1,15 @@
+============================================================
+RUN SUMMARY
+============================================================
+Environment: lunarlandercontinuous
+Agent: sac
+Timestamp: 20251024_2207
+Run Directory: 20251024_2207_lunarlandercontinuous_sac
+
+Files:
+  - Log: robogym.log
+  - Config: config.yaml
+  - TensorBoard: lunarlandercontinuous_sac_tb_20251024_2207/
+  - Evaluations: 0 file(s)
+  - Models: 1 file(s)
+============================================================

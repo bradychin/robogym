@@ -1,0 +1,15 @@
+============================================================
+RUN SUMMARY
+============================================================
+Environment: pendulum
+Agent: sac
+Timestamp: 20251024_2203
+Run Directory: 20251024_2203_pendulum_sac
+
+Files:
+  - Log: robogym.log
+  - Config: config.yaml
+  - TensorBoard: pendulum_sac_tb_20251024_2203/
+  - Evaluations: 0 file(s)
+  - Models: 1 file(s)
+============================================================
