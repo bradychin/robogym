@@ -1,0 +1,173 @@
+20251024_1822 INFO: main.py -> ============================================================
+20251024_1822 INFO: main.py -> Starting RL pipeline.
+20251024_1822 INFO: main.py -> Selected environment: bipedalwalker
+20251024_1822 INFO: main.py -> Selected agent: sac
+20251024_1822 INFO: main.py -> No existing model found.
+20251024_1822 INFO: main.py -> Selected action: train
+20251024_1822 INFO: main.py -> Created run directory: runs/20251024_1822_bipedalwalker_sac
+20251024_1822 INFO: main.py -> Starting training...
+20251024_1822 ERROR: main.py -> Operation failed: 'targer_score'
+Traceback (most recent call last):
+  File "/Users/bradychin/Projects/robogym/main.py", line 175, in main
+    train_model(agent, env_config, run_manager)
+  File "/Users/bradychin/Projects/robogym/main.py", line 81, in train_model
+    agent.train(env_config)
+  File "/Users/bradychin/Projects/robogym/agents/base_agent.py", line 59, in train
+    callbacks = self._create_training_callbacks(training_config)
+  File "/Users/bradychin/Projects/robogym/agents/sac_agent.py", line 45, in _create_training_callbacks
+    reward_threshold=config['targer_score'],
+KeyError: 'targer_score'
+20251024_1822 INFO: main.py -> RL pipeline completed successfully!
+20251024_1822 INFO: main.py -> ============================================================
+20251024_1825 INFO: main.py -> ============================================================
+20251024_1825 INFO: main.py -> Starting RL pipeline.
+20251024_1825 INFO: main.py -> Selected environment: bipedalwalker
+20251024_1825 INFO: main.py -> Selected agent: sac
+20251024_1825 INFO: main.py -> No existing model found.
+20251024_1825 INFO: main.py -> Selected action: train
+20251024_1825 INFO: main.py -> Created run directory: runs/20251024_1825_bipedalwalker_sac
+20251024_1825 INFO: main.py -> Starting training...
+20251024_2002 INFO: main.py -> ============================================================
+20251024_2002 INFO: main.py -> Starting RL pipeline.
+20251024_2002 WARNING: main.py -> No environment selected. Exiting.
+20251024_2010 INFO: main.py -> ============================================================
+20251024_2010 INFO: main.py -> Starting RL pipeline.
+20251024_2010 INFO: main.py -> Selected environment: bipedalwalker
+20251024_2010 INFO: main.py -> Selected agent: sac
+20251024_2010 INFO: main.py -> No existing model found.
+20251024_2010 INFO: main.py -> Selected action: train
+20251024_2010 INFO: main.py -> Created run directory: runs/20251024_2010_bipedalwalker_sac
+20251024_2010 INFO: main.py -> Starting training...
+20251024_2119 INFO: main.py -> Training completed!
+20251024_2120 INFO: main.py -> Requested post-training evaluation and demo.
+20251024_2120 INFO: main.py -> Post-training evaluation and demo completed!
+20251024_2120 INFO: main.py -> RL pipeline completed successfully!
+20251024_2120 INFO: main.py -> ============================================================
+20251024_2120 INFO: main.py -> ============================================================
+20251024_2120 INFO: main.py -> Starting RL pipeline.
+20251024_2120 INFO: main.py -> Selected environment: bipedalwalker
+20251024_2120 INFO: main.py -> Selected agent: ppo
+20251024_2120 INFO: main.py -> No existing model found.
+20251024_2120 INFO: main.py -> No action selected. Exiting.
+20251024_2120 INFO: main.py -> ============================================================
+20251024_2120 INFO: main.py -> Starting RL pipeline.
+20251024_2120 INFO: main.py -> Selected environment: bipedalwalker
+20251024_2120 INFO: main.py -> Selected agent: sac
+20251024_2120 INFO: main.py -> Found existing model: ./runs/20251024_2010_bipedalwalker_sac/model.zip
+20251024_2120 INFO: main.py -> Selected action: demo
+20251024_2121 INFO: main.py -> Starting demo...
+20251024_2121 INFO: main.py -> Demo completed!
+20251024_2121 INFO: main.py -> RL pipeline completed successfully!
+20251024_2121 INFO: main.py -> ============================================================
+20251024_2121 INFO: main.py -> ============================================================
+20251024_2121 INFO: main.py -> Starting RL pipeline.
+20251024_2121 INFO: main.py -> Selected environment: cartpole
+20251024_2121 INFO: main.py -> Selected agent: ppo
+20251024_2121 INFO: main.py -> Found existing model: ./runs/20251019_1419_cartpole_ppo/model.zip
+20251024_2121 INFO: main.py -> Selected action: demo
+20251024_2121 INFO: main.py -> Starting demo...
+20251024_2121 INFO: main.py -> Demo completed!
+20251024_2121 INFO: main.py -> RL pipeline completed successfully!
+20251024_2121 INFO: main.py -> ============================================================
+20251024_2121 INFO: main.py -> ============================================================
+20251024_2121 INFO: main.py -> Starting RL pipeline.
+20251024_2121 INFO: main.py -> Selected environment: bipedalwalker
+20251024_2121 INFO: main.py -> Selected agent: ppo
+20251024_2121 INFO: main.py -> No existing model found.
+20251024_2121 INFO: main.py -> Selected action: train
+20251024_2121 INFO: main.py -> Created run directory: runs/20251024_2121_bipedalwalker_ppo
+20251024_2121 INFO: main.py -> Starting training...
+20251024_2128 INFO: main.py -> Training completed!
+20251024_2147 INFO: main.py -> Requested post-training evaluation and demo.
+20251024_2149 INFO: main.py -> Post-training evaluation and demo completed!
+20251024_2149 INFO: main.py -> RL pipeline completed successfully!
+20251024_2149 INFO: main.py -> ============================================================
+20251024_2201 INFO: main.py -> ============================================================
+20251024_2201 INFO: main.py -> Starting RL pipeline.
+20251024_2201 INFO: main.py -> Selected environment: pendulum
+20251024_2201 INFO: main.py -> Selected agent: sac
+20251024_2201 INFO: main.py -> No existing model found.
+20251024_2201 INFO: main.py -> Selected action: train
+20251024_2201 INFO: main.py -> Created run directory: runs/20251024_2201_pendulum_sac
+20251024_2201 INFO: main.py -> Starting training...
+20251024_2201 ERROR: main.py -> Operation failed: 'train_freq'
+Traceback (most recent call last):
+  File "/Users/bradychin/Projects/robogym/main.py", line 175, in main
+    train_model(agent, env_config, run_manager)
+  File "/Users/bradychin/Projects/robogym/main.py", line 81, in train_model
+    agent.train(env_config)
+  File "/Users/bradychin/Projects/robogym/agents/base_agent.py", line 58, in train
+    self.model = self._create_model(training_config)
+  File "/Users/bradychin/Projects/robogym/agents/sac_agent.py", line 35, in _create_model
+    train_freq=config['train_freq'],
+KeyError: 'train_freq'
+20251024_2201 INFO: main.py -> RL pipeline completed successfully!
+20251024_2201 INFO: main.py -> ============================================================
+20251024_2202 INFO: main.py -> ============================================================
+20251024_2202 INFO: main.py -> Starting RL pipeline.
+20251024_2203 INFO: main.py -> Selected environment: pendulum
+20251024_2203 INFO: main.py -> Selected agent: sac
+20251024_2203 INFO: main.py -> No existing model found.
+20251024_2203 INFO: main.py -> Selected action: train
+20251024_2203 INFO: main.py -> Created run directory: runs/20251024_2203_pendulum_sac
+20251024_2203 INFO: main.py -> Starting training...
+20251024_2205 INFO: main.py -> Training completed!
+20251024_2205 INFO: main.py -> Requested post-training evaluation and demo.
+20251024_2205 INFO: main.py -> Post-training evaluation and demo completed!
+20251024_2205 INFO: main.py -> RL pipeline completed successfully!
+20251024_2205 INFO: main.py -> ============================================================
+20251024_2206 INFO: main.py -> ============================================================
+20251024_2206 INFO: main.py -> Starting RL pipeline.
+20251024_2206 INFO: main.py -> Selected environment: lunarlandercontinuous
+20251024_2206 INFO: main.py -> Selected agent: sac
+20251024_2206 INFO: main.py -> No existing model found.
+20251024_2206 INFO: main.py -> Selected action: train
+20251024_2206 INFO: main.py -> Created run directory: runs/20251024_2206_lunarlandercontinuous_sac
+20251024_2206 INFO: main.py -> Starting training...
+20251024_2206 ERROR: main.py -> Operation failed: 'train_freq'
+Traceback (most recent call last):
+  File "/Users/bradychin/Projects/robogym/main.py", line 175, in main
+    train_model(agent, env_config, run_manager)
+  File "/Users/bradychin/Projects/robogym/main.py", line 81, in train_model
+    agent.train(env_config)
+  File "/Users/bradychin/Projects/robogym/agents/base_agent.py", line 58, in train
+    self.model = self._create_model(training_config)
+  File "/Users/bradychin/Projects/robogym/agents/sac_agent.py", line 35, in _create_model
+    train_freq=config['train_freq'],
+KeyError: 'train_freq'
+20251024_2206 INFO: main.py -> RL pipeline completed successfully!
+20251024_2206 INFO: main.py -> ============================================================
+20251024_2207 INFO: main.py -> ============================================================
+20251024_2207 INFO: main.py -> Starting RL pipeline.
+20251024_2207 INFO: main.py -> Selected environment: lunarlandercontinuous
+20251024_2207 INFO: main.py -> Selected agent: sac
+20251024_2207 INFO: main.py -> No existing model found.
+20251024_2207 INFO: main.py -> Selected action: train
+20251024_2207 INFO: main.py -> Created run directory: runs/20251024_2207_lunarlandercontinuous_sac
+20251024_2207 INFO: main.py -> Starting training...
+20251024_2207 ERROR: main.py -> Operation failed: 'train_freq'
+Traceback (most recent call last):
+  File "/Users/bradychin/Projects/robogym/main.py", line 175, in main
+    train_model(agent, env_config, run_manager)
+  File "/Users/bradychin/Projects/robogym/main.py", line 81, in train_model
+    agent.train(env_config)
+  File "/Users/bradychin/Projects/robogym/agents/base_agent.py", line 58, in train
+    self.model = self._create_model(training_config)
+  File "/Users/bradychin/Projects/robogym/agents/sac_agent.py", line 35, in _create_model
+    train_freq=config['train_freq'],
+KeyError: 'train_freq'
+20251024_2207 INFO: main.py -> RL pipeline completed successfully!
+20251024_2207 INFO: main.py -> ============================================================
+20251024_2207 INFO: main.py -> ============================================================
+20251024_2207 INFO: main.py -> Starting RL pipeline.
+20251024_2207 INFO: main.py -> Selected environment: lunarlandercontinuous
+20251024_2207 INFO: main.py -> Selected agent: sac
+20251024_2207 INFO: main.py -> No existing model found.
+20251024_2207 INFO: main.py -> Selected action: train
+20251024_2207 INFO: main.py -> Created run directory: runs/20251024_2207_lunarlandercontinuous_sac
+20251024_2207 INFO: main.py -> Starting training...
+20251024_2228 INFO: main.py -> Training completed!
+20251024_2331 INFO: main.py -> Requested post-training evaluation and demo.
+20251024_2331 INFO: main.py -> Post-training evaluation and demo completed!
+20251024_2331 INFO: main.py -> RL pipeline completed successfully!
+20251024_2331 INFO: main.py -> ============================================================

@@ -75,5 +75,5 @@ class SACAgent(BaseAgent):
         """Return the algorithm class"""
         return SAC
 
-    def predict(self, obs, deterministric=True):
-        return self.model.predict(obs, deterministric=deterministric)
+    def predict(self, obs, deterministic=True):
+        return self.model.predict(obs, deterministic=deterministic)
