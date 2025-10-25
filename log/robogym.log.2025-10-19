@@ -1,0 +1,245 @@
+20251019_1419 INFO: main.py -> ============================================================
+20251019_1419 INFO: main.py -> Starting RL pipeline.
+20251019_1419 INFO: main.py -> Selected environment: cartpole
+20251019_1419 INFO: main.py -> Selected agent: ppo
+20251019_1419 INFO: main.py -> No existing model found.
+20251019_1419 INFO: main.py -> Selected action: train
+20251019_1419 INFO: main.py -> Created run directory: runs/20251019_1419_cartpole_ppo
+20251019_1419 INFO: main.py -> Starting training...
+20251019_1420 INFO: main.py -> Training completed!
+20251019_1420 INFO: main.py -> Requested post-training evaluation and demo.
+20251019_1421 INFO: main.py -> Post-training evaluation and demo completed!
+20251019_1421 INFO: main.py -> RL pipeline completed successfully!
+20251019_1421 INFO: main.py -> ============================================================
+20251019_1440 INFO: main.py -> ============================================================
+20251019_1440 INFO: main.py -> Starting RL pipeline.
+20251019_1440 INFO: main.py -> Selected environment: pendulum
+20251019_1440 INFO: main.py -> Selected agent: ppo
+20251019_1440 INFO: main.py -> No existing model found.
+20251019_1440 INFO: main.py -> Selected action: train
+20251019_1440 INFO: main.py -> Created run directory: runs/20251019_1440_pendulum_ppo
+20251019_1440 INFO: main.py -> Starting training...
+20251019_1441 INFO: main.py -> Training completed!
+20251019_1441 INFO: main.py -> Requested post-training evaluation and demo.
+20251019_1442 INFO: main.py -> Post-training evaluation and demo completed!
+20251019_1442 INFO: main.py -> RL pipeline completed successfully!
+20251019_1442 INFO: main.py -> ============================================================
+20251019_1442 INFO: main.py -> ============================================================
+20251019_1442 INFO: main.py -> Starting RL pipeline.
+20251019_1442 INFO: main.py -> Selected environment: pendulum
+20251019_1442 INFO: main.py -> Selected agent: ppo
+20251019_1442 INFO: main.py -> Found existing model: ./runs/20251019_1440_pendulum_ppo/model.zip
+20251019_1442 INFO: main.py -> Selected action: demo
+20251019_1442 INFO: main.py -> Starting demo...
+20251019_1442 INFO: main.py -> Demo completed!
+20251019_1442 INFO: main.py -> RL pipeline completed successfully!
+20251019_1442 INFO: main.py -> ============================================================
+20251019_1448 INFO: main.py -> ============================================================
+20251019_1448 INFO: main.py -> Starting RL pipeline.
+20251019_1448 INFO: main.py -> Selected environment: lunarlander
+20251019_1448 INFO: main.py -> Selected agent: ppo
+20251019_1448 INFO: main.py -> No existing model found.
+20251019_1448 INFO: main.py -> Selected action: train
+20251019_1448 INFO: main.py -> Created run directory: runs/20251019_1448_lunarlander_ppo
+20251019_1448 INFO: main.py -> Starting training...
+20251019_1451 INFO: main.py -> Training completed!
+20251019_1452 INFO: main.py -> Requested post-training evaluation and demo.
+20251019_1454 INFO: main.py -> Post-training evaluation and demo completed!
+20251019_1454 INFO: main.py -> RL pipeline completed successfully!
+20251019_1454 INFO: main.py -> ============================================================
+20251019_1454 INFO: main.py -> ============================================================
+20251019_1454 INFO: main.py -> Starting RL pipeline.
+20251019_1454 INFO: main.py -> Selected environment: lunarlandercontinuous
+20251019_1454 INFO: main.py -> Selected agent: ppo
+20251019_1454 INFO: main.py -> No existing model found.
+20251019_1454 INFO: main.py -> Selected action: train
+20251019_1454 INFO: main.py -> Created run directory: runs/20251019_1454_lunarlandercontinuous_ppo
+20251019_1454 INFO: main.py -> Starting training...
+20251019_1454 INFO: main.py -> Training completed!
+20251019_1455 INFO: main.py -> Requested post-training evaluation and demo.
+20251019_1455 ERROR: main.py -> Operation failed: Converting from sequence to b2Vec2, expected int/float arguments index 0
+Traceback (most recent call last):
+  File "/Users/bradychin/Projects/robogym/main.py", line 196, in main
+    agent.evaluate()
+  File "/Users/bradychin/Projects/robogym/agents/base_agent.py", line 108, in evaluate
+    results = self.eval_manager.evaluate_model(self.model,
+  File "/Users/bradychin/Projects/robogym/utils/evaluation_manager.py", line 55, in evaluate_model
+    obs, reward, terminated, truncated, _ = eval_env.step(action)
+  File "/Users/bradychin/miniforge3/envs/bullet-env/lib/python3.10/site-packages/stable_baselines3/common/monitor.py", line 94, in step
+    observation, reward, terminated, truncated, info = self.env.step(action)
+  File "/Users/bradychin/miniforge3/envs/bullet-env/lib/python3.10/site-packages/gymnasium/wrappers/time_limit.py", line 57, in step
+    observation, reward, terminated, truncated, info = self.env.step(action)
+  File "/Users/bradychin/miniforge3/envs/bullet-env/lib/python3.10/site-packages/gymnasium/wrappers/order_enforcing.py", line 56, in step
+    return self.env.step(action)
+  File "/Users/bradychin/miniforge3/envs/bullet-env/lib/python3.10/site-packages/gymnasium/wrappers/env_checker.py", line 49, in step
+    return env_step_passive_checker(self.env, action)
+  File "/Users/bradychin/miniforge3/envs/bullet-env/lib/python3.10/site-packages/gymnasium/utils/passive_env_checker.py", line 208, in env_step_passive_checker
+    result = env.step(action)
+  File "/Users/bradychin/miniforge3/envs/bullet-env/lib/python3.10/site-packages/gymnasium/envs/box2d/lunar_lander.py", line 570, in step
+    p.ApplyLinearImpulse(
+TypeError: Converting from sequence to b2Vec2, expected int/float arguments index 0
+20251019_1455 INFO: main.py -> RL pipeline completed successfully!
+20251019_1455 INFO: main.py -> ============================================================
+20251019_1500 INFO: main.py -> ============================================================
+20251019_1500 INFO: main.py -> Starting RL pipeline.
+20251019_1500 INFO: main.py -> Selected environment: acrobot
+20251019_1500 INFO: main.py -> Selected agent: ppo
+20251019_1500 INFO: main.py -> No existing model found.
+20251019_1500 INFO: main.py -> Selected action: train
+20251019_1500 INFO: main.py -> Created run directory: runs/20251019_1500_acrobot_ppo
+20251019_1500 INFO: main.py -> Starting training...
+20251019_1500 INFO: main.py -> Training completed!
+20251019_1501 INFO: main.py -> RL pipeline completed successfully!
+20251019_1501 INFO: main.py -> ============================================================
+20251019_1504 INFO: main.py -> ============================================================
+20251019_1504 INFO: main.py -> Starting RL pipeline.
+20251019_1504 INFO: main.py -> Selected environment: lunarlandercontinuous
+20251019_1504 INFO: main.py -> Selected agent: ppo
+20251019_1504 INFO: main.py -> No existing model found.
+20251019_1504 INFO: main.py -> Selected action: train
+20251019_1504 INFO: main.py -> Created run directory: runs/20251019_1504_lunarlandercontinuous_ppo
+20251019_1506 INFO: main.py -> ============================================================
+20251019_1506 INFO: main.py -> Starting RL pipeline.
+20251019_1506 INFO: main.py -> Selected environment: lunarlandercontinuous
+20251019_1506 INFO: main.py -> Selected agent: ppo
+20251019_1506 INFO: main.py -> No existing model found.
+20251019_1506 INFO: main.py -> Selected action: train
+20251019_1506 INFO: main.py -> Created run directory: runs/20251019_1506_lunarlandercontinuous_ppo
+20251019_1515 INFO: main.py -> ============================================================
+20251019_1515 INFO: main.py -> Starting RL pipeline.
+20251019_1515 INFO: main.py -> Selected environment: pendulum
+20251019_1515 INFO: main.py -> Selected agent: ppo
+20251019_1515 INFO: main.py -> Found existing model: ./runs/20251019_1440_pendulum_ppo/model.zip
+20251019_1515 INFO: main.py -> Selected action: demo
+20251019_1515 INFO: main.py -> Starting demo...
+20251019_1515 INFO: main.py -> Demo completed!
+20251019_1515 INFO: main.py -> RL pipeline completed successfully!
+20251019_1515 INFO: main.py -> ============================================================
+20251019_1515 INFO: main.py -> ============================================================
+20251019_1515 INFO: main.py -> Starting RL pipeline.
+20251019_1515 INFO: main.py -> Selected environment: pendulum
+20251019_1515 INFO: main.py -> Selected agent: ppo
+20251019_1515 INFO: main.py -> Found existing model: ./runs/20251019_1440_pendulum_ppo/model.zip
+20251019_1515 INFO: main.py -> Selected action: train
+20251019_1515 INFO: main.py -> Created run directory: runs/20251019_1515_pendulum_ppo
+20251019_1515 INFO: main.py -> Starting training...
+20251019_1516 INFO: main.py -> Training completed!
+20251019_1516 INFO: main.py -> Requested post-training evaluation and demo.
+20251019_1516 INFO: main.py -> Post-training evaluation and demo completed!
+20251019_1516 INFO: main.py -> RL pipeline completed successfully!
+20251019_1516 INFO: main.py -> ============================================================
+20251019_1518 INFO: main.py -> ============================================================
+20251019_1518 INFO: main.py -> Starting RL pipeline.
+20251019_1518 INFO: main.py -> Selected environment: pendulum
+20251019_1518 INFO: main.py -> Selected agent: ppo
+20251019_1518 INFO: main.py -> Found existing model: ./runs/20251019_1515_pendulum_ppo/model.zip
+20251019_1518 INFO: main.py -> Selected action: demo
+20251019_1518 INFO: main.py -> ============================================================
+20251019_1518 INFO: main.py -> Starting RL pipeline.
+20251019_1518 INFO: main.py -> Selected environment: pendulum
+20251019_1518 INFO: main.py -> Selected agent: ppo
+20251019_1518 INFO: main.py -> Found existing model: ./runs/20251019_1515_pendulum_ppo/model.zip
+20251019_1518 INFO: main.py -> Selected action: train
+20251019_1518 INFO: main.py -> Created run directory: runs/20251019_1518_pendulum_ppo
+20251019_1521 INFO: main.py -> ============================================================
+20251019_1521 INFO: main.py -> Starting RL pipeline.
+20251019_1521 INFO: main.py -> Selected environment: pendulum
+20251019_1521 INFO: main.py -> Selected agent: ppo
+20251019_1521 INFO: main.py -> Found existing model: ./runs/20251019_1515_pendulum_ppo/model.zip
+20251019_1521 INFO: main.py -> Selected action: demo
+20251019_1521 INFO: main.py -> Starting demo...
+20251019_1521 INFO: main.py -> Demo completed!
+20251019_1521 INFO: main.py -> RL pipeline completed successfully!
+20251019_1521 INFO: main.py -> ============================================================
+20251019_1528 INFO: main.py -> ============================================================
+20251019_1528 INFO: main.py -> Starting RL pipeline.
+20251019_1528 INFO: main.py -> Selected environment: pendulum
+20251019_1528 INFO: main.py -> Selected agent: ppo
+20251019_1528 INFO: main.py -> Found existing model: ./runs/20251019_1515_pendulum_ppo/model.zip
+20251019_1528 INFO: main.py -> Selected action: demo
+20251019_1528 INFO: main.py -> Starting demo...
+20251019_1528 INFO: main.py -> Demo completed!
+20251019_1528 INFO: main.py -> RL pipeline completed successfully!
+20251019_1528 INFO: main.py -> ============================================================
+20251019_1528 INFO: main.py -> ============================================================
+20251019_1528 INFO: main.py -> Starting RL pipeline.
+20251019_1528 INFO: main.py -> Selected environment: pendulum
+20251019_1528 INFO: main.py -> Selected agent: ppo
+20251019_1528 INFO: main.py -> Found existing model: ./runs/20251019_1515_pendulum_ppo/model.zip
+20251019_1528 INFO: main.py -> Selected action: train
+20251019_1528 INFO: main.py -> Created run directory: runs/20251019_1528_pendulum_ppo
+20251019_1528 INFO: main.py -> Starting training...
+20251019_1531 INFO: main.py -> Training completed!
+20251019_1531 INFO: main.py -> Requested post-training evaluation and demo.
+20251019_1531 INFO: main.py -> Post-training evaluation and demo completed!
+20251019_1531 INFO: main.py -> RL pipeline completed successfully!
+20251019_1531 INFO: main.py -> ============================================================
+20251019_1536 INFO: main.py -> ============================================================
+20251019_1536 INFO: main.py -> Starting RL pipeline.
+20251019_1536 INFO: main.py -> Selected environment: pendulum
+20251019_1536 INFO: main.py -> Selected agent: ppo
+20251019_1536 INFO: main.py -> Found existing model: ./runs/20251019_1528_pendulum_ppo/model.zip
+20251019_1536 INFO: main.py -> Selected action: demo
+20251019_1536 INFO: main.py -> Starting demo...
+20251019_1538 INFO: main.py -> Demo completed!
+20251019_1538 INFO: main.py -> RL pipeline completed successfully!
+20251019_1538 INFO: main.py -> ============================================================
+20251019_1539 INFO: main.py -> ============================================================
+20251019_1539 INFO: main.py -> Starting RL pipeline.
+20251019_1539 INFO: main.py -> Selected environment: lunarlandercontinuous
+20251019_1539 INFO: main.py -> Selected agent: ppo
+20251019_1539 INFO: main.py -> No existing model found.
+20251019_1539 INFO: main.py -> Selected action: train
+20251019_1539 INFO: main.py -> Created run directory: runs/20251019_1539_lunarlandercontinuous_ppo
+20251019_1539 INFO: main.py -> ============================================================
+20251019_1539 INFO: main.py -> Starting RL pipeline.
+20251019_1539 INFO: main.py -> Selected environment: lunarlandercontinuous
+20251019_1539 INFO: main.py -> Selected agent: ppo
+20251019_1539 INFO: main.py -> No existing model found.
+20251019_1539 INFO: main.py -> Selected action: train
+20251019_1539 INFO: main.py -> Created run directory: runs/20251019_1539_lunarlandercontinuous_ppo
+20251019_1539 INFO: main.py -> Starting training...
+20251019_1544 INFO: main.py -> Training completed!
+20251019_1545 INFO: main.py -> Requested post-training evaluation and demo.
+20251019_1546 INFO: main.py -> Post-training evaluation and demo completed!
+20251019_1546 INFO: main.py -> RL pipeline completed successfully!
+20251019_1546 INFO: main.py -> ============================================================
+20251019_1547 INFO: main.py -> ============================================================
+20251019_1547 INFO: main.py -> Starting RL pipeline.
+20251019_1547 INFO: main.py -> Selected environment: acrobot
+20251019_1547 INFO: main.py -> Selected agent: ppo
+20251019_1547 INFO: main.py -> No existing model found.
+20251019_1547 INFO: main.py -> Selected action: train
+20251019_1547 INFO: main.py -> Created run directory: runs/20251019_1547_acrobot_ppo
+20251019_1547 INFO: main.py -> Starting training...
+20251019_1548 INFO: main.py -> Training completed!
+20251019_1549 INFO: main.py -> Requested post-training evaluation and demo.
+20251019_1553 INFO: main.py -> Post-training evaluation and demo completed!
+20251019_1553 INFO: main.py -> RL pipeline completed successfully!
+20251019_1553 INFO: main.py -> ============================================================
+20251019_1554 INFO: main.py -> ============================================================
+20251019_1554 INFO: main.py -> Starting RL pipeline.
+20251019_1554 INFO: main.py -> Selected environment: lunarlander
+20251019_1554 INFO: main.py -> Selected agent: ppo
+20251019_1554 INFO: main.py -> Found existing model: ./runs/20251019_1448_lunarlander_ppo/model.zip
+20251019_1554 INFO: main.py -> Selected action: demo
+20251019_1554 INFO: main.py -> ============================================================
+20251019_1554 INFO: main.py -> Starting RL pipeline.
+20251019_1554 INFO: main.py -> Selected environment: lunarlander
+20251019_1554 INFO: main.py -> Selected agent: ppo
+20251019_1554 INFO: main.py -> Found existing model: ./runs/20251019_1448_lunarlander_ppo/model.zip
+20251019_1554 INFO: main.py -> Selected action: demo
+20251019_1554 INFO: main.py -> Starting demo...
+20251019_1556 INFO: main.py -> Demo completed!
+20251019_1556 INFO: main.py -> RL pipeline completed successfully!
+20251019_1556 INFO: main.py -> ============================================================
+20251019_1558 INFO: main.py -> ============================================================
+20251019_1558 INFO: main.py -> Starting RL pipeline.
+20251019_1558 INFO: main.py -> Selected environment: acrobot
+20251019_1558 INFO: main.py -> Selected agent: ppo
+20251019_1558 INFO: main.py -> Found existing model: ./runs/20251019_1547_acrobot_ppo/model.zip
+20251019_1558 INFO: main.py -> Selected action: demo
+20251019_1558 INFO: main.py -> Starting demo...
+20251019_1559 INFO: main.py -> Demo completed!
+20251019_1559 INFO: main.py -> RL pipeline completed successfully!
+20251019_1559 INFO: main.py -> ============================================================

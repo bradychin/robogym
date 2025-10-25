@@ -1,5 +1,6 @@
 # --------- Environment imports ---------#
 from agents.ppo_agent import PPOAgent
+from agents.sac_agent import SACAgent
 
 # --------- Local imports ---------#
 from utils.logger import logger
@@ -10,7 +11,8 @@ class AgentFactory:
     """Factory class for creating agent instances"""
 
     AGENTS = {
-        'ppo': PPOAgent
+        'ppo': PPOAgent,
+        'sac': SACAgent
     }
 
     @classmethod
