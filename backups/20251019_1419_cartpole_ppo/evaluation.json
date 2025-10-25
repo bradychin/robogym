@@ -1,0 +1,35 @@
+{
+  "timestamp": "20251019_1420",
+  "environment": "cartpole",
+  "agent": "ppo",
+  "n_episodes": 10,
+  "mean_reward": 495.7,
+  "std_reward": 12.9,
+  "max_reward": 500.0,
+  "min_reward": 457.0,
+  "avg_episode_length": 495.7,
+  "episode_rewards": [
+    500.0,
+    500.0,
+    500.0,
+    500.0,
+    500.0,
+    500.0,
+    500.0,
+    457.0,
+    500.0,
+    500.0
+  ],
+  "episode_lengths": [
+    500,
+    500,
+    500,
+    500,
+    500,
+    500,
+    500,
+    457,
+    500,
+    500
+  ]
+}

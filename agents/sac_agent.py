@@ -18,7 +18,7 @@ class SACAgent(BaseAgent):
 
         # Neural network architecture for the policy
         policy_kwargs = dict(
-            activation_fn=torch.nn.LeakyReLU,
+            activation_fn=torch.nn.ReLU,
             net_arch=config['policy_net']
         )
 
@@ -27,6 +27,13 @@ class SACAgent(BaseAgent):
             'MlpPolicy',
             self.vec_env,
             learning_rate=config['learning_rate'],
+            buffer_size=config['buffer_size'],
+            learning_starts=config['learning_starts'],
+            batch_size=config['batch_size'],
+            tau=config['tau'],
+            gamma=config['gamma'],
+            train_freq=config['train_freq'],
+            gradient_steps=config['gradient_steps'],
             policy_kwargs=policy_kwargs,
             verbose=1,
             tensorboard_log=self.tensorboard_log
