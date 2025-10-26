@@ -15,6 +15,15 @@ class AgentFactory:
         'sac': SACAgent
     }
 
+    # Define environment/agent compatibility
+    AGENT_COMPATIBILITY = {
+        'ppo': ['discrete', 'continuous'],
+        'sac': ['continuous'],
+        'dqn': ['discrete'],
+        'a2c': ['discrete', 'continuous'],
+        'td3': ['continuous']
+    }
+
     @classmethod
     def create(cls, agent_name: str, vec_env, eval_env, env_name=None, run_manager=None):
         """
@@ -44,3 +53,33 @@ class AgentFactory:
     def get_available_agents(cls):
         """Get list of available agents"""
         return list(cls.AGENTS.keys())
+
+    @classmethod
+    def get_compatible_agents(cls, action_space_type: str):
+        """
+        Get list of agents compatible with action space type
+
+        :param action_space_type: Type of action space (discrete or continuous)
+        :return: List of compatible agents
+        """
+
+        compatible = []
+        for agent_name, supported_spaces in cls.AGENT_COMPATIBILITY.items():
+            if action_space_type in supported_spaces and agent_name in cls.AGENTS:
+                compatible.append(agent_name)
+        return compatible
+
+    @classmethod
+    def is_compatible(cls, agent_name: str, action_space_type: str):
+        """
+        Check agent/action space compatibility
+
+        :param agent_name: Name of the agent
+        :param action_space_type: Type of action space (discrete or continuous)
+        :return: True of compatible, False otherwise
+        """
+
+        agent_name = agent_name.lower()
+        if agent_name not in cls.AGENT_COMPATIBILITY:
+            return False
+        return action_space_type in cls.AGENT_COMPATIBILITY[agent_name]

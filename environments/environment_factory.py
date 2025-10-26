@@ -23,6 +23,16 @@ class EnvironmentFactory:
         'acrobot': AcrobotEnv
     }
 
+    # Define action space types for environments
+    ENVIRONMENT_ACTION_SPACES = {
+        'bipedalwalker': 'continuous',
+        'cartpole': 'discrete',
+        'pendulum': 'continuous',
+        'lunarlander': 'discrete',
+        'lunarlandercontinuous': 'continuous',
+        'acrobot': 'discrete'
+    }
+
     @classmethod
     def create(cls, env_name: str, env_type: str, render_mode: str = 'rgb_array', run_manager=None):
         """
@@ -47,3 +57,17 @@ class EnvironmentFactory:
     def get_available_environments(cls):
         """Get list of available environments"""
         return list(cls.ENVIRONMENTS.keys())
+
+    @classmethod
+    def get_action_space_type(cls, env_name: str):
+        """
+        Get action space type for a given environment
+
+        :param env_name: Name of the environment
+        :return: Action space type (discrete or continuous)
+        """
+
+        env_name = env_name.lower()
+        if env_name not in cls.ENVIRONMENT_ACTION_SPACES:
+            raise ValueError(f'Environment "{env_name}" not found')
+        return cls.ENVIRONMENT_ACTION_SPACES[env_name]

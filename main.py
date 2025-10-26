@@ -88,11 +88,12 @@ def main():
 
     The process is as follows:
     1. The user will choose an environment from the given options
-    2. The user will choose an agent from the given options
-    3. Check if there is an existing model based on the previous options
-    4. The user will choose whether to train, evaluate, or demo the model
-    5. Load and setup environment and agent
-    6. Train, evaluate, or demo
+    2. Get the action space type for selected environment
+    3. The user will choose a compatible agent from the given options
+    4. Check if there is an existing model based on the previous options
+    5. The user will choose whether to train, evaluate, or demo the model
+    6. Load and setup environment and agent
+    7. Train, evaluate, or demo
     """
 
     global_logger.info('=' * 60)
@@ -106,9 +107,25 @@ def main():
         return
     global_logger.info(f'Selected environment: {env_name}')
 
+    # Get action space type for selected environment
+    try:
+        action_space_type = EnvironmentFactory.get_action_space_type(env_name)
+    except ValueError as e:
+        logger.error(f'Failed to get action space type: {e}')
+        global_logger.error(f'Failed to get action space type: {e}')
+        return
+
+    # Get compatible agent for environment
+    compatible_agents = AgentFactory.get_compatible_agents(action_space_type)
+    if not compatible_agents:
+        print(f'No compatible agents found for {env_name}')
+        logger.error(f'No compatible agents found for {env_name}')
+        global_logger.error(f'No compatible agents found for {env_name}')
+        return
+    print(f'\nEnvironment "{env_name}" uses {action_space_type} action space')
+
     # Choose agent
-    available_agents = AgentFactory.get_available_agents()
-    agent_name = get_user_choice('agent', available_agents)
+    agent_name = get_user_choice('agent', compatible_agents)
     if agent_name is None:
         global_logger.warning('No agent selected. Exiting.')
         return
@@ -148,6 +165,7 @@ def main():
         logger.info('=' * 60)
         logger.info(f'Environment: {env_name}')
         logger.info(f'Agent: {agent_name}')
+        logger.info(f'Action space: {action_space_type}')
         logger.info(f'Configuration: {env_config}')
         logger.info(f'Run directory: {run_manager.get_run_dir()}')
         logger.info('=' * 60)
