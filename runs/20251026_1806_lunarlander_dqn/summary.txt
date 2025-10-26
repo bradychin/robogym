@@ -1,0 +1,15 @@
+============================================================
+RUN SUMMARY
+============================================================
+Environment: lunarlander
+Agent: dqn
+Timestamp: 20251026_1806
+Run Directory: 20251026_1806_lunarlander_dqn
+
+Files:
+  - Log: robogym.log
+  - Config: config.yaml
+  - TensorBoard: lunarlander_dqn_tb_20251026_1806/
+  - Evaluations: 0 file(s)
+  - Models: 1 file(s)
+============================================================

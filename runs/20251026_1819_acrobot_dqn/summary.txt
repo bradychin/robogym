@@ -1,0 +1,15 @@
+============================================================
+RUN SUMMARY
+============================================================
+Environment: acrobot
+Agent: dqn
+Timestamp: 20251026_1819
+Run Directory: 20251026_1819_acrobot_dqn
+
+Files:
+  - Log: robogym.log
+  - Config: config.yaml
+  - TensorBoard: acrobot_dqn_tb_20251026_1819/
+  - Evaluations: 0 file(s)
+  - Models: 1 file(s)
+============================================================

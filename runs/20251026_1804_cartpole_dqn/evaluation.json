@@ -1,0 +1,35 @@
+{
+  "timestamp": "20251026_1804",
+  "environment": "cartpole",
+  "agent": "dqn",
+  "n_episodes": 10,
+  "mean_reward": 254.8,
+  "std_reward": 47.69444412088268,
+  "max_reward": 360.0,
+  "min_reward": 199.0,
+  "avg_episode_length": 254.8,
+  "episode_rewards": [
+    267.0,
+    240.0,
+    252.0,
+    199.0,
+    211.0,
+    273.0,
+    217.0,
+    360.0,
+    311.0,
+    218.0
+  ],
+  "episode_lengths": [
+    267,
+    240,
+    252,
+    199,
+    211,
+    273,
+    217,
+    360,
+    311,
+    218
+  ]
+}
