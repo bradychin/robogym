@@ -1,0 +1,35 @@
+{
+  "timestamp": "20251026_1820",
+  "environment": "acrobot",
+  "agent": "dqn",
+  "n_episodes": 10,
+  "mean_reward": -133.4,
+  "std_reward": 51.53290211117554,
+  "max_reward": -91.0,
+  "min_reward": -251.0,
+  "avg_episode_length": 134.4,
+  "episode_rewards": [
+    -92.0,
+    -91.0,
+    -104.0,
+    -157.0,
+    -94.0,
+    -251.0,
+    -118.0,
+    -106.0,
+    -117.0,
+    -204.0
+  ],
+  "episode_lengths": [
+    93,
+    92,
+    105,
+    158,
+    95,
+    252,
+    119,
+    107,
+    118,
+    205
+  ]
+}

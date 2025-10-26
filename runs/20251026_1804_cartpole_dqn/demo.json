@@ -1,0 +1,36 @@
+{
+  "timestamp": "20251026_1806",
+  "environment": "CartPole-v1",
+  "total_episodes": 5,
+  "max_steps": 1500,
+  "mean_reward": 300.0,
+  "max_reward": 452.0,
+  "min_reward": 91.0,
+  "episodes": [
+    {
+      "episode": 2,
+      "steps": 284,
+      "reward": 284.0
+    },
+    {
+      "episode": 4,
+      "steps": 384,
+      "reward": 384.0
+    },
+    {
+      "episode": 6,
+      "steps": 452,
+      "reward": 452.0
+    },
+    {
+      "episode": 8,
+      "steps": 289,
+      "reward": 289.0
+    },
+    {
+      "episode": 9,
+      "steps": 91,
+      "reward": 91.0
+    }
+  ]
+}

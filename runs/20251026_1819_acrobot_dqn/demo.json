@@ -1,0 +1,36 @@
+{
+  "timestamp": "20251026_1821",
+  "environment": "Acrobot-v1",
+  "total_episodes": 5,
+  "max_steps": 500,
+  "mean_reward": -99.2,
+  "max_reward": -15.0,
+  "min_reward": -133.0,
+  "episodes": [
+    {
+      "episode": 2,
+      "steps": 123,
+      "reward": -122.0
+    },
+    {
+      "episode": 4,
+      "steps": 130,
+      "reward": -129.0
+    },
+    {
+      "episode": 6,
+      "steps": 98,
+      "reward": -97.0
+    },
+    {
+      "episode": 8,
+      "steps": 134,
+      "reward": -133.0
+    },
+    {
+      "episode": 9,
+      "steps": 15,
+      "reward": -15.0
+    }
+  ]
+}

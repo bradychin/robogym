@@ -1,0 +1,15 @@
+============================================================
+RUN SUMMARY
+============================================================
+Environment: cartpole
+Agent: dqn
+Timestamp: 20251026_1804
+Run Directory: 20251026_1804_cartpole_dqn
+
+Files:
+  - Log: robogym.log
+  - Config: config.yaml
+  - TensorBoard: cartpole_dqn_tb_20251026_1804/
+  - Evaluations: 0 file(s)
+  - Models: 1 file(s)
+============================================================

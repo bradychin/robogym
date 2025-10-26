@@ -13,4 +13,22 @@ algorithms:
     eval_freq: 10000
 
   sac:
-    target_score: 300
+    target_score: 200
+
+  dqn:
+    target_score: 200
+    max_timesteps: 500000
+    learning_rate: 0.0001
+    policy_net: [64,64]
+    eval_freq: 10000
+    batch_size: 32
+    buffer_size: 100000
+    learning_starts: 50000
+    tau: 1.0
+    gamma: 0.99
+    train_freq: 4
+    gradient_steps: 1
+    target_update_interval: 10000
+    exploration_fraction: 0.1
+    exploration_initial_eps: 1.0
+    exploration_final_eps: 0.05
