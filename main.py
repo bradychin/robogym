@@ -2,7 +2,7 @@
 from environments.environment_factory import EnvironmentFactory
 from agents.agent_factory import AgentFactory
 from utils.user_interface import get_user_choice, get_action_choice, get_follow_up_action
-from utils.model_io import find_latest_model, load_model, select_model_for_action, load_model_for_action
+from utils.model_io import find_latest_model, load_model_for_action
 from utils.run_manager import RunManager
 from utils.logger import logger, global_logger, set_log_path
 logger = logger(__name__)
@@ -14,7 +14,7 @@ config_manager = ConfigManager()
 paths_config = config_manager.get('paths_config', validate=False)
 
 # --------- Setup environment ---------#
-def setup_environment(env_name, run_manager=None):
+def setup_environment(env_name: str, run_manager=None):
     """
     Setup training and evaluation environment
 
@@ -41,7 +41,11 @@ def setup_environment(env_name, run_manager=None):
         return None, None, None, None
 
 # --------- Setup agent ---------#
-def setup_agent(agent_name, vec_env, eval_env, env_name, run_manager=None):
+def setup_agent(agent_name: str,
+                vec_env,
+                eval_env,
+                env_name: str,
+                run_manager=None):
     """
     Setup agent
 

@@ -3,7 +3,7 @@
 # --------- Standard library imports ---------#
 from pathlib import Path
 from datetime import datetime
-
+from typing import Dict, Any
 # --------- Third-party imports ---------#
 import yaml
 
@@ -17,7 +17,7 @@ utilities_config = config_manager.get('utilities_config')
 class RunManager:
     """Manages logs and evaluations for each run"""
 
-    def __init__(self, env_name, agent_name):
+    def __init__(self, env_name: str, agent_name: str) -> None:
         self.env_name = env_name
         self.agent_name = agent_name
         self.timestamp = datetime.now().strftime(utilities_config['date_time'])
@@ -28,7 +28,7 @@ class RunManager:
 
         print('\nRun directories created')
 
-    def save_config(self, config):
+    def save_config(self, config: Dict[str, Any]) -> None:
         """
         Save config file for this run
 
@@ -41,12 +41,12 @@ class RunManager:
             yaml.dump(config, f, default_flow_style=False, sort_keys=False)
         print(f'Config saved to: {config_path}')
 
-    def get_log_path(self):
+    def get_log_path(self) -> str:
         """Get log path for log files"""
 
         return str(self.run_dir / 'robogym.log')
 
-    def get_directory(self, item_type, extension=None):
+    def get_directory(self, item_type: str, extension: str | None = None) -> str:
         """
         Get the directory for a given item
 
@@ -61,7 +61,7 @@ class RunManager:
 
         return str(self.run_dir / filename)
 
-    def get_run_dir(self):
+    def get_run_dir(self) -> str:
         """Get the run directory path"""
 
         return str(self.run_dir)

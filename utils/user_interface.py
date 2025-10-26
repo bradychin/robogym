@@ -5,7 +5,7 @@ from utils.logger import logger
 logger = logger(__name__)
 
 # --------- Get user input function ---------#
-def get_user_choice(item_type: str, available_items: list):
+def get_user_choice(item_type: str, available_items: list) -> str | None:
     """
     Function to get user choice
 
@@ -37,7 +37,7 @@ def get_user_choice(item_type: str, available_items: list):
     return None
 
 # --------- Get action choice function ---------#
-def get_action_choice(has_model):
+def get_action_choice(has_model: bool) -> str | None:
     """
     Get user's choice for action to perform
 
@@ -76,7 +76,7 @@ def get_action_choice(has_model):
             return None
 
 # --------- Follow up function ---------#
-def get_follow_up_action():
+def get_follow_up_action() -> str | None:
     """
     Requests if user wants a followup action
 

@@ -19,7 +19,7 @@ config_manager = ConfigManager()
 paths_config = config_manager.get('paths_config', validate=False)
 
 # --------- Find all models function ---------#
-def find_all_models(env_name, agent_name, limit=10):
+def find_all_models(env_name: str, agent_name: str, limit: int=10) -> list[str]:
     """
     Find all models for a given environment and agent
 
@@ -41,7 +41,7 @@ def find_all_models(env_name, agent_name, limit=10):
     return sorted_models
 
 # --------- Find latest model function ---------#
-def find_latest_model(env_name, agent_name):
+def find_latest_model(env_name: str, agent_name: str) -> str | None:
     """
     Find the most recent model for a given environment and agent
 
@@ -54,7 +54,7 @@ def find_latest_model(env_name, agent_name):
     return models[0] if models else None
 
 # --------- Load model function ---------#
-def load_model(agent, model_path):
+def load_model(agent, model_path: str) -> bool:
     """
     Load a trained model into the agent
 
@@ -90,7 +90,7 @@ def load_model(agent, model_path):
         return False
 
 # ---------Select model for action function ---------#
-def select_model_for_action(env_name, agent_name, action='action'):
+def select_model_for_action(env_name: str, agent_name: str, action='action'):
     """
     Select an existing model for a user requested action
 
@@ -123,7 +123,7 @@ def select_model_for_action(env_name, agent_name, action='action'):
         return selected_model
 
 # ---------Select model for action function ---------#
-def load_model_for_action(agent, env_name, agent_name, action_name):
+def load_model_for_action(agent, env_name: str, agent_name: str, action_name: str) -> bool:
     """
     Select and load a model for a specific action
 

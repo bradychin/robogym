@@ -2,6 +2,13 @@
 from agents.ppo_agent import PPOAgent
 from agents.sac_agent import SACAgent
 
+# --------- Third-party imports ---------#
+from typing import TYPE_CHECKING, Optional
+
+if TYPE_CHECKING:
+    from utils.run_manager import RunManager
+    from agents.base_agent import BaseAgent
+
 # --------- Local imports ---------#
 from utils.logger import logger
 logger = logger(__name__)
@@ -25,7 +32,12 @@ class AgentFactory:
     }
 
     @classmethod
-    def create(cls, agent_name: str, vec_env, eval_env, env_name=None, run_manager=None):
+    def create(cls,
+               agent_name: str,
+               vec_env,
+               eval_env,
+               env_name: Optional[str] = None,
+               run_manager: Optional['RunManager'] = None) -> 'BaseAgent':
         """
         Create agent instance
 

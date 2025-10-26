@@ -43,7 +43,10 @@ class ConfigManager:
             except Exception as e:
                 print(f"Error loading {yaml_file}: {e}")
 
-    def get(self, config_name, algorithm_name=None, validate=True):
+    def get(self,
+            config_name: str,
+            algorithm_name: str | None = None,
+            validate: bool = True) -> dict:
         """
         Retrieves and extracts algorithm specific parameters from config file
 
@@ -74,8 +77,14 @@ class ConfigManager:
         return config
 
     @staticmethod
-    def validate_config(config: dict):
-        """Checks if the training section has the required keys"""
+    def validate_config(config: dict) -> bool:
+        """
+        Checks if the training section has the required keys
+
+        :param config: Configuration dictionary to validate
+        :return: True if valid
+        :raises ValueError: When required keys are missing
+        """
 
         training_config = config.get('training')
         if not training_config:
