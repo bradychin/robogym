@@ -9,16 +9,15 @@ config_manager = ConfigManager()
 utilities_config = config_manager.get('utilities_config')
 
 # --------- Set up logging paths --------- #
-_custom_log_path = None
+_custom_log_path: str | None = None
 _loggers_cache = {}
 _global_logger = None
 
-def set_log_path(log_path):
+def set_log_path(log_path: str) -> None:
     """
     Set a custom log path for the current run
 
     :param log_path: Log path for current run
-    :return: n/a (sets log path)
     """
 
     global _custom_log_path, _loggers_cache
@@ -40,7 +39,7 @@ def set_log_path(log_path):
         logger.addHandler(fh)
 
 
-def get_log_path():
+def get_log_path() -> str:
     """Get current log path"""
     global _custom_log_path
     if _custom_log_path:
@@ -53,7 +52,7 @@ def get_log_path():
         return './log/robogym.log'
 
 # --------- Run specific logger function --------- #
-def logger(name, log_file=None, console=False):
+def logger(name: str, log_file=None, console=False):
     """
     Get or create a logger instance
 
@@ -107,11 +106,10 @@ def logger(name, log_file=None, console=False):
     return logger
 
 # --------- Global logging function --------- #
-def global_logger(name='global', console=False):
+def global_logger(console=False):
     """
     Global logger write to a global log file to keep track of high level logging
 
-    :param name: Logger name (default: 'global')
     :param console: Whether to output to console
     :return: Global logger instance
     """

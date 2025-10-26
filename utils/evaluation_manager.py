@@ -17,12 +17,16 @@ utilities_config = config_manager.get('utilities_config')
 class EvaluationManager:
     """Manages evaluation of trained models"""
 
-    def __init__(self, env_name, agent_name, run_manager=None):
+    def __init__(self, env_name, agent_name: str, run_manager=None) -> str:
         self.env_name = env_name
         self.agent_name = agent_name
         self.run_manager = run_manager
 
-    def evaluate_model(self, model, eval_env, n_episodes=10, deterministic=True):
+    def evaluate_model(self,
+                       model,
+                       eval_env,
+                       n_episodes=10,
+                       deterministic=True) -> dict:
         """
         Evaluate model and generate detailed report
 
@@ -93,12 +97,11 @@ class EvaluationManager:
 
         return results
 
-    def _save_results(self, results):
+    def _save_results(self, results: dict) -> None:
         """
         Save evaluation results to JSON file
 
         :param results: Results generated from evaluation
-        :return: n/a (generates a json file with evaluation results)
         """
         if self.run_manager:
             filepath = self.run_manager.get_directory('evaluation', extension='json')
@@ -114,12 +117,11 @@ class EvaluationManager:
         logger.info(f"Evaluation results saved to: {filepath}")
 
     @staticmethod
-    def _print_summary(results):
+    def _print_summary(results: dict) -> None:
         """
         Print evaluation summary
 
         :param results: Results generated from evaluation
-        :return: n/a (prints summary to console)
         """
 
         print("\n" + "-" * 60)

@@ -92,7 +92,7 @@ class BaseAgent(ABC):
 
         self._load_best_model()
 
-    def evaluate(self, n_episodes=10, show_history=True):
+    def evaluate(self, n_episodes=10):
         """
         Evaluate model with reporting
 
