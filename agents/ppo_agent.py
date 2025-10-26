@@ -23,7 +23,7 @@ class PPOAgent(BaseAgent):
         # Create the PPO agent
         return PPO('MlpPolicy',
                    self.vec_env,
-                   learning_rate=config['learning_rate'],
+                   learning_rate=config.get('learning_rate', 0.0003),
                    policy_kwargs=policy_kwargs,
                    verbose=1,
                    tensorboard_log=self.tensorboard_log)
