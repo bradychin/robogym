@@ -5,6 +5,8 @@ from environments.gym_envs.pendulum_env import PendulumEnv
 from environments.gym_envs.lunarlander_env import LunarLanderEnv
 from environments.gym_envs.lunarlandercontinuous_env import LunarLanderContinuousEnv
 from environments.gym_envs.acrobot_env import AcrobotEnv
+from environments.gym_envs.mountaincar_env import MountainCarEnv
+from environments.gym_envs.mountaincarcontinuous_env import MountainCarContinuousEnv
 
 # --------- Local imports ---------#
 from utils.logger import logger
@@ -20,7 +22,9 @@ class EnvironmentFactory:
         'pendulum': PendulumEnv,
         'lunarlander': LunarLanderEnv,
         'lunarlandercontinuous': LunarLanderContinuousEnv,
-        'acrobot': AcrobotEnv
+        'acrobot': AcrobotEnv,
+        'mountaincar': MountainCarEnv,
+        'mountaincarcontinuous': MountainCarContinuousEnv,
     }
 
     # Define action space types for environments
@@ -30,7 +34,9 @@ class EnvironmentFactory:
         'pendulum': 'continuous',
         'lunarlander': 'discrete',
         'lunarlandercontinuous': 'continuous',
-        'acrobot': 'discrete'
+        'acrobot': 'discrete',
+        'mountaincar': 'discrete',
+        'mountaincarcontinuous': 'continuous'
     }
 
     @classmethod
