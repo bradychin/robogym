@@ -24,6 +24,13 @@ class PPOAgent(BaseAgent):
         return PPO('MlpPolicy',
                    self.vec_env,
                    learning_rate=config.get('learning_rate', 0.0003),
+                   n_steps=config.get('n_steps', 2048),
+                   batch_size=config.get('batch_size', 64),
+                   n_epochs=config.get('n_epochs', 10),
+                   gamma=config.get('gamma', 0.99),
+                   gae_lambda=config.get('gae_lambda', 0.98),
+                   clip_range=config.get('clip_range', 0.2),
+                   ent_coef=config.get('ent_coef', 0.0),
                    policy_kwargs=policy_kwargs,
                    verbose=1,
                    tensorboard_log=self.tensorboard_log)
