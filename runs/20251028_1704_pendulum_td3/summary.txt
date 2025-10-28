@@ -1,0 +1,15 @@
+============================================================
+RUN SUMMARY
+============================================================
+Environment: pendulum
+Agent: td3
+Timestamp: 20251028_1704
+Run Directory: 20251028_1704_pendulum_td3
+
+Files:
+  - Log: robogym.log
+  - Config: config.yaml
+  - TensorBoard: pendulum_td3_tb_20251028_1704/
+  - Evaluations: 0 file(s)
+  - Models: 1 file(s)
+============================================================
