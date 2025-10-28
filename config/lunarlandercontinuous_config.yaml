@@ -59,3 +59,19 @@ algorithms:
     policy_delay: 2
     target_policy_noise: 0.2
     target_noise_clip: 0.5
+
+  ddpg:
+    target_score: 200
+    max_timesteps: 500000
+    learning_rate: 0.001
+    policy_net: [256,256]
+    eval_freq: 5000
+    batch_size: 128
+    buffer_size: 200000
+    learning_starts: 10000
+    tau: 0.005
+    gamma: 0.99
+    train_freq: 1
+    gradient_steps: -1
+    noise_type: 'normal'
+    noise_sigma: 0.1

@@ -1,0 +1,15 @@
+============================================================
+RUN SUMMARY
+============================================================
+Environment: pendulum
+Agent: ddpg
+Timestamp: 20251028_1721
+Run Directory: 20251028_1721_pendulum_ddpg
+
+Files:
+  - Log: robogym.log
+  - Config: config.yaml
+  - TensorBoard: pendulum_ddpg_tb_20251028_1721/
+  - Evaluations: 0 file(s)
+  - Models: 1 file(s)
+============================================================

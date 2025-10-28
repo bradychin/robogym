@@ -1,0 +1,26 @@
+{
+  "timestamp": "20251028_1730",
+  "environment": "Pendulum-v1",
+  "total_episodes": 3,
+  "max_steps": 600,
+  "mean_reward": -154.96637755895435,
+  "max_reward": -119.01791299829694,
+  "min_reward": -220.8331222419297,
+  "episodes": [
+    {
+      "episode": 2,
+      "steps": 200,
+      "reward": -119.01791299829694
+    },
+    {
+      "episode": 4,
+      "steps": 200,
+      "reward": -220.8331222419297
+    },
+    {
+      "episode": 6,
+      "steps": 200,
+      "reward": -125.0480974366364
+    }
+  ]
+}

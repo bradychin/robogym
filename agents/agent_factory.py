@@ -4,6 +4,7 @@ from agents.sac_agent import SACAgent
 from agents.dqn_agent import DQNAgent
 from agents.a2c_agent import A2CAgent
 from agents.td3_agent import TD3Agent
+from agents.ddpg_agent import DDPGAgent
 
 # --------- Third-party imports ---------#
 from typing import TYPE_CHECKING, Optional
@@ -25,7 +26,8 @@ class AgentFactory:
         'sac': SACAgent,
         'dqn': DQNAgent,
         'a2c': A2CAgent,
-        'td3': TD3Agent
+        'td3': TD3Agent,
+        'ddpg': DDPGAgent
     }
 
     # Define environment/agent compatibility
@@ -34,7 +36,8 @@ class AgentFactory:
         'sac': ['continuous'],
         'dqn': ['discrete'],
         'a2c': ['discrete', 'continuous'],
-        'td3': ['continuous']
+        'td3': ['continuous'],
+        'ddpg': ['continuous']
     }
 
     @classmethod
