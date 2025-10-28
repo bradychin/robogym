@@ -1,0 +1,76 @@
+{
+  "timestamp": "20251028_1347",
+  "environment": "CartPole-v1",
+  "total_episodes": 13,
+  "max_steps": 1500,
+  "mean_reward": 115.38461538461539,
+  "max_reward": 131.0,
+  "min_reward": 87.0,
+  "episodes": [
+    {
+      "episode": 2,
+      "steps": 125,
+      "reward": 125.0
+    },
+    {
+      "episode": 4,
+      "steps": 131,
+      "reward": 131.0
+    },
+    {
+      "episode": 6,
+      "steps": 125,
+      "reward": 125.0
+    },
+    {
+      "episode": 8,
+      "steps": 106,
+      "reward": 106.0
+    },
+    {
+      "episode": 10,
+      "steps": 107,
+      "reward": 107.0
+    },
+    {
+      "episode": 12,
+      "steps": 111,
+      "reward": 111.0
+    },
+    {
+      "episode": 14,
+      "steps": 122,
+      "reward": 122.0
+    },
+    {
+      "episode": 16,
+      "steps": 120,
+      "reward": 120.0
+    },
+    {
+      "episode": 18,
+      "steps": 114,
+      "reward": 114.0
+    },
+    {
+      "episode": 20,
+      "steps": 119,
+      "reward": 119.0
+    },
+    {
+      "episode": 22,
+      "steps": 122,
+      "reward": 122.0
+    },
+    {
+      "episode": 24,
+      "steps": 111,
+      "reward": 111.0
+    },
+    {
+      "episode": 25,
+      "steps": 87,
+      "reward": 87.0
+    }
+  ]
+}

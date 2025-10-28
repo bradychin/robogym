@@ -25,3 +25,19 @@ algorithms:
     gamma: 0.99
     train_freq: 1
     gradient_steps: 1
+
+  a2c:
+    target_score: 300
+    max_timesteps: 2000000
+    learning_rate: 0.0007
+    policy_net: [256,256]
+    eval_freq: 10000
+    n_steps: 5
+    gamma: 0.99
+    gae_lambda: 1.0
+    ent_coef: 0.0
+    vf_coef: 0.5
+    max_grad_norm: 0.5
+    rms_grad_eps: 1e-5
+    use_rms_prop: true
+    normalize_advantage: false
