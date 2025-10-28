@@ -3,6 +3,7 @@ from agents.ppo_agent import PPOAgent
 from agents.sac_agent import SACAgent
 from agents.dqn_agent import DQNAgent
 from agents.a2c_agent import A2CAgent
+from agents.td3_agent import TD3Agent
 
 # --------- Third-party imports ---------#
 from typing import TYPE_CHECKING, Optional
@@ -23,7 +24,8 @@ class AgentFactory:
         'ppo': PPOAgent,
         'sac': SACAgent,
         'dqn': DQNAgent,
-        'a2c': A2CAgent
+        'a2c': A2CAgent,
+        'td3': TD3Agent
     }
 
     # Define environment/agent compatibility
@@ -40,7 +42,7 @@ class AgentFactory:
                agent_name: str,
                vec_env,
                eval_env,
-               env_name: Optional[str] = None,
+               env_name: str | None,
                run_manager: Optional['RunManager'] = None) -> 'BaseAgent':
         """
         Create agent instance
