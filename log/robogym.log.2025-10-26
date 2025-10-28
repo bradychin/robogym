@@ -1,0 +1,88 @@
+20251026_1417 INFO: main.py -> ============================================================
+20251026_1417 INFO: main.py -> Starting RL pipeline.
+20251026_1418 INFO: main.py -> Selected environment: bipedalwalker
+20251026_1418 INFO: main.py -> ============================================================
+20251026_1418 INFO: main.py -> Starting RL pipeline.
+20251026_1418 INFO: main.py -> Selected environment: cartpole
+20251026_1419 INFO: main.py -> ============================================================
+20251026_1419 INFO: main.py -> Starting RL pipeline.
+20251026_1419 INFO: main.py -> Selected environment: lunarlander
+20251026_1419 INFO: main.py -> ============================================================
+20251026_1419 INFO: main.py -> Starting RL pipeline.
+20251026_1419 INFO: main.py -> Selected environment: pendulum
+20251026_1436 INFO: main.py -> ============================================================
+20251026_1436 INFO: main.py -> Starting RL pipeline.
+20251026_1436 INFO: main.py -> Selected environment: bipedalwalker
+20251026_1436 INFO: main.py -> Selected agent: ppo
+20251026_1436 INFO: main.py -> Found existing model: ./runs/20251024_2121_bipedalwalker_ppo/model.zip
+20251026_1436 INFO: main.py -> Selected action: demo
+20251026_1436 INFO: main.py -> Starting demo...
+20251026_1436 INFO: main.py -> Demo completed!
+20251026_1436 INFO: main.py -> RL pipeline completed successfully!
+20251026_1436 INFO: main.py -> ============================================================
+20251026_1436 INFO: main.py -> ============================================================
+20251026_1436 INFO: main.py -> Starting RL pipeline.
+20251026_1436 INFO: main.py -> Selected environment: bipedalwalker
+20251026_1436 INFO: main.py -> Selected agent: ppo
+20251026_1436 INFO: main.py -> Found existing model: ./runs/20251024_2121_bipedalwalker_ppo/model.zip
+20251026_1436 INFO: main.py -> Selected action: train
+20251026_1436 INFO: main.py -> Created run directory: runs/20251026_1436_bipedalwalker_ppo
+20251026_1436 INFO: main.py -> Starting training...
+20251026_1449 INFO: main.py -> ============================================================
+20251026_1449 INFO: main.py -> Starting RL pipeline.
+20251026_1449 INFO: main.py -> Selected environment: bipedalwalker
+20251026_1449 INFO: main.py -> Selected agent: ppo
+20251026_1449 INFO: main.py -> Found existing model: ./runs/20251024_2121_bipedalwalker_ppo/model.zip
+20251026_1449 INFO: main.py -> Selected action: train
+20251026_1449 INFO: main.py -> Created run directory: runs/20251026_1449_bipedalwalker_ppo
+20251026_1449 INFO: main.py -> Starting training...
+20251026_1449 INFO: main.py -> Training completed!
+20251026_1732 INFO: main.py -> ============================================================
+20251026_1732 INFO: main.py -> Starting RL pipeline.
+20251026_1733 INFO: main.py -> Selected environment: bipedalwalker
+20251026_1733 INFO: main.py -> Selected agent: sac
+20251026_1733 INFO: main.py -> No existing model found.
+20251026_1733 INFO: main.py -> Selected action: train
+20251026_1733 INFO: main.py -> Created run directory: runs/20251026_1733_bipedalwalker_sac
+20251026_1733 INFO: main.py -> Starting training...
+20251026_1733 INFO: main.py -> Training completed!
+20251026_1733 INFO: main.py -> Requested post-training evaluation and demo.
+20251026_1803 INFO: main.py -> ============================================================
+20251026_1803 INFO: main.py -> Starting RL pipeline.
+20251026_1803 INFO: main.py -> Selected environment: cartpole
+20251026_1804 INFO: main.py -> Selected agent: dqn
+20251026_1804 INFO: main.py -> No existing model found.
+20251026_1804 INFO: main.py -> Selected action: train
+20251026_1804 INFO: main.py -> Created run directory: runs/20251026_1804_cartpole_dqn
+20251026_1804 INFO: main.py -> Starting training...
+20251026_1804 INFO: main.py -> Training completed!
+20251026_1804 INFO: main.py -> Requested post-training evaluation and demo.
+20251026_1806 INFO: main.py -> Post-training evaluation and demo completed!
+20251026_1806 INFO: main.py -> RL pipeline completed successfully!
+20251026_1806 INFO: main.py -> ============================================================
+20251026_1806 INFO: main.py -> ============================================================
+20251026_1806 INFO: main.py -> Starting RL pipeline.
+20251026_1806 INFO: main.py -> Selected environment: lunarlander
+20251026_1806 INFO: main.py -> Selected agent: dqn
+20251026_1806 INFO: main.py -> No existing model found.
+20251026_1806 INFO: main.py -> Selected action: train
+20251026_1806 INFO: main.py -> Created run directory: runs/20251026_1806_lunarlander_dqn
+20251026_1806 INFO: main.py -> Starting training...
+20251026_1814 INFO: main.py -> Training completed!
+20251026_1817 INFO: main.py -> Requested post-training evaluation and demo.
+20251026_1818 INFO: main.py -> Post-training evaluation and demo completed!
+20251026_1818 INFO: main.py -> RL pipeline completed successfully!
+20251026_1818 INFO: main.py -> ============================================================
+20251026_1818 INFO: main.py -> ============================================================
+20251026_1818 INFO: main.py -> Starting RL pipeline.
+20251026_1819 INFO: main.py -> Selected environment: acrobot
+20251026_1819 INFO: main.py -> Selected agent: dqn
+20251026_1819 INFO: main.py -> No existing model found.
+20251026_1819 INFO: main.py -> Selected action: train
+20251026_1819 INFO: main.py -> Created run directory: runs/20251026_1819_acrobot_dqn
+20251026_1819 INFO: main.py -> Starting training...
+20251026_1820 INFO: main.py -> Training completed!
+20251026_1820 INFO: main.py -> Requested post-training evaluation and demo.
+20251026_1821 INFO: main.py -> Post-training evaluation and demo completed!
+20251026_1821 INFO: main.py -> RL pipeline completed successfully!
+20251026_1821 INFO: main.py -> ============================================================

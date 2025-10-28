@@ -1,0 +1,35 @@
+{
+  "timestamp": "20251028_1346",
+  "environment": "cartpole",
+  "agent": "a2c",
+  "n_episodes": 10,
+  "mean_reward": 121.6,
+  "std_reward": 8.248636250920512,
+  "max_reward": 133.0,
+  "min_reward": 107.0,
+  "avg_episode_length": 121.6,
+  "episode_rewards": [
+    127.0,
+    129.0,
+    128.0,
+    121.0,
+    114.0,
+    128.0,
+    112.0,
+    107.0,
+    117.0,
+    133.0
+  ],
+  "episode_lengths": [
+    127,
+    129,
+    128,
+    121,
+    114,
+    128,
+    112,
+    107,
+    117,
+    133
+  ]
+}

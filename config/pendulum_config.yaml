@@ -25,3 +25,19 @@ algorithms:
     tau: 0.005
     gamma: 0.99
     train_freq: 1
+
+  a2c:
+    target_score: -120
+    max_timesteps: 1000000
+    learning_rate: 0.0007
+    policy_net: [128,128]
+    eval_freq: 5000
+    n_steps: 5
+    gamma: 0.99
+    gae_lambda: 1.0
+    ent_coef: 0.0
+    vf_coef: 0.5
+    max_grad_norm: 0.5
+    rms_grad_eps: 1e-5
+    use_rms_prop: true
+    normalize_advantage: false

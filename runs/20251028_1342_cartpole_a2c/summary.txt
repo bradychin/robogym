@@ -1,0 +1,15 @@
+============================================================
+RUN SUMMARY
+============================================================
+Environment: cartpole
+Agent: a2c
+Timestamp: 20251028_1342
+Run Directory: 20251028_1342_cartpole_a2c
+
+Files:
+  - Log: robogym.log
+  - Config: config.yaml
+  - TensorBoard: cartpole_a2c_tb_20251028_1342/
+  - Evaluations: 0 file(s)
+  - Models: 1 file(s)
+============================================================

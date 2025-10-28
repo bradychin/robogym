@@ -2,6 +2,7 @@
 from agents.ppo_agent import PPOAgent
 from agents.sac_agent import SACAgent
 from agents.dqn_agent import DQNAgent
+from agents.a2c_agent import A2CAgent
 
 # --------- Third-party imports ---------#
 from typing import TYPE_CHECKING, Optional
@@ -21,7 +22,8 @@ class AgentFactory:
     AGENTS = {
         'ppo': PPOAgent,
         'sac': SACAgent,
-        'dqn': DQNAgent
+        'dqn': DQNAgent,
+        'a2c': A2CAgent
     }
 
     # Define environment/agent compatibility
