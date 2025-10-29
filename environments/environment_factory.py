@@ -8,6 +8,9 @@ from environments.gym_envs.acrobot_env import AcrobotEnv
 
 # --------- Pybullet environment imports ---------#
 from environments.pybullet_envs.ant_env import AntEnv
+from environments.pybullet_envs.halfcheetah_env import HalfCheetahEnv
+from environments.pybullet_envs.hopper_env import HopperEnv
+from environments.pybullet_envs.walker2d_env import Walker2DEnv
 
 # --------- Local imports ---------#
 from utils.logger import logger
@@ -18,24 +21,34 @@ class EnvironmentFactory:
     """Factory class for creating environment instances"""
 
     ENVIRONMENTS = {
+        # Gym environments
         'bipedalwalker': BipedalWalkerEnv,
         'cartpole': CartPoleEnv,
         'pendulum': PendulumEnv,
         'lunarlander': LunarLanderEnv,
         'lunarlandercontinuous': LunarLanderContinuousEnv,
         'acrobot': AcrobotEnv,
-        'ant': AntEnv
+        # Pybullet environments
+        'ant': AntEnv,
+        'halfcheetah': HalfCheetahEnv,
+        'hopper': HopperEnv,
+        'walker2d': Walker2DEnv
     }
 
     # Define action space types for environments
     ENVIRONMENT_ACTION_SPACES = {
+        # Gym environments
         'bipedalwalker': 'continuous',
         'cartpole': 'discrete',
         'pendulum': 'continuous',
         'lunarlander': 'discrete',
         'lunarlandercontinuous': 'continuous',
         'acrobot': 'discrete',
-        'ant': 'continuous'
+        # Pybullet environments
+        'ant': 'continuous',
+        'halfcheetah': 'continuous',
+        'hopper': 'continuous',
+        'walker2d': 'continuous'
     }
 
     @classmethod

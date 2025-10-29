@@ -1,0 +1,83 @@
+environment:
+  env_id: 'HopperBulletEnv-v0'
+
+demo:
+  max_steps: 1000
+
+algorithms:
+  ppo:
+    target_score: 2500
+    max_timesteps: 1000000
+    learning_rate: 0.0003
+    policy_net: [256,256]
+    eval_freq: 10000
+    n_steps: 2048
+    batch_size: 64
+    n_epochs: 10
+    gamma: 0.99
+    gae_lambda: 0.95
+    clip_range: 0.2
+    ent_coef: 0.0
+
+  sac:
+    target_score: 2500
+    max_timesteps: 500000
+    learning_rate: 0.0003
+    policy_net: [256, 256]
+    eval_freq: 5000
+    batch_size: 256
+    buffer_size: 300000
+    learning_starts: 10000
+    tau: 0.005
+    gamma: 0.99
+    train_freq: 1
+    gradient_steps: 1
+
+  td3:
+    target_score: 2500
+    max_timesteps: 500000
+    learning_rate: 0.001
+    policy_net: [256, 256]
+    eval_freq: 5000
+    batch_size: 100
+    buffer_size: 1000000
+    learning_starts: 10000
+    tau: 0.005
+    gamma: 0.99
+    train_freq: 1
+    gradient_steps: -1
+    policy_delay: 2
+    target_policy_noise: 0.2
+    target_noise_clip: 0.5
+
+  a2c:
+    target_score: 2500
+    max_timesteps: 1000000
+    learning_rate: 0.0007
+    policy_net: [128, 128]
+    eval_freq: 10000
+    n_steps: 5
+    gamma: 0.99
+    gae_lambda: 1.0
+    ent_coef: 0.0
+    vf_coef: 0.5
+    max_grad_norm: 0.5
+    rms_grad_eps: 1e-5
+    use_rms_prop: true
+    normalize_advantage: false
+
+  ddpg:
+    target_score: 2500
+    max_timesteps: 500000
+    learning_rate: 0.001
+    policy_net: [256, 256]
+    eval_freq: 5000
+    batch_size: 128
+    buffer_size: 1000000
+    learning_starts: 10000
+    tau: 0.005
+    gamma: 0.99
+    train_freq: 1
+    gradient_steps: -1
+    noise_type: 'normal'
+    noise_sigma: 0.1

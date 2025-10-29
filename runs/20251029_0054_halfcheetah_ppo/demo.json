@@ -1,0 +1,21 @@
+{
+  "timestamp": "20251029_0103",
+  "environment": "HalfCheetahBulletEnv-v0",
+  "total_episodes": 2,
+  "max_steps": 2000,
+  "mean_reward": 2049.2936419470634,
+  "max_reward": 2054.894585238495,
+  "min_reward": 2043.6926986556314,
+  "episodes": [
+    {
+      "episode": 1,
+      "steps": 1000,
+      "reward": 2043.6926986556314
+    },
+    {
+      "episode": 2,
+      "steps": 1000,
+      "reward": 2054.894585238495
+    }
+  ]
+}

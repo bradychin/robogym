@@ -1,0 +1,15 @@
+============================================================
+RUN SUMMARY
+============================================================
+Environment: halfcheetah
+Agent: ppo
+Timestamp: 20251029_0054
+Run Directory: 20251029_0054_halfcheetah_ppo
+
+Files:
+  - Log: robogym.log
+  - Config: config.yaml
+  - TensorBoard: halfcheetah_ppo_tb_20251029_0054/
+  - Evaluations: 0 file(s)
+  - Models: 1 file(s)
+============================================================
