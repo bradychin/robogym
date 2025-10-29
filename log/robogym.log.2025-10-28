@@ -1,0 +1,93 @@
+20251028_1341 INFO: main.py -> ============================================================
+20251028_1341 INFO: main.py -> Starting RL pipeline.
+20251028_1342 INFO: main.py -> Selected environment: cartpole
+20251028_1342 INFO: main.py -> Selected agent: a2c
+20251028_1342 INFO: main.py -> No existing model found.
+20251028_1342 INFO: main.py -> Selected action: train
+20251028_1342 INFO: main.py -> Created run directory: runs/20251028_1342_cartpole_a2c
+20251028_1342 INFO: main.py -> Starting training...
+20251028_1344 INFO: main.py -> Training completed!
+20251028_1346 INFO: main.py -> Requested post-training evaluation and demo.
+20251028_1347 INFO: main.py -> Post-training evaluation and demo completed!
+20251028_1347 INFO: main.py -> RL pipeline completed successfully!
+20251028_1347 INFO: main.py -> ============================================================
+20251028_1704 INFO: main.py -> ============================================================
+20251028_1704 INFO: main.py -> Starting RL pipeline.
+20251028_1704 INFO: main.py -> Selected environment: pendulum
+20251028_1704 INFO: main.py -> Selected agent: td3
+20251028_1704 INFO: main.py -> No existing model found.
+20251028_1704 INFO: main.py -> Selected action: train
+20251028_1704 INFO: main.py -> Created run directory: runs/20251028_1704_pendulum_td3
+20251028_1704 INFO: main.py -> Starting training...
+20251028_1705 INFO: main.py -> Training completed!
+20251028_1706 INFO: main.py -> Requested post-training evaluation and demo.
+20251028_1706 INFO: main.py -> Post-training evaluation and demo completed!
+20251028_1706 INFO: main.py -> RL pipeline completed successfully!
+20251028_1706 INFO: main.py -> ============================================================
+20251028_1720 INFO: main.py -> ============================================================
+20251028_1720 INFO: main.py -> Starting RL pipeline.
+20251028_1720 INFO: main.py -> Selected environment: pendulum
+20251028_1720 WARNING: main.py -> No agent selected. Exiting.
+20251028_1721 INFO: main.py -> ============================================================
+20251028_1721 INFO: main.py -> Starting RL pipeline.
+20251028_1721 INFO: main.py -> Selected environment: pendulum
+20251028_1721 INFO: main.py -> Selected agent: ddpg
+20251028_1721 INFO: main.py -> No existing model found.
+20251028_1721 INFO: main.py -> Selected action: train
+20251028_1721 INFO: main.py -> Created run directory: runs/20251028_1721_pendulum_ddpg
+20251028_1721 INFO: main.py -> Starting training...
+20251028_1725 INFO: main.py -> Training completed!
+20251028_1729 INFO: main.py -> Requested post-training evaluation and demo.
+20251028_1730 INFO: main.py -> Post-training evaluation and demo completed!
+20251028_1730 INFO: main.py -> RL pipeline completed successfully!
+20251028_1730 INFO: main.py -> ============================================================
+20251028_1746 INFO: main.py -> ============================================================
+20251028_1746 INFO: main.py -> Starting RL pipeline.
+20251028_1747 INFO: main.py -> Selected environment: mountaincarcontinuous
+20251028_1747 INFO: main.py -> Selected agent: ppo
+20251028_1747 INFO: main.py -> No existing model found.
+20251028_1747 INFO: main.py -> Selected action: train
+20251028_1747 INFO: main.py -> Created run directory: runs/20251028_1747_mountaincarcontinuous_ppo
+20251028_1747 INFO: main.py -> Starting training...
+20251028_1750 INFO: main.py -> Training completed!
+20251028_1750 WARNING: main.py -> Operation interrupted by user.
+20251028_1750 INFO: main.py -> RL pipeline completed successfully!
+20251028_1750 INFO: main.py -> ============================================================
+20251028_1750 INFO: main.py -> ============================================================
+20251028_1750 INFO: main.py -> Starting RL pipeline.
+20251028_1750 INFO: main.py -> Selected environment: mountaincar
+20251028_1750 INFO: main.py -> Selected agent: ppo
+20251028_1750 INFO: main.py -> No existing model found.
+20251028_1750 INFO: main.py -> Selected action: train
+20251028_1750 INFO: main.py -> Created run directory: runs/20251028_1750_mountaincar_ppo
+20251028_1750 INFO: main.py -> Starting training...
+20251028_1751 INFO: main.py -> Training completed!
+20251028_1754 INFO: main.py -> ============================================================
+20251028_1754 INFO: main.py -> Starting RL pipeline.
+20251028_1754 INFO: main.py -> Selected environment: mountaincarcontinuous
+20251028_1754 INFO: main.py -> Selected agent: td3
+20251028_1754 INFO: main.py -> No existing model found.
+20251028_1754 INFO: main.py -> Selected action: train
+20251028_1754 INFO: main.py -> Created run directory: runs/20251028_1754_mountaincarcontinuous_td3
+20251028_1754 INFO: main.py -> Starting training...
+20251028_1759 INFO: main.py -> ============================================================
+20251028_1759 INFO: main.py -> Starting RL pipeline.
+20251028_1759 INFO: main.py -> Selected environment: mountaincar
+20251028_1759 WARNING: main.py -> No agent selected. Exiting.
+20251028_1759 INFO: main.py -> ============================================================
+20251028_1759 INFO: main.py -> Starting RL pipeline.
+20251028_1759 INFO: main.py -> Selected environment: mountaincarcontinuous
+20251028_1759 INFO: main.py -> Selected agent: ppo
+20251028_1759 INFO: main.py -> Found existing model: ./runs/20251028_1747_mountaincarcontinuous_ppo/model.zip
+20251028_1759 INFO: main.py -> Selected action: train
+20251028_1759 INFO: main.py -> Created run directory: runs/20251028_1759_mountaincarcontinuous_ppo
+20251028_1759 INFO: main.py -> Starting training...
+20251028_1801 INFO: main.py -> Training completed!
+20251028_1801 INFO: main.py -> ============================================================
+20251028_1801 INFO: main.py -> Starting RL pipeline.
+20251028_1801 INFO: main.py -> Selected environment: mountaincar
+20251028_1801 INFO: main.py -> Selected agent: dqn
+20251028_1801 INFO: main.py -> No existing model found.
+20251028_1801 INFO: main.py -> Selected action: train
+20251028_1801 INFO: main.py -> Created run directory: runs/20251028_1801_mountaincar_dqn
+20251028_1801 INFO: main.py -> Starting training...

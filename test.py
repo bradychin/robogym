@@ -5,16 +5,24 @@ import json
 
 # --------- Third-party imports ---------#
 import gymnasium as gym
-import pybullet_envs_gymnasium
 from stable_baselines3.common.env_util import make_vec_env as sb3_make_vec_env
 from stable_baselines3.common.monitor import Monitor
 
+# --------- PyBullet import (registers environments) ---------#
+try:
+    import pybullet_envs_gymnasium
+except ImportError:
+    pass  # PyBullet not installed, skip
+
 # --------- Local imports ---------#
 from utils.config_manager import ConfigManager
+
 config_manager = ConfigManager()
 utilities_config = config_manager.get('utilities_config')
 from utils.logger import logger
+
 logger = logger(__name__)
+
 
 # --------- Base environment class ---------#
 class BaseEnvironment:
@@ -54,15 +62,20 @@ class BaseEnvironment:
         """
 
         logger.info(f'Demonstrating trained agent on {self.environment_id}...')
+        print(f'\n🎮 Starting demo for {self.environment_id}...')
+
+        # Create demo environment with human render mode
         try:
             demo_env = gym.make(self.environment_id, render_mode='human', **self.env_kwargs)
+            logger.info('Demo environment created with human render mode')
         except Exception as e:
-            logger.warning(f'Cound not create environement with human render mode: {e}')
+            logger.warning(f'Could not create environment with human render mode: {e}')
             logger.info('Trying without render mode...')
             try:
                 demo_env = gym.make(self.environment_id, **self.env_kwargs)
             except Exception as e2:
-                logger.error(f'Failed to create demo environment: {e}')
+                logger.error(f'Failed to create demo environment: {e2}')
+                print(f'❌ Failed to create demo environment: {e2}')
                 return
 
         demo_episodes = []
@@ -74,19 +87,24 @@ class BaseEnvironment:
             episode_steps = 0
             episode_count = 1
 
+            print(f'Running demo for up to {max_steps} steps...\n')
+
             for step in range(max_steps):
                 action, _ = agent.predict(obs, deterministic=True)
                 obs, reward, terminated, truncated, info = demo_env.step(action)
                 total_reward += reward
                 episode_steps += 1
 
+                # Try to render
                 try:
                     demo_env.render()
                 except Exception:
-                    pass
+                    pass  # Some environments render automatically
 
                 if terminated or truncated:
-                    logger.info(f'Episode {episode_count} finished after {step} steps with total reward: {total_reward:.2f}')
+                    print(f'✓ Episode {episode_count} finished: {episode_steps} steps, reward: {total_reward:.2f}')
+                    logger.info(
+                        f'Episode {episode_count} finished after {episode_steps} steps with total reward: {total_reward:.2f}')
 
                     demo_episodes.append({'episode': episode_count,
                                           'steps': episode_steps,
@@ -97,6 +115,7 @@ class BaseEnvironment:
                     total_reward = 0
                     episode_steps = 0
 
+            # Handle last episode if it didn't finish
             if episode_steps > 0 and not demo_episodes:
                 demo_episodes.append({'episode': 1,
                                       'steps': episode_steps,
@@ -148,12 +167,15 @@ class BaseEnvironment:
 
         except Exception as e:
             logger.error(f'Could not run demonstration: {e}')
+            print(f'❌ Demo failed: {e}')
             import traceback
             logger.error(traceback.format_exc())
         except KeyboardInterrupt:
             logger.warning('Demo interrupted by user')
+            print('\n⚠️  Demo interrupted by user')
         finally:
             demo_env.close()
+            print('Demo environment closed.')
 
     def close(self):
         if self.env:

@@ -1,10 +1,13 @@
-# --------- Environment imports ---------#
+# --------- Gym environment imports ---------#
 from environments.gym_envs.bipedalwalker_env import BipedalWalkerEnv
 from environments.gym_envs.cartpole_env import CartPoleEnv
 from environments.gym_envs.pendulum_env import PendulumEnv
 from environments.gym_envs.lunarlander_env import LunarLanderEnv
 from environments.gym_envs.lunarlandercontinuous_env import LunarLanderContinuousEnv
 from environments.gym_envs.acrobot_env import AcrobotEnv
+
+# --------- Pybullet environment imports ---------#
+from environments.pybullet_envs.ant_env import AntEnv
 
 # --------- Local imports ---------#
 from utils.logger import logger
@@ -20,7 +23,8 @@ class EnvironmentFactory:
         'pendulum': PendulumEnv,
         'lunarlander': LunarLanderEnv,
         'lunarlandercontinuous': LunarLanderContinuousEnv,
-        'acrobot': AcrobotEnv
+        'acrobot': AcrobotEnv,
+        'ant': AntEnv
     }
 
     # Define action space types for environments
@@ -30,7 +34,8 @@ class EnvironmentFactory:
         'pendulum': 'continuous',
         'lunarlander': 'discrete',
         'lunarlandercontinuous': 'continuous',
-        'acrobot': 'discrete'
+        'acrobot': 'discrete',
+        'ant': 'continuous'
     }
 
     @classmethod

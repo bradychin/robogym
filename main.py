@@ -231,7 +231,7 @@ def main():
 
         elif action == 'demo':
             if load_model_for_action(agent, env_name, agent_name, 'demo'):
-                max_steps = env_config['demo']['max_steps']
+                max_steps = env_config.get('demo', {}).get('max_steps', 2000)
                 logger.info('Starting demo...')
                 global_logger.info('Starting demo...')
                 training_env.demo(agent, max_steps=max_steps)
