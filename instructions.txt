@@ -1,0 +1,3 @@
+# Run tensorboard
+cd /Users/bradychin/Projects/robogym
+tensorboard --logdir=./runs

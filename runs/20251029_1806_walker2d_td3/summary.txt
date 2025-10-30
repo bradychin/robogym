@@ -1,0 +1,15 @@
+============================================================
+RUN SUMMARY
+============================================================
+Environment: walker2d
+Agent: td3
+Timestamp: 20251029_1806
+Run Directory: 20251029_1806_walker2d_td3
+
+Files:
+  - Log: robogym.log
+  - Config: config.yaml
+  - TensorBoard: walker2d_td3_tb_20251029_1806/
+  - Evaluations: 0 file(s)
+  - Models: 1 file(s)
+============================================================

@@ -1,0 +1,21 @@
+{
+  "timestamp": "20251029_0151",
+  "environment": "Walker2DBulletEnv-v0",
+  "total_episodes": 2,
+  "max_steps": 2000,
+  "mean_reward": 1000.5273489347171,
+  "max_reward": 1001.8671972450766,
+  "min_reward": 999.1875006243575,
+  "episodes": [
+    {
+      "episode": 1,
+      "steps": 1000,
+      "reward": 1001.8671972450766
+    },
+    {
+      "episode": 2,
+      "steps": 1000,
+      "reward": 999.1875006243575
+    }
+  ]
+}

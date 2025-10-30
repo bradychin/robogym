@@ -1,0 +1,15 @@
+============================================================
+RUN SUMMARY
+============================================================
+Environment: hopper
+Agent: ppo
+Timestamp: 20251029_0120
+Run Directory: 20251029_0120_hopper_ppo
+
+Files:
+  - Log: robogym.log
+  - Config: config.yaml
+  - TensorBoard: hopper_ppo_tb_20251029_0120/
+  - Evaluations: 0 file(s)
+  - Models: 1 file(s)
+============================================================

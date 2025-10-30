@@ -1,0 +1,16 @@
+{
+  "timestamp": "20251029_0127",
+  "environment": "HopperBulletEnv-v0",
+  "total_episodes": 1,
+  "max_steps": 1000,
+  "mean_reward": 2557.5503983854933,
+  "max_reward": 2557.5503983854933,
+  "min_reward": 2557.5503983854933,
+  "episodes": [
+    {
+      "episode": 1,
+      "steps": 1000,
+      "reward": 2557.5503983854933
+    }
+  ]
+}

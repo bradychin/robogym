@@ -1,0 +1,15 @@
+============================================================
+RUN SUMMARY
+============================================================
+Environment: ant
+Agent: ppo
+Timestamp: 20251029_0014
+Run Directory: 20251029_0014_ant_ppo
+
+Files:
+  - Log: robogym.log
+  - Config: config.yaml
+  - TensorBoard: ant_ppo_tb_20251029_0014/
+  - Evaluations: 0 file(s)
+  - Models: 1 file(s)
+============================================================

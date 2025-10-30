@@ -5,6 +5,7 @@ import json
 
 # --------- Third-party imports ---------#
 import gymnasium as gym
+import pybullet_envs_gymnasium
 from stable_baselines3.common.env_util import make_vec_env as sb3_make_vec_env
 from stable_baselines3.common.monitor import Monitor
 
@@ -53,7 +54,17 @@ class BaseEnvironment:
         """
 
         logger.info(f'Demonstrating trained agent on {self.environment_id}...')
-        demo_env = gym.make(self.environment_id, render_mode='human', **self.env_kwargs)
+        try:
+            demo_env = gym.make(self.environment_id, render_mode='human', **self.env_kwargs)
+        except Exception as e:
+            logger.warning(f'Cound not create environement with human render mode: {e}')
+            logger.info('Trying without render mode...')
+            try:
+                demo_env = gym.make(self.environment_id, **self.env_kwargs)
+            except Exception as e2:
+                logger.error(f'Failed to create demo environment: {e}')
+                return
+
         demo_episodes = []
         episode_count = 0
 
@@ -68,10 +79,13 @@ class BaseEnvironment:
                 obs, reward, terminated, truncated, info = demo_env.step(action)
                 total_reward += reward
                 episode_steps += 1
-                demo_env.render()
+
+                try:
+                    demo_env.render()
+                except Exception:
+                    pass
 
                 if terminated or truncated:
-                    episode_count += 1
                     logger.info(f'Episode {episode_count} finished after {step} steps with total reward: {total_reward:.2f}')
 
                     demo_episodes.append({'episode': episode_count,
@@ -134,6 +148,8 @@ class BaseEnvironment:
 
         except Exception as e:
             logger.error(f'Could not run demonstration: {e}')
+            import traceback
+            logger.error(traceback.format_exc())
         except KeyboardInterrupt:
             logger.warning('Demo interrupted by user')
         finally:
