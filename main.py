@@ -208,7 +208,7 @@ def main():
             elif follow_up == 'demo':
                 logger.info('Requested post-training demo.')
                 global_logger.info('Requested post-training demo.')
-                max_steps = env_config['demo']['max_steps']
+                max_steps = env_config.get('demo', {}).get('max_steps', 2000)
                 training_env.demo(agent, max_steps=max_steps)
                 logger.info('Post-training demo completed!')
                 global_logger.info('Post-training demo completed!')
@@ -216,7 +216,7 @@ def main():
                 logger.info('Requested post-training evaluation and demo.')
                 global_logger.info('Requested post-training evaluation and demo.')
                 agent.evaluate()
-                max_steps = env_config['demo']['max_steps']
+                max_steps = env_config.get('demo', {}).get('max_steps', 2000)
                 training_env.demo(agent, max_steps=max_steps)
                 logger.info('Post-training evaluation and demo completed!')
                 global_logger.info('Post-training evaluation and demo completed!')
@@ -231,9 +231,9 @@ def main():
 
         elif action == 'demo':
             if load_model_for_action(agent, env_name, agent_name, 'demo'):
-                max_steps = env_config.get('demo', {}).get('max_steps', 2000)
                 logger.info('Starting demo...')
                 global_logger.info('Starting demo...')
+                max_steps = env_config.get('demo', {}).get('max_steps', 2000)
                 training_env.demo(agent, max_steps=max_steps)
                 logger.info('Demo completed!')
                 global_logger.info('Demo completed!')
