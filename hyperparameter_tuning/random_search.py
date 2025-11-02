@@ -212,5 +212,5 @@ class HyperparameterSearch:
 
 
 if __name__ == '__main__':
-    searcher = HyperparameterSearch('cartpole', 'ppo')
-    searcher.random_search(n_trials=10, n_timesteps=30000)
+    searcher = HyperparameterSearch('lunarlandercontinuous', 'ppo')
+    searcher.random_search(n_trials=15, n_timesteps=50000)
