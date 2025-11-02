@@ -9,7 +9,6 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 # --------- Third-party imports ---------#
 from stable_baselines3.common.callbacks import EvalCallback
-from stable_baselines3.common.monitor import Monitor
 import numpy as np
 
 # --------- Local imports ---------#
@@ -309,19 +308,3 @@ class TrialEvalCallback(EvalCallback):
                 return False
 
         return True
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
