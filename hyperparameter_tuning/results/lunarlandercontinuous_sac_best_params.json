@@ -1,0 +1,100 @@
+{
+  "environment": "lunarlandercontinuous",
+  "agent": "sac",
+  "n_trials": 5,
+  "best_value": 290.8442728,
+  "best_trial": 1,
+  "best_params": {
+    "_architecture": "large",
+    "learning_rate": 0.0009743800209883573,
+    "batch_size": 128,
+    "buffer_size": 100000,
+    "learning_starts": 7820,
+    "tau": 0.005,
+    "gamma": 0.99,
+    "train_freq": 1,
+    "gradient_steps": 2
+  },
+  "all_trials": [
+    {
+      "trial": 1,
+      "value": 290.8442728,
+      "params": {
+        "_architecture": "large",
+        "learning_rate": 0.0009743800209883573,
+        "batch_size": 128,
+        "buffer_size": 100000,
+        "learning_starts": 7820,
+        "tau": 0.005,
+        "gamma": 0.99,
+        "train_freq": 1,
+        "gradient_steps": 2
+      },
+      "state": 1
+    },
+    {
+      "trial": 3,
+      "value": 65.170671,
+      "params": {
+        "_architecture": "large",
+        "learning_rate": 0.00014496415848977778,
+        "batch_size": 256,
+        "buffer_size": 100000,
+        "learning_starts": 4691,
+        "tau": 0.01,
+        "gamma": 0.98,
+        "train_freq": 4,
+        "gradient_steps": 1
+      },
+      "state": 1
+    },
+    {
+      "trial": 2,
+      "value": 30.8821664,
+      "params": {
+        "_architecture": "medium",
+        "learning_rate": 0.0004405667415152924,
+        "batch_size": 128,
+        "buffer_size": 300000,
+        "learning_starts": 7135,
+        "tau": 0.005,
+        "gamma": 0.99,
+        "train_freq": 4,
+        "gradient_steps": 2
+      },
+      "state": 1
+    },
+    {
+      "trial": 0,
+      "value": -20.11546,
+      "params": {
+        "_architecture": "medium",
+        "learning_rate": 0.0001848679980904086,
+        "batch_size": 128,
+        "buffer_size": 300000,
+        "learning_starts": 2753,
+        "tau": 0.01,
+        "gamma": 0.98,
+        "train_freq": 1,
+        "gradient_steps": 1
+      },
+      "state": 1
+    },
+    {
+      "trial": 4,
+      "value": null,
+      "params": {
+        "_architecture": "large",
+        "learning_rate": 0.0001453551657652724,
+        "batch_size": 128,
+        "buffer_size": 300000,
+        "learning_starts": 9126,
+        "tau": 0.005,
+        "gamma": 0.99,
+        "train_freq": 1,
+        "gradient_steps": 2
+      },
+      "state": 3
+    }
+  ]
+}

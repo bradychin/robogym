@@ -1,0 +1,100 @@
+{
+  "environment": "cartpole",
+  "agent": "ppo",
+  "n_trials": 5,
+  "best_value": 500.0,
+  "best_trial": 0,
+  "best_params": {
+    "_architecture": "large",
+    "learning_rate": 0.0008187407093428055,
+    "n_steps": 2048,
+    "batch_size": 256,
+    "n_epochs": 20,
+    "gamma": 0.99,
+    "gae_lambda": 0.9,
+    "clip_range": 0.1,
+    "ent_coef": 1.2438020416357975e-07
+  },
+  "all_trials": [
+    {
+      "trial": 0,
+      "value": 500.0,
+      "params": {
+        "_architecture": "large",
+        "learning_rate": 0.0008187407093428055,
+        "n_steps": 2048,
+        "batch_size": 256,
+        "n_epochs": 20,
+        "gamma": 0.99,
+        "gae_lambda": 0.9,
+        "clip_range": 0.1,
+        "ent_coef": 1.2438020416357975e-07
+      },
+      "state": 1
+    },
+    {
+      "trial": 1,
+      "value": 470.2,
+      "params": {
+        "_architecture": "large",
+        "learning_rate": 0.00010078191411487457,
+        "n_steps": 512,
+        "batch_size": 64,
+        "n_epochs": 19,
+        "gamma": 0.95,
+        "gae_lambda": 0.98,
+        "clip_range": 0.3,
+        "ent_coef": 1.585727732931994e-08
+      },
+      "state": 1
+    },
+    {
+      "trial": 4,
+      "value": 436.8,
+      "params": {
+        "_architecture": "small",
+        "learning_rate": 0.0002660016374782651,
+        "n_steps": 512,
+        "batch_size": 128,
+        "n_epochs": 7,
+        "gamma": 0.95,
+        "gae_lambda": 0.95,
+        "clip_range": 0.1,
+        "ent_coef": 8.861935607425783e-06
+      },
+      "state": 1
+    },
+    {
+      "trial": 3,
+      "value": 403.6,
+      "params": {
+        "_architecture": "medium",
+        "learning_rate": 0.00020933209261135517,
+        "n_steps": 2048,
+        "batch_size": 128,
+        "n_epochs": 7,
+        "gamma": 0.99,
+        "gae_lambda": 0.98,
+        "clip_range": 0.2,
+        "ent_coef": 0.007792235753447928
+      },
+      "state": 1
+    },
+    {
+      "trial": 2,
+      "value": 362.8,
+      "params": {
+        "_architecture": "medium",
+        "learning_rate": 0.00011765305033605902,
+        "n_steps": 512,
+        "batch_size": 256,
+        "n_epochs": 11,
+        "gamma": 0.95,
+        "gae_lambda": 0.98,
+        "clip_range": 0.2,
+        "ent_coef": 5.338254664182368e-08
+      },
+      "state": 1
+    }
+  ]
+}

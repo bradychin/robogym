@@ -1,0 +1,20 @@
+environment:
+  env_id: LunarLander-v3
+  continuous: true
+demo:
+  max_steps: 2000
+training:
+  target_score: 200
+  max_timesteps: 500000
+  learning_rate: 0.0009743800209883573
+  policy_net:
+  - 400
+  - 300
+  eval_freq: 5000
+  batch_size: 128
+  learning_starts: 7820
+  buffer_size: 100000
+  gradient_steps: 2
+  tau: 0.005
+  gamma: 0.99
+  train_freq: 1

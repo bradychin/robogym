@@ -5,7 +5,11 @@ from pathlib import Path
 # --------- Config Manager class ---------#
 class ConfigManager:
     def __init__(self, config_dir='config'):
-        self.config_dir = Path(config_dir)
+        if not Path(config_dir).is_absolute():
+            project_root = Path(__file__).parent.parent
+            self.config_dir = project_root / config_dir
+        else:
+            self.config_dir = Path(config_dir)
         self.configs = {}
         self.load_all_configs()
 
