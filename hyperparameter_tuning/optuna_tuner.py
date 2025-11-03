@@ -1,5 +1,5 @@
 # --------- Standard library imports ---------#
-from typing import Dict, Any, Callable
+from typing import Dict, Any
 import optuna
 from optuna.pruners import MedianPruner
 from optuna.samplers import TPESampler
@@ -9,6 +9,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 # --------- Third-party imports ---------#
 from stable_baselines3.common.callbacks import EvalCallback
+from stable_baselines3.common.evaluation import evaluate_policy
 import numpy as np
 
 # --------- Local imports ---------#
@@ -55,105 +56,97 @@ class Optuna:
         config_name = f'{env_name}_config'
         self.base_config = config_manager.get(config_name, algorithm_name=agent_name)
 
-    def sample_ppo_params(self, trial: optuna.Trial) -> Dict[str, Any]:
+    def sample_params(self, trial: optuna.Trial) -> Dict[str, Any]:
         """Sample PPO hyperparameters"""
-        return {
-            'learning_rate': trial.suggest_loguniform('learning_rate', 1e-5, 1e-3),
-            'n_steps': trial.suggest_categorical('n_steps', [128, 256, 512, 1024, 2048]),
-            'batch_size': trial.suggest_categorical('batch_size', [32, 64, 128, 256, 512]),
-            'n_epochs': trial.suggest_int('n_epochs', 3, 30),
-            'gamma': trial.suggest_categorical('gamma', [0.9, 0.95, 0.98, 0.99, 0.995, 0.999]),
-            'gae_lambda': trial.suggest_categorical('gae_lambda', [0.8, 0.9, 0.92, 0.95, 0.98, 0.99, 1.0]),
-            'clip_range': trial.suggest_categorical('clip_range', [0.1, 0.2, 0.3, 0.4]),
-            'ent_coef': trial.suggest_loguniform('ent_coef', 1e-8, 1e-1),
-            'policy_net': trial.suggest_categorical('policy_net', [[64, 64], [128, 128], [256, 256], [400, 300]]),
-        }
+        agent = self.agent_name.lower()
 
-    def sample_sac_params(self, trial: optuna.Trial) -> Dict[str, Any]:
-        """Sample SAC hyperparameters"""
-        return {
-            'learning_rate': trial.suggest_loguniform('learning_rate', 1e-5, 1e-3),
-            'buffer_size': trial.suggest_categorical('buffer_size', [50000, 100000, 300000, 1000000]),
-            'learning_starts': trial.suggest_int('learning_starts', 1000, 20000),
-            'batch_size': trial.suggest_categorical('batch_size', [64, 128, 256, 512]),
-            'tau': trial.suggest_categorical('tau', [0.001, 0.005, 0.01, 0.02]),
-            'gamma': trial.suggest_categorical('gamma', [0.9, 0.95, 0.98, 0.99, 0.995]),
-            'train_freq': trial.suggest_categorical('train_freq', [1, 4, 8, 16]),
-            'gradient_steps': trial.suggest_categorical('gradient_steps', [1, 2, 4, 8]),
-            'policy_net': trial.suggest_categorical('policy_net', [[128, 128], [256, 256], [400, 300]]),
-        }
+        if agent == 'ppo':
+            # Sample architecture first
+            arch_choice = trial.suggest_categorical('_architecture', ['small', 'medium', 'large'])
+            arch_map = {'small': [64, 64], 'medium': [128, 128], 'large': [256, 256]}
 
-    def sample_dqn_params(self, trial: optuna.Trial) -> Dict[str, Any]:
-        """Sample DQN hyperparameters"""
-        return {
-            'learning_rate': trial.suggest_loguniform('learning_rate', 1e-5, 1e-3),
-            'buffer_size': trial.suggest_categorical('buffer_size', [50000, 100000, 300000]),
-            'learning_starts': trial.suggest_int('learning_starts', 10000, 100000),
-            'batch_size': trial.suggest_categorical('batch_size', [32, 64, 128, 256]),
-            'tau': trial.suggest_categorical('tau', [0.1, 0.5, 1.0]),
-            'gamma': trial.suggest_categorical('gamma', [0.9, 0.95, 0.99, 0.999]),
-            'train_freq': trial.suggest_categorical('train_freq', [1, 4, 8, 16]),
-            'target_update_interval': trial.suggest_int('target_update_interval', 1000, 20000),
-            'exploration_fraction': trial.suggest_float('exploration_fraction', 0.05, 0.3),
-            'exploration_final_eps': trial.suggest_float('exploration_final_eps', 0.01, 0.1),
-            'policy_net': trial.suggest_categorical('policy_net', [[64, 64], [128, 128], [256, 256]]),
-        }
+            return {
+                'learning_rate': trial.suggest_float('learning_rate', 1e-4, 1e-3, log=True),
+                'n_steps': trial.suggest_categorical('n_steps', [512, 1024, 2048]),
+                'batch_size': trial.suggest_categorical('batch_size', [64, 128, 256]),
+                'n_epochs': trial.suggest_int('n_epochs', 3, 20),
+                'gamma': trial.suggest_categorical('gamma', [0.95, 0.99]),
+                'gae_lambda': trial.suggest_categorical('gae_lambda', [0.9, 0.95, 0.98]),
+                'clip_range': trial.suggest_categorical('clip_range', [0.1, 0.2, 0.3]),
+                'ent_coef': trial.suggest_float('ent_coef', 1e-8, 0.1, log=True),
+                'policy_net': arch_map[arch_choice],
+            }
 
-    def sample_td3_params(self, trial: optuna.Trial) -> Dict[str, Any]:
-        """Sample TD3 hyperparameters"""
-        return {
-            'learning_rate': trial.suggest_loguniform('learning_rate', 1e-5, 1e-3),
-            'buffer_size': trial.suggest_categorical('buffer_size', [100000, 300000, 1000000]),
-            'learning_starts': trial.suggest_int('learning_starts', 1000, 20000),
-            'batch_size': trial.suggest_categorical('batch_size', [64, 100, 128, 256]),
-            'tau': trial.suggest_categorical('tau', [0.001, 0.005, 0.01, 0.02]),
-            'gamma': trial.suggest_categorical('gamma', [0.9, 0.95, 0.98, 0.99]),
-            'policy_delay': trial.suggest_categorical('policy_delay', [1, 2, 3]),
-            'target_policy_noise': trial.suggest_float('target_policy_noise', 0.1, 0.5),
-            'target_noise_clip': trial.suggest_float('target_noise_clip', 0.3, 1.0),
-            'policy_net': trial.suggest_categorical('policy_net', [[128, 128], [256, 256], [400, 300]]),
-        }
+        elif agent == 'sac':
+            arch_choice = trial.suggest_categorical('_architecture', ['small', 'medium', 'large'])
+            arch_map = {'medium': [256, 256], 'large': [400, 300]}
+            return {
+                'learning_rate': trial.suggest_float('learning_rate', 1e-4, 1e-3, log=True),
+                'batch_size': trial.suggest_categorical('batch_size', [128, 256]),
+                'buffer_size': trial.suggest_categorical('buffer_size', [100000, 300000]),
+                'learning_starts': trial.suggest_int('learning_starts', 1000, 10000),
+                'tau': trial.suggest_categorical('tau', [0.005, 0.01]),
+                'gamma': trial.suggest_categorical('gamma', [0.98, 0.99]),
+                'train_freq': trial.suggest_categorical('train_freq', [1, 4]),
+                'gradient_steps': trial.suggest_categorical('gradient_steps', [1, 2]),
+                'policy_net': arch_map[arch_choice],
+            }
 
-    def sample_a2c_params(self, trial: optuna.Trial) -> Dict[str, Any]:
-        """Sample A2C hyperparameters"""
-        return {
-            'learning_rate': trial.suggest_loguniform('learning_rate', 1e-5, 1e-3),
-            'n_steps': trial.suggest_categorical('n_steps', [5, 8, 16, 32, 64]),
-            'gamma': trial.suggest_categorical('gamma', [0.9, 0.95, 0.98, 0.99, 0.995]),
-            'gae_lambda': trial.suggest_categorical('gae_lambda', [0.8, 0.9, 0.95, 0.98, 0.99, 1.0]),
-            'ent_coef': trial.suggest_loguniform('ent_coef', 1e-8, 1e-1),
-            'vf_coef': trial.suggest_float('vf_coef', 0.1, 1.0),
-            'max_grad_norm': trial.suggest_categorical('max_grad_norm', [0.3, 0.5, 0.7, 1.0]),
-            'policy_net': trial.suggest_categorical('policy_net', [[64, 64], [128, 128], [256, 256]]),
-        }
+        elif agent == 'dqn':
+            return {
+                'learning_rate': trial.suggest_float('learning_rate', 1e-4, 1e-3, log=True),
+                'batch_size': trial.suggest_categorical('batch_size', [32, 64, 128]),
+                'buffer_size': trial.suggest_categorical('buffer_size', [50000, 100000]),
+                'gamma': trial.suggest_categorical('gamma', [0.95, 0.99]),
+                'target_update_interval': trial.suggest_categorical('target_update_interval', [1000, 10000]),
+                'exploration_fraction': trial.suggest_float('exploration_fraction', 0.1, 0.3),
+                'exploration_final_eps': trial.suggest_float('exploration_final_eps', 0.01, 0.05),
+                'policy_net': trial.suggest_categorical('policy_net', [[64, 64], [128, 128]]),
+            }
 
-    def sample_ddpg_params(self, trial: optuna.Trial) -> Dict[str, Any]:
-        """Sample DDPG hyperparameters"""
-        return {
-            'learning_rate': trial.suggest_loguniform('learning_rate', 1e-5, 1e-3),
-            'buffer_size': trial.suggest_categorical('buffer_size', [100000, 300000, 1000000]),
-            'learning_starts': trial.suggest_int('learning_starts', 100, 10000),
-            'batch_size': trial.suggest_categorical('batch_size', [64, 100, 128, 256]),
-            'tau': trial.suggest_categorical('tau', [0.001, 0.005, 0.01, 0.02]),
-            'gamma': trial.suggest_categorical('gamma', [0.9, 0.95, 0.98, 0.99]),
-            'noise_type': trial.suggest_categorical('noise_type', ['normal', 'ornstein-uhlenbeck']),
-            'noise_sigma': trial.suggest_float('noise_sigma', 0.05, 0.3),
-            'policy_net': trial.suggest_categorical('policy_net', [[128, 128], [256, 256], [400, 300]]),
-        }
+        elif agent == 'td3':
+            return {
+                'learning_rate': trial.suggest_float('learning_rate', 1e-4, 1e-3, log=True),
+                'batch_size': trial.suggest_categorical('batch_size', [100, 128, 256]),
+                'buffer_size': trial.suggest_categorical('buffer_size', [300000, 1000000]),
+                'learning_starts': trial.suggest_int('learning_starts', 1000, 10000),
+                'tau': trial.suggest_categorical('tau', [0.005, 0.01]),
+                'gamma': trial.suggest_categorical('gamma', [0.98, 0.99]),
+                'policy_delay': trial.suggest_categorical('policy_delay', [2, 3]),
+                'target_policy_noise': trial.suggest_float('target_policy_noise', 0.1, 0.3),
+                'target_noise_clip': trial.suggest_float('target_noise_clip', 0.3, 0.5),
+                'policy_net': trial.suggest_categorical('policy_net', [[256, 256], [400, 300]]),
+            }
 
-    def get_sampler(self) -> Callable:
-        """Get the appropriate hyperparameter sampler for the agent"""
-        samplers = {
-            'ppo': self.sample_ppo_params,
-            'sac': self.sample_sac_params,
-            'dqn': self.sample_dqn_params,
-            'td3': self.sample_td3_params,
-            'a2c': self.sample_a2c_params,
-            'ddpg': self.sample_ddpg_params
-        }
-        return samplers.get(self.agent_name.lower())
+        elif agent == 'a2c':
+            return {
+                'learning_rate': trial.suggest_float('learning_rate', 1e-4, 1e-3, log=True),
+                'n_steps': trial.suggest_categorical('n_steps', [5, 8, 16, 32]),
+                'gamma': trial.suggest_categorical('gamma', [0.95, 0.99]),
+                'gae_lambda': trial.suggest_categorical('gae_lambda', [0.9, 0.95, 0.98]),
+                'ent_coef': trial.suggest_float('ent_coef', 1e-8, 0.1, log=True),
+                'vf_coef': trial.suggest_float('vf_coef', 0.25, 0.75),
+                'max_grad_norm': trial.suggest_categorical('max_grad_norm', [0.3, 0.5, 0.7]),
+                'policy_net': trial.suggest_categorical('policy_net', [[64, 64], [128, 128]]),
+            }
 
-    def objective(self, trial: optuna.Trial) -> float | None:
+        elif agent == 'ddpg':
+            return {
+                'learning_rate': trial.suggest_float('learning_rate', 1e-4, 1e-3, log=True),
+                'batch_size': trial.suggest_categorical('batch_size', [100, 128, 256]),
+                'buffer_size': trial.suggest_categorical('buffer_size', [300000, 1000000]),
+                'learning_starts': trial.suggest_int('learning_starts', 100, 5000),
+                'tau': trial.suggest_categorical('tau', [0.005, 0.01]),
+                'gamma': trial.suggest_categorical('gamma', [0.98, 0.99]),
+                'noise_type': trial.suggest_categorical('noise_type', ['normal', 'ornstein-uhlenbeck']),
+                'noise_sigma': trial.suggest_float('noise_sigma', 0.05, 0.2),
+                'policy_net': trial.suggest_categorical('policy_net', [[256, 256], [400, 300]]),
+            }
+
+        else:
+            raise ValueError(f'No parameter sampling defined for agent: {agent}')
+
+    def objective(self, trial: optuna.Trial) -> float:
         """
         Objective function for optuna optimization
 
@@ -163,11 +156,7 @@ class Optuna:
 
         try:
             # sample hyperparameters
-            sampler = self.get_sampler()
-            if sampler is None:
-                raise ValueError(f'No sampler defined for agent: {self.agent_name}')
-
-            sampled_params = sampler(trial)
+            sampled_params = self.sample_params(trial)
 
             # create config with sampled parameters
             trial_config = self.base_config.copy()
@@ -193,20 +182,15 @@ class Optuna:
 
             # create model with sampled hyperparameters
             agent.model = agent._create_model(trial_config['training'])
+            agent.model.set_logger(None)
+            agent.model.learn(total_timesteps=self.n_timesteps)
 
-            # evaluation callback that reports to optuna
-            eval_callback = TrialEvalCallback(
+            # evaluate
+            mean_reward, std_reward = evaluate_policy(
+                agent.model,
                 eval_env,
-                trial,
                 n_eval_episodes=self.n_eval_episodes,
-                eval_freq=self.eval_freq,
                 deterministic=True
-            )
-
-            # train
-            agent.model.learn(
-                total_timesteps=self.n_timesteps,
-                callback=eval_callback
             )
 
             # cleanup
@@ -215,14 +199,13 @@ class Optuna:
             training_env.close()
             eval_env_wrapper.close()
 
-            # return if best mean reward
-            if eval_callback.is_pruned:
-                raise optuna.exceptions.TrialPruned()
+            logger.info(f'Trial {trial.number}: reward = {mean_reward:.2f} +/- {std_reward:.2f}')
 
-            return eval_callback.best_mean_reward
+            return mean_reward
 
         except Exception as e:
-            logger.error(f'Trial failed: {e}')
+            logger.error(f'Trial {trial.number} failed: {e}')
+            return -np.inf
 
     def optimize(self, storage: str=None) -> optuna.Study:
         """
@@ -242,8 +225,8 @@ class Optuna:
         print(f"{'=' * 60}\n")
 
         # create study
-        sampler = TPESampler(n_startup_trials=10)
-        pruner = MedianPruner(n_startup_trials=5, n_warmup_steps=self.eval_freq // 2)
+        sampler = TPESampler(n_startup_trials=5)
+        pruner = MedianPruner(n_startup_trials=3, n_warmup_steps=5)
 
         study = optuna.create_study(
             study_name=f'{self.env_name}_{self.agent_name}',
@@ -269,6 +252,7 @@ class Optuna:
         print(f"\n{'=' * 60}")
         print("OPTIMIZATION RESULTS")
         print(f"{'=' * 60}")
+        print(f"Number of finished trials: {len(study.trials)}")
         print(f"Best trial: {study.best_trial.number}")
         print(f"Best value: {study.best_value:.2f}")
         print(f"\nBest hyperparameters:")
@@ -279,32 +263,3 @@ class Optuna:
         logger.info(f"Optimization completed. Best reward: {study.best_value:.2f}")
 
         return study
-
-class TrialEvalCallback(EvalCallback):
-    """Custom evaluation callback for optuna trials with pruning"""
-    def __init__(self, eval_env, trial: optuna.Trial, **kwargs):
-        super().__init__(eval_env, **kwargs)
-        self.trial = trial
-        self.eval_idx = 0
-        self.is_pruned = False
-        self.best_mean_reward = -np.inf
-
-    def on_step(self) -> bool:
-        if self.eval_freq > 0 and self.n_calls % self.eval_freq == 0:
-            # evaluate
-            super()._on_step()
-
-            # update best reward
-            if self.last_mean_reward > self.best_mean_reward:
-                self. best_mean_reward = self.last_mean_reward
-
-            # report to optuna
-            self.eval_idx += 1
-            self.trial.report(self.last_mean_reward, self.eval_idx)
-
-            # Prune trial if not promising
-            if self.trial.should_prune():
-                self.is_pruned = True
-                return False
-
-        return True
