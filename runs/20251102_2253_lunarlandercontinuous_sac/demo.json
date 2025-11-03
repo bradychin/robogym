@@ -1,0 +1,46 @@
+{
+  "timestamp": "20251102_2321",
+  "environment": "LunarLander-v3",
+  "total_episodes": 7,
+  "max_steps": 2000,
+  "mean_reward": 207.98902968489156,
+  "max_reward": 267.8534574774229,
+  "min_reward": -3.8612644876976763,
+  "episodes": [
+    {
+      "episode": 1,
+      "steps": 418,
+      "reward": 242.23952591906527
+    },
+    {
+      "episode": 2,
+      "steps": 459,
+      "reward": 232.65274459916657
+    },
+    {
+      "episode": 3,
+      "steps": 222,
+      "reward": 246.16740823738917
+    },
+    {
+      "episode": 4,
+      "steps": 225,
+      "reward": 246.42104596310585
+    },
+    {
+      "episode": 5,
+      "steps": 455,
+      "reward": 224.45029008578894
+    },
+    {
+      "episode": 6,
+      "steps": 200,
+      "reward": 267.8534574774229
+    },
+    {
+      "episode": 7,
+      "steps": 21,
+      "reward": -3.8612644876976763
+    }
+  ]
+}
