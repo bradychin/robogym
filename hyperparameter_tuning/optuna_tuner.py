@@ -5,6 +5,9 @@ from optuna.pruners import MedianPruner
 from optuna.samplers import TPESampler
 from pathlib import Path
 import sys
+import copy
+import traceback
+
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 # --------- Third-party imports ---------#
@@ -61,7 +64,6 @@ class Optuna:
         agent = self.agent_name.lower()
 
         if agent == 'ppo':
-            # Sample architecture first
             arch_choice = trial.suggest_categorical('_architecture', ['small', 'medium', 'large'])
             arch_map = {'small': [64, 64], 'medium': [128, 128], 'large': [256, 256]}
 
@@ -74,11 +76,11 @@ class Optuna:
                 'gae_lambda': trial.suggest_categorical('gae_lambda', [0.9, 0.95, 0.98]),
                 'clip_range': trial.suggest_categorical('clip_range', [0.1, 0.2, 0.3]),
                 'ent_coef': trial.suggest_float('ent_coef', 1e-8, 0.1, log=True),
-                'policy_net': arch_map[arch_choice],
+                'policy_net': arch_map[arch_choice]
             }
 
         elif agent == 'sac':
-            arch_choice = trial.suggest_categorical('_architecture', ['small', 'medium', 'large'])
+            arch_choice = trial.suggest_categorical('_architecture', ['medium', 'large'])
             arch_map = {'medium': [256, 256], 'large': [400, 300]}
             return {
                 'learning_rate': trial.suggest_float('learning_rate', 1e-4, 1e-3, log=True),
@@ -89,10 +91,12 @@ class Optuna:
                 'gamma': trial.suggest_categorical('gamma', [0.98, 0.99]),
                 'train_freq': trial.suggest_categorical('train_freq', [1, 4]),
                 'gradient_steps': trial.suggest_categorical('gradient_steps', [1, 2]),
-                'policy_net': arch_map[arch_choice],
+                'policy_net': arch_map[arch_choice]
             }
 
         elif agent == 'dqn':
+            arch_choice = trial.suggest_categorical('_architecture', ['small', 'medium'])
+            arch_map = {'small': [64, 64], 'medium': [128, 128]}
             return {
                 'learning_rate': trial.suggest_float('learning_rate', 1e-4, 1e-3, log=True),
                 'batch_size': trial.suggest_categorical('batch_size', [32, 64, 128]),
@@ -101,10 +105,12 @@ class Optuna:
                 'target_update_interval': trial.suggest_categorical('target_update_interval', [1000, 10000]),
                 'exploration_fraction': trial.suggest_float('exploration_fraction', 0.1, 0.3),
                 'exploration_final_eps': trial.suggest_float('exploration_final_eps', 0.01, 0.05),
-                'policy_net': trial.suggest_categorical('policy_net', [[64, 64], [128, 128]]),
+                'policy_net': arch_map[arch_choice]
             }
 
         elif agent == 'td3':
+            arch_choice = trial.suggest_categorical('_architecture', ['medium', 'large'])
+            arch_map = {'medium': [256, 256], 'large': [400, 300]}
             return {
                 'learning_rate': trial.suggest_float('learning_rate', 1e-4, 1e-3, log=True),
                 'batch_size': trial.suggest_categorical('batch_size', [100, 128, 256]),
@@ -115,10 +121,13 @@ class Optuna:
                 'policy_delay': trial.suggest_categorical('policy_delay', [2, 3]),
                 'target_policy_noise': trial.suggest_float('target_policy_noise', 0.1, 0.3),
                 'target_noise_clip': trial.suggest_float('target_noise_clip', 0.3, 0.5),
-                'policy_net': trial.suggest_categorical('policy_net', [[256, 256], [400, 300]]),
+                'policy_net': arch_map[arch_choice]
             }
 
         elif agent == 'a2c':
+            arch_choice = trial.suggest_categorical('_architecture', ['small', 'medium'])
+            arch_map = {'small': [64, 64], 'medium': [128, 128]}
+
             return {
                 'learning_rate': trial.suggest_float('learning_rate', 1e-4, 1e-3, log=True),
                 'n_steps': trial.suggest_categorical('n_steps', [5, 8, 16, 32]),
@@ -127,10 +136,13 @@ class Optuna:
                 'ent_coef': trial.suggest_float('ent_coef', 1e-8, 0.1, log=True),
                 'vf_coef': trial.suggest_float('vf_coef', 0.25, 0.75),
                 'max_grad_norm': trial.suggest_categorical('max_grad_norm', [0.3, 0.5, 0.7]),
-                'policy_net': trial.suggest_categorical('policy_net', [[64, 64], [128, 128]]),
+                'policy_net': arch_map[arch_choice]
             }
 
         elif agent == 'ddpg':
+            arch_choice = trial.suggest_categorical('_architecture', ['medium', 'large'])
+            arch_map = {'medium': [256, 256], 'large': [400, 300]}
+
             return {
                 'learning_rate': trial.suggest_float('learning_rate', 1e-4, 1e-3, log=True),
                 'batch_size': trial.suggest_categorical('batch_size', [100, 128, 256]),
@@ -140,7 +152,7 @@ class Optuna:
                 'gamma': trial.suggest_categorical('gamma', [0.98, 0.99]),
                 'noise_type': trial.suggest_categorical('noise_type', ['normal', 'ornstein-uhlenbeck']),
                 'noise_sigma': trial.suggest_float('noise_sigma', 0.05, 0.2),
-                'policy_net': trial.suggest_categorical('policy_net', [[256, 256], [400, 300]]),
+                'policy_net': arch_map[arch_choice]
             }
 
         else:
@@ -159,7 +171,7 @@ class Optuna:
             sampled_params = self.sample_params(trial)
 
             # create config with sampled parameters
-            trial_config = self.base_config.copy()
+            trial_config = copy.deepcopy(self.base_config)
             trial_config['training'].update(sampled_params)
             trial_config['training']['max_timesteps'] = self.n_timesteps
             trial_config['training']['eval_freq'] = self.eval_freq
@@ -182,7 +194,6 @@ class Optuna:
 
             # create model with sampled hyperparameters
             agent.model = agent._create_model(trial_config['training'])
-            agent.model.set_logger(None)
             agent.model.learn(total_timesteps=self.n_timesteps)
 
             # evaluate
@@ -204,7 +215,14 @@ class Optuna:
             return mean_reward
 
         except Exception as e:
-            logger.error(f'Trial {trial.number} failed: {e}')
+            # FIX: Print full traceback to understand the error
+            error_msg = f'Trial {trial.number} failed: {e}\n{traceback.format_exc()}'
+            logger.error(error_msg)
+            print(f"\n{'=' * 60}")
+            print(f"ERROR IN TRIAL {trial.number}:")
+            print(f"{'=' * 60}")
+            print(error_msg)
+            print(f"{'=' * 60}\n")
             return -np.inf
 
     def optimize(self, storage: str=None) -> optuna.Study:
