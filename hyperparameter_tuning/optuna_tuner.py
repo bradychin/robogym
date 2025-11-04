@@ -66,7 +66,6 @@ class Optuna:
         if agent == 'ppo':
             arch_choice = trial.suggest_categorical('_architecture', ['medium', 'large', 'xlarge'])
             arch_map = {'medium': [128,128], 'large': [256,256], 'xlarge': [400,300]}
-
             return {
                 'learning_rate': trial.suggest_float('learning_rate', 3e-5, 3e-3, log=True),
                 'n_steps': trial.suggest_categorical('n_steps', [1024, 2048, 4096]),
@@ -80,17 +79,17 @@ class Optuna:
             }
 
         elif agent == 'sac':
-            arch_choice = trial.suggest_categorical('_architecture', ['medium', 'large'])
-            arch_map = {'medium': [256, 256], 'large': [400, 300]}
+            arch_choice = trial.suggest_categorical('_architecture', ['medium', 'large', 'xlarge'])
+            arch_map = {'medium': [128, 128], 'large': [256, 256], 'xlarge': [400, 300]}
             return {
-                'learning_rate': trial.suggest_float('learning_rate', 1e-4, 1e-3, log=True),
-                'batch_size': trial.suggest_categorical('batch_size', [128, 256]),
-                'buffer_size': trial.suggest_categorical('buffer_size', [100000, 300000]),
-                'learning_starts': trial.suggest_int('learning_starts', 1000, 10000),
-                'tau': trial.suggest_categorical('tau', [0.005, 0.01]),
-                'gamma': trial.suggest_categorical('gamma', [0.98, 0.99]),
-                'train_freq': trial.suggest_categorical('train_freq', [1, 4]),
-                'gradient_steps': trial.suggest_categorical('gradient_steps', [1, 2]),
+                'learning_rate': trial.suggest_float('learning_rate', 1e-4, 3e-3, log=True),
+                'batch_size': trial.suggest_categorical('batch_size', [128, 256, 512]),
+                'buffer_size': trial.suggest_categorical('buffer_size', [300000, 500000, 1000000]),
+                'learning_starts': trial.suggest_int('learning_starts', 1000, 5000),
+                'tau': trial.suggest_categorical('tau', [0.005, 0.01, 0.02]),
+                'gamma': trial.suggest_categorical('gamma', [0.98, 0.99, 0.995]),
+                'train_freq': trial.suggest_categorical('train_freq', [1, 2, 4]),
+                'gradient_steps': trial.suggest_categorical('gradient_steps', [1, 2, 4]),
                 'policy_net': arch_map[arch_choice]
             }
 

@@ -1,0 +1,52 @@
+{
+  "environment": "walker2d",
+  "agent": "sac",
+  "n_trials": 2,
+  "best_value": 614.0070196,
+  "best_trial": 0,
+  "best_params": {
+    "_architecture": "medium",
+    "learning_rate": 0.0008268461735993699,
+    "batch_size": 128,
+    "buffer_size": 300000,
+    "learning_starts": 3820,
+    "tau": 0.02,
+    "gamma": 0.995,
+    "train_freq": 1,
+    "gradient_steps": 1
+  },
+  "all_trials": [
+    {
+      "trial": 0,
+      "value": 614.0070196,
+      "params": {
+        "_architecture": "medium",
+        "learning_rate": 0.0008268461735993699,
+        "batch_size": 128,
+        "buffer_size": 300000,
+        "learning_starts": 3820,
+        "tau": 0.02,
+        "gamma": 0.995,
+        "train_freq": 1,
+        "gradient_steps": 1
+      },
+      "state": 1
+    },
+    {
+      "trial": 1,
+      "value": null,
+      "params": {
+        "_architecture": "xlarge",
+        "learning_rate": 0.00099949557371564,
+        "batch_size": 128,
+        "buffer_size": 500000,
+        "learning_starts": 1914,
+        "tau": 0.005,
+        "gamma": 0.99,
+        "train_freq": 2,
+        "gradient_steps": 4
+      },
+      "state": 3
+    }
+  ]
+}

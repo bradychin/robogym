@@ -1,0 +1,42 @@
+20251103_1859 INFO: main.py -> ============================================================
+20251103_1859 INFO: main.py -> Starting RL pipeline.
+20251103_1900 INFO: main.py -> Selected environment: walker2d
+20251103_1900 INFO: main.py -> Selected agent: ppo
+20251103_1900 INFO: main.py -> Found existing model: ./runs/20251029_0128_walker2d_ppo/model.zip
+20251103_2028 INFO: main.py -> ============================================================
+20251103_2028 INFO: main.py -> Starting RL pipeline.
+20251103_2028 INFO: main.py -> Selected environment: walker2d
+20251103_2028 INFO: main.py -> Selected agent: ppo
+20251103_2028 INFO: main.py -> Found existing model: ./runs/20251029_0128_walker2d_ppo/model.zip
+20251103_2028 INFO: main.py -> Selected action: train
+20251103_2028 INFO: main.py -> Created run directory: runs/20251103_2028_walker2d_ppo
+20251103_2028 INFO: main.py -> Starting training...
+20251103_2043 INFO: main.py -> Training completed!
+20251103_2045 INFO: main.py -> Requested post-training evaluation and demo.
+20251103_2046 INFO: main.py -> Post-training evaluation and demo completed!
+20251103_2046 INFO: main.py -> RL pipeline completed successfully!
+20251103_2046 INFO: main.py -> ============================================================
+20251103_2046 INFO: main.py -> ============================================================
+20251103_2046 INFO: main.py -> Starting RL pipeline.
+20251103_2046 INFO: main.py -> Selected environment: walker2d
+20251103_2047 INFO: main.py -> Selected agent: ppo
+20251103_2047 INFO: main.py -> Found existing model: ./runs/20251103_2028_walker2d_ppo/model.zip
+20251103_2047 INFO: main.py -> Selected action: demo
+20251103_2047 INFO: main.py -> Starting demo...
+20251103_2047 ERROR: main.py -> Operation failed: Not connected to physics server.
+Traceback (most recent call last):
+  File "/Users/bradychin/Projects/robogym/main.py", line 237, in main
+    training_env.demo(agent, max_steps=max_steps)
+  File "/Users/bradychin/Projects/robogym/environments/base_environment.py", line 156, in demo
+    demo_env.close()
+  File "/Users/bradychin/miniforge3/envs/bullet-env/lib/python3.10/site-packages/gymnasium/core.py", line 341, in close
+    return self.env.close()
+  File "/Users/bradychin/miniforge3/envs/bullet-env/lib/python3.10/site-packages/gymnasium/core.py", line 341, in close
+    return self.env.close()
+  File "/Users/bradychin/miniforge3/envs/bullet-env/lib/python3.10/site-packages/gymnasium/wrappers/common.py", line 329, in close
+    return self.env.close()
+  File "/Users/bradychin/miniforge3/envs/bullet-env/lib/python3.10/site-packages/pybullet_envs_gymnasium/env_bases.py", line 146, in close
+    self._p.disconnect()
+pybullet.error: Not connected to physics server.
+20251103_2047 INFO: main.py -> RL pipeline completed successfully!
+20251103_2047 INFO: main.py -> ============================================================
