@@ -64,18 +64,18 @@ class Optuna:
         agent = self.agent_name.lower()
 
         if agent == 'ppo':
-            arch_choice = trial.suggest_categorical('_architecture', ['small', 'medium', 'large'])
-            arch_map = {'small': [64, 64], 'medium': [128, 128], 'large': [256, 256]}
+            arch_choice = trial.suggest_categorical('_architecture', ['medium', 'large', 'xlarge'])
+            arch_map = {'medium': [128,128], 'large': [256,256], 'xlarge': [400,300]}
 
             return {
-                'learning_rate': trial.suggest_float('learning_rate', 1e-4, 1e-3, log=True),
-                'n_steps': trial.suggest_categorical('n_steps', [512, 1024, 2048]),
-                'batch_size': trial.suggest_categorical('batch_size', [64, 128, 256]),
-                'n_epochs': trial.suggest_int('n_epochs', 3, 20),
-                'gamma': trial.suggest_categorical('gamma', [0.95, 0.99]),
-                'gae_lambda': trial.suggest_categorical('gae_lambda', [0.9, 0.95, 0.98]),
+                'learning_rate': trial.suggest_float('learning_rate', 3e-5, 3e-3, log=True),
+                'n_steps': trial.suggest_categorical('n_steps', [1024, 2048, 4096]),
+                'batch_size': trial.suggest_categorical('batch_size', [64, 128, 256, 512]),
+                'n_epochs': trial.suggest_int('n_epochs', 5, 20),
+                'gamma': trial.suggest_categorical('gamma', [0.98, 0.99, 0.995]),
+                'gae_lambda': trial.suggest_categorical('gae_lambda', [0.90, 0.95, 0.98]),
                 'clip_range': trial.suggest_categorical('clip_range', [0.1, 0.2, 0.3]),
-                'ent_coef': trial.suggest_float('ent_coef', 1e-8, 0.1, log=True),
+                'ent_coef': trial.suggest_float('ent_coef', 1e-8, 0.01, log=True),
                 'policy_net': arch_map[arch_choice]
             }
 

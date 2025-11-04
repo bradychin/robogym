@@ -1,0 +1,57 @@
+20251102_1823 INFO: main.py -> ============================================================
+20251102_1823 INFO: main.py -> Starting RL pipeline.
+20251102_1824 INFO: main.py -> Selected environment: cartpole
+20251102_1824 INFO: main.py -> Selected agent: ppo
+20251102_1824 INFO: main.py -> Found existing model: ./runs/20251019_1419_cartpole_ppo/model.zip
+20251102_1824 INFO: main.py -> Selected action: demo
+20251102_1824 INFO: main.py -> ============================================================
+20251102_1824 INFO: main.py -> Starting RL pipeline.
+20251102_1824 INFO: main.py -> Selected environment: cartpole
+20251102_1824 INFO: main.py -> Selected agent: ppo
+20251102_1824 INFO: main.py -> Found existing model: ./runs/20251019_1419_cartpole_ppo/model.zip
+20251102_1824 INFO: main.py -> Selected action: demo
+20251102_1825 INFO: main.py -> ============================================================
+20251102_1825 INFO: main.py -> Starting RL pipeline.
+20251102_1825 INFO: main.py -> Selected environment: cartpole
+20251102_1825 INFO: main.py -> Selected agent: ppo
+20251102_1825 INFO: main.py -> Found existing model: ./runs/20251019_1419_cartpole_ppo/model.zip
+20251102_1825 INFO: main.py -> Selected action: train
+20251102_1825 INFO: main.py -> ============================================================
+20251102_1825 INFO: main.py -> Starting RL pipeline.
+20251102_1825 INFO: main.py -> Selected environment: cartpole
+20251102_1825 INFO: main.py -> Selected agent: ppo
+20251102_1825 INFO: main.py -> Found existing model: ./runs/20251019_1419_cartpole_ppo/model.zip
+20251102_1825 INFO: main.py -> Selected action: train
+20251102_1827 INFO: main.py -> ============================================================
+20251102_1827 INFO: main.py -> Starting RL pipeline.
+20251102_1827 INFO: main.py -> Selected environment: cartpole
+20251102_1827 INFO: main.py -> Selected agent: ppo
+20251102_1827 INFO: main.py -> Found existing model: ./runs/20251019_1419_cartpole_ppo/model.zip
+20251102_1827 INFO: main.py -> Selected action: demo
+20251102_1827 INFO: main.py -> Starting demo...
+20251102_1828 INFO: main.py -> Demo completed!
+20251102_1828 INFO: main.py -> RL pipeline completed successfully!
+20251102_1828 INFO: main.py -> ============================================================
+20251102_1833 INFO: main.py -> ============================================================
+20251102_1833 INFO: main.py -> Starting RL pipeline.
+20251102_1833 INFO: main.py -> Selected environment: lunarlandercontinuous
+20251102_1833 INFO: main.py -> Selected agent: ppo
+20251102_1833 INFO: main.py -> Found existing model: ./runs/20251019_1539_lunarlandercontinuous_ppo/model.zip
+20251102_1833 INFO: main.py -> Selected action: demo
+20251102_1833 INFO: main.py -> Starting demo...
+20251102_1834 INFO: main.py -> Demo completed!
+20251102_1834 INFO: main.py -> RL pipeline completed successfully!
+20251102_1834 INFO: main.py -> ============================================================
+20251102_2253 INFO: main.py -> ============================================================
+20251102_2253 INFO: main.py -> Starting RL pipeline.
+20251102_2253 INFO: main.py -> Selected environment: lunarlandercontinuous
+20251102_2253 INFO: main.py -> Selected agent: sac
+20251102_2253 INFO: main.py -> Found existing model: ./runs/20251024_2207_lunarlandercontinuous_sac/model.zip
+20251102_2253 INFO: main.py -> Selected action: train
+20251102_2253 INFO: main.py -> Created run directory: runs/20251102_2253_lunarlandercontinuous_sac
+20251102_2253 INFO: main.py -> Starting training...
+20251102_2318 INFO: main.py -> Training completed!
+20251102_2319 INFO: main.py -> Requested post-training evaluation and demo.
+20251102_2321 INFO: main.py -> Post-training evaluation and demo completed!
+20251102_2321 INFO: main.py -> RL pipeline completed successfully!
+20251102_2321 INFO: main.py -> ============================================================
