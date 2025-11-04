@@ -17,9 +17,10 @@ utilities_config = config_manager.get('utilities_config')
 class RunManager:
     """Manages logs and evaluations for each run"""
 
-    def __init__(self, env_name: str, agent_name: str) -> None:
+    def __init__(self, env_name: str, agent_name: str, seed: int = None) -> None:
         self.env_name = env_name
         self.agent_name = agent_name
+        self.seed = seed
         self.timestamp = datetime.now().strftime(utilities_config['date_time'])
         # Create parent directory
         run_name = f'{self.timestamp}_{env_name}_{agent_name}'
@@ -71,7 +72,7 @@ class RunManager:
 
         summary_path = self.run_dir / 'summary.txt'
 
-        eval_files = list(self.run_dir.glob('*_eval_*.json'))
+        eval_files = list(self.run_dir.glob('evaluation.json'))
         model_files = list(self.run_dir.glob('*.zip'))
         log_file = self.run_dir / 'robogym.log'
 
@@ -87,6 +88,7 @@ class RunManager:
             f.write(f"Files:\n")
             f.write(f"  - Log: {log_file.name if log_file.exists() else 'N/A'}\n")
             f.write(f"  - Config: config.yaml\n")
+            f.write(f"  - Seed: {self.seed if self.seed else 'Not set (random)'}\n")
             f.write(f"  - TensorBoard: {self.env_name}_{self.agent_name}_tb_{self.timestamp}/\n")
             f.write(f"  - Evaluations: {len(eval_files)} file(s)\n")
             f.write(f"  - Models: {len(model_files)} file(s)\n")

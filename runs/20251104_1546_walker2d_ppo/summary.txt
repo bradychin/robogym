@@ -1,0 +1,16 @@
+============================================================
+RUN SUMMARY
+============================================================
+Environment: walker2d
+Agent: ppo
+Timestamp: 20251104_1546
+Run Directory: 20251104_1546_walker2d_ppo
+
+Files:
+  - Log: robogym.log
+  - Config: config.yaml
+  - Seed: 46
+  - TensorBoard: walker2d_ppo_tb_20251104_1546/
+  - Evaluations: 0 file(s)
+  - Models: 2 file(s)
+============================================================

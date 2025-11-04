@@ -8,6 +8,10 @@ from utils.logger import logger, global_logger, set_log_path
 logger = logger(__name__)
 global_logger = global_logger()
 
+import random
+import numpy as np
+import torch
+
 # --------- Config import ---------#
 from utils.config_manager import ConfigManager
 config_manager = ConfigManager()
@@ -100,6 +104,11 @@ def main():
     7. Train, evaluate, or demo
     """
 
+    seed = 46
+    random.seed(seed)
+    np.random.seed(seed)
+    torch.manual_seed(seed)
+
     global_logger.info('=' * 60)
     global_logger.info('Starting RL pipeline.')
 
@@ -136,7 +145,7 @@ def main():
     global_logger.info(f'Selected agent: {agent_name}')
 
     # Setup local run manager
-    run_manager = RunManager(env_name, agent_name)
+    run_manager = RunManager(env_name, agent_name, seed)
     set_log_path(run_manager.get_log_path())
 
     # Check for existing model
@@ -216,6 +225,10 @@ def main():
                 logger.info('Requested post-training evaluation and demo.')
                 global_logger.info('Requested post-training evaluation and demo.')
                 agent.evaluate()
+                vec_env.close()
+                eval_env.close()
+                training_env.close()
+                eval_env_wrapper.close()
                 max_steps = env_config.get('demo', {}).get('max_steps', 2000)
                 training_env.demo(agent, max_steps=max_steps)
                 logger.info('Post-training evaluation and demo completed!')
@@ -243,8 +256,10 @@ def main():
     except Exception as e:
         global_logger.error(f'Operation failed: {e}', exc_info=True)
     finally:
-        vec_env.close()
-        eval_env.close()
+        if vec_env is not None:
+            vec_env.close()
+        if eval_env is not None:
+            eval_env.close()
         training_env.close()
         eval_env_wrapper.close()
         if run_manager:
