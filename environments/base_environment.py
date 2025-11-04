@@ -32,7 +32,7 @@ class BaseEnvironment:
         self.env = Monitor(env)
         return self.env
 
-    def create_vec_env(self, n_envs=4):
+    def create_vec_env(self, n_envs=1):
         """
         Create vectorized environment
 

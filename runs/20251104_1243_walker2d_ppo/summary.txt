@@ -3,13 +3,13 @@ RUN SUMMARY
 ============================================================
 Environment: walker2d
 Agent: ppo
-Timestamp: 20251104_0711
-Run Directory: 20251104_0711_walker2d_ppo
+Timestamp: 20251104_1243
+Run Directory: 20251104_1243_walker2d_ppo
 
 Files:
   - Log: robogym.log
   - Config: config.yaml
-  - TensorBoard: walker2d_ppo_tb_20251104_0711/
+  - TensorBoard: walker2d_ppo_tb_20251104_1243/
   - Evaluations: 0 file(s)
-  - Models: 2 file(s)
+  - Models: 1 file(s)
 ============================================================

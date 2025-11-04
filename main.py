@@ -26,7 +26,7 @@ def setup_environment(env_name: str, run_manager=None):
     try:
         # Creating training environment
         training_env = EnvironmentFactory.create(env_name, 'training', run_manager=run_manager)
-        vec_env = training_env.create_vec_env()
+        vec_env = training_env.create_vec_env(n_envs=1)
         logger.info(f'Training environment "{env_name}" created.')
 
         # Creating evaluation environment
