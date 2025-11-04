@@ -8,16 +8,16 @@ algorithms:
   ppo:
     target_score: 2500
     max_timesteps: 2000000
-    learning_rate: 0.0003
+    learning_rate: 0.00020499985883250046
     policy_net: [256, 256]
     eval_freq: 10000
-    n_steps: 2048
-    batch_size: 64
+    n_steps: 4096
+    batch_size: 256
     n_epochs: 10
-    gamma: 0.99
-    gae_lambda: 0.95
-    clip_range: 0.2
-    ent_coef: 0.0
+    gamma: 0.995
+    gae_lambda: 0.9
+    clip_range: 0.3
+    ent_coef: 0.009862653046214554
 
   sac:
     target_score: 2500
