@@ -1,5 +1,5 @@
 environment:
-  env_id: 'HalfCheetahBulletEnv-v0'
+  env_id: 'HalfCheetah'
 
 demo:
   max_steps: 2000
