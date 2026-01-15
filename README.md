@@ -14,7 +14,7 @@ A modular framework for training RL agents on Gymnasium and PyBullet environment
 
 ### Prerequisites
 - Python 3.11+
-- Conda (recommended) or pip
+- [Conda](https://docs.conda.io/en/latest/miniconda.html) (installation guide)
 
 ### Setup
 
@@ -69,8 +69,7 @@ ppo:
   batch_size: 64
 ```
 
-## Requirements
-
+## Requiremen
 - stable-baselines3
 - gymnasium
 - pybullet
