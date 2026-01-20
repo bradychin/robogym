@@ -13,7 +13,7 @@ def get_user_choice(item_type: str, available_items: list) -> str | None:
     :param available_items: List of items available
     :return: String of users choice
     """
-
+    print('\n========================================')
     print(f'Available {item_type}(s):')
     for i, item in enumerate(available_items, 1):
         print(f'{i}: {item}')

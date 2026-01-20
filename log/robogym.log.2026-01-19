@@ -1,0 +1,88 @@
+20260119_1709 INFO: main.py -> ============================================================
+20260119_1709 INFO: main.py -> Starting RL pipeline.
+20260119_1710 INFO: main.py -> Selected environment: walker2d
+20260119_1710 INFO: main.py -> Selected agent: ppo
+20260119_1710 INFO: main.py -> Found existing model: ./runs/20251104_1546_walker2d_ppo/model.zip
+20260119_1710 INFO: main.py -> Selected action: demo
+20260119_1710 ERROR: model_io.py -> Failed to load model for demo
+20260119_1710 INFO: main.py -> RL pipeline completed successfully!
+20260119_1710 INFO: main.py -> ============================================================
+20260119_1710 INFO: main.py -> ============================================================
+20260119_1710 INFO: main.py -> Starting RL pipeline.
+20260119_1710 INFO: main.py -> Selected environment: bipedalwalker
+20260119_1710 INFO: main.py -> Selected agent: ppo
+20260119_1710 INFO: main.py -> Found existing model: ./runs/20251024_2121_bipedalwalker_ppo/model.zip
+20260119_1710 INFO: main.py -> Selected action: demo
+20260119_1710 ERROR: model_io.py -> Failed to load model for demo
+20260119_1710 INFO: main.py -> RL pipeline completed successfully!
+20260119_1710 INFO: main.py -> ============================================================
+20260119_1711 INFO: main.py -> ============================================================
+20260119_1711 INFO: main.py -> Starting RL pipeline.
+20260119_1711 INFO: main.py -> Selected environment: bipedalwalker
+20260119_1711 INFO: main.py -> Selected agent: ppo
+20260119_1711 INFO: main.py -> Found existing model: ./runs/20251024_2121_bipedalwalker_ppo/model.zip
+20260119_1711 INFO: main.py -> Selected action: demo
+20260119_1711 ERROR: model_io.py -> Failed to load model for demo
+20260119_1711 INFO: main.py -> RL pipeline completed successfully!
+20260119_1711 INFO: main.py -> ============================================================
+20260119_1711 INFO: main.py -> ============================================================
+20260119_1711 INFO: main.py -> Starting RL pipeline.
+20260119_1711 INFO: main.py -> Selected environment: bipedalwalker
+20260119_1711 INFO: main.py -> Selected agent: ppo
+20260119_1711 INFO: main.py -> Found existing model: ./runs/20251024_2121_bipedalwalker_ppo/model.zip
+20260119_1711 INFO: main.py -> Selected action: evaluate
+20260119_1711 ERROR: model_io.py -> Failed to load model for evaluation
+20260119_1711 INFO: main.py -> RL pipeline completed successfully!
+20260119_1711 INFO: main.py -> ============================================================
+20260119_1712 INFO: main.py -> ============================================================
+20260119_1712 INFO: main.py -> Starting RL pipeline.
+20260119_1712 INFO: main.py -> Selected environment: bipedalwalker
+20260119_1712 INFO: main.py -> Selected agent: ppo
+20260119_1712 INFO: main.py -> Found existing model: ./runs/20251024_2121_bipedalwalker_ppo/model.zip
+20260119_1712 INFO: main.py -> Selected action: train
+20260119_1712 INFO: main.py -> Created run directory: runs/20260119_1712_bipedalwalker_ppo
+20260119_1712 INFO: main.py -> Starting training...
+20260119_1721 INFO: main.py -> Training completed!
+20260119_1722 INFO: main.py -> Requested post-training evaluation.
+20260119_1722 INFO: main.py -> Post-training evaluation completed!
+20260119_1722 INFO: main.py -> RL pipeline completed successfully!
+20260119_1722 INFO: main.py -> ============================================================
+20260119_1722 INFO: main.py -> ============================================================
+20260119_1722 INFO: main.py -> Starting RL pipeline.
+20260119_1722 INFO: main.py -> Selected environment: bipedalwalker
+20260119_1722 INFO: main.py -> Selected agent: ppo
+20260119_1722 INFO: main.py -> Found existing model: ./runs/20260119_1712_bipedalwalker_ppo/model.zip
+20260119_1722 INFO: main.py -> Selected action: demo
+20260119_1722 INFO: main.py -> Starting demo...
+20260119_1724 INFO: main.py -> Demo completed!
+20260119_1724 INFO: main.py -> RL pipeline completed successfully!
+20260119_1724 INFO: main.py -> ============================================================
+20260119_1724 INFO: main.py -> ============================================================
+20260119_1724 INFO: main.py -> Starting RL pipeline.
+20260119_1724 INFO: main.py -> Selected environment: cartpole
+20260119_1724 INFO: main.py -> Selected agent: ppo
+20260119_1724 INFO: main.py -> Found existing model: ./runs/20251019_1419_cartpole_ppo/model.zip
+20260119_1724 INFO: main.py -> Selected action: demo
+20260119_1724 ERROR: model_io.py -> Failed to load model for demo
+20260119_1724 INFO: main.py -> RL pipeline completed successfully!
+20260119_1724 INFO: main.py -> ============================================================
+20260119_1724 INFO: main.py -> ============================================================
+20260119_1724 INFO: main.py -> Starting RL pipeline.
+20260119_1724 INFO: main.py -> Selected environment: pendulum
+20260119_1724 INFO: main.py -> Selected agent: ppo
+20260119_1724 INFO: main.py -> No existing model found.
+20260119_1724 INFO: main.py -> Selected action: train
+20260119_1724 INFO: main.py -> Created run directory: runs/20260119_1724_pendulum_ppo
+20260119_1724 INFO: main.py -> Starting training...
+20260119_1725 INFO: main.py -> Training completed!
+20260119_1725 INFO: main.py -> Requested post-training evaluation and demo.
+20260119_1725 INFO: main.py -> Post-training evaluation and demo completed!
+20260119_1725 INFO: main.py -> RL pipeline completed successfully!
+20260119_1725 INFO: main.py -> ============================================================
+20260119_1727 INFO: main.py -> ============================================================
+20260119_1727 INFO: main.py -> Starting RL pipeline.
+20260119_1727 INFO: main.py -> Selected environment: pendulum
+20260119_1727 INFO: main.py -> Selected agent: ppo
+20260119_1727 INFO: main.py -> Found existing model: ./runs/20260119_1724_pendulum_ppo/model.zip
+20260119_1727 INFO: main.py -> Selected action: demo
+20260119_1727 INFO: main.py -> Starting demo...
