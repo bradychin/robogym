@@ -1,0 +1,16 @@
+============================================================
+RUN SUMMARY
+============================================================
+Environment: bipedalwalker
+Agent: ppo
+Timestamp: 20260119_1712
+Run Directory: 20260119_1712_bipedalwalker_ppo
+
+Files:
+  - Log: robogym.log
+  - Config: config.yaml
+  - Seed: 46
+  - TensorBoard: bipedalwalker_ppo_tb_20260119_1712/
+  - Evaluations: 0 file(s)
+  - Models: 2 file(s)
+============================================================
