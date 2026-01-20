@@ -44,7 +44,8 @@ tensorboard --logdir=./runs
 Follow the interactive prompts to:
 1. Select environment
 2. Select algorithm  
-3. Choose action (train/evaluate/demo) # Will need to retrain a model to run evaluations and demos
+3. Choose action (train/evaluate/demo)
+       - Will need to retrain a model to run evaluations and demos
 
 ## Project Structure
 
