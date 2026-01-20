@@ -14,7 +14,7 @@ A modular framework for training RL agents on Gymnasium and PyBullet environment
 
 ### Prerequisites
 - Python 3.11+
-- [Conda](https://docs.conda.io/en/latest/miniconda.html) (installation guide)
+- [Miniconda](https://docs.conda.io/en/latest/miniconda.html) (installation guide)
 
 ### Setup
 
@@ -24,7 +24,7 @@ git clone https://github.com/bradychin/robogym.git
 cd robogym
 
 # Create environment
-conda env create -f environment.yml
+conda env create -f environment.yml # The environment includes Python 3.11 and all required ML and simulation dependencies.
 conda activate robogym
 
 # Verify installation
